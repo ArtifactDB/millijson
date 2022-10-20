@@ -1,0 +1,5 @@
+*.swp
+TEST.json
+build/
+docs/html/*
+docs/latex/*
