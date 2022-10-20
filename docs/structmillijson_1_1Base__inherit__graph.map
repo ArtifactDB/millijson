@@ -1,0 +1,9 @@
+<map id="millijson::Base" name="millijson::Base">
+<area shape="rect" id="node1" title="Virtual base class for all JSON types." alt="" coords="5,129,111,155"/>
+<area shape="rect" id="node2" href="$structmillijson_1_1Array.html" title="JSON array." alt="" coords="167,5,273,31"/>
+<area shape="rect" id="node3" href="$structmillijson_1_1Boolean.html" title="JSON boolean." alt="" coords="159,55,281,80"/>
+<area shape="rect" id="node4" href="$structmillijson_1_1Nothing.html" title="JSON null." alt="" coords="160,104,280,129"/>
+<area shape="rect" id="node5" href="$structmillijson_1_1Number.html" title="JSON number." alt="" coords="159,153,281,179"/>
+<area shape="rect" id="node6" href="$structmillijson_1_1Object.html" title="JSON object." alt="" coords="163,203,277,228"/>
+<area shape="rect" id="node7" href="$structmillijson_1_1String.html" title="JSON string." alt="" coords="165,252,275,277"/>
+</map>
