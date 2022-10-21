@@ -1,5 +1,9 @@
 # Yet another JSON parser
 
+![Unit tests](https://github.com/LTLA/millijson/actions/workflows/run-tests.yaml/badge.svg)
+![Documentation](https://github.com/LTLA/millijson/actions/workflows/doxygenate.yaml/badge.svg)
+[![codecov](https://codecov.io/gh/LTLA/millijson/branch/master/graph/badge.svg?token=DLTMWKJAG3)](https://codecov.io/gh/LTLA/millijson)
+
 ## Overview
 
 **millijson** is a header-only C++ library that provides a lightweight JSON parser.
