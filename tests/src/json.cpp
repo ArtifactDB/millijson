@@ -56,7 +56,20 @@ TEST(JsonParsingTest, StringLoading) {
     {
         auto output = parse_raw_json_string("\"do\\\"you\\nbelieve\\tin\\rlife\\fafter\\blove\\\\ \\/\"");
         EXPECT_EQ(output->type(), millijson::STRING);
-        EXPECT_EQ(static_cast<millijson::String*>(output.get())->value, "do\"you\nbelieve\tin\rlife\fafter\blove\\");
+        EXPECT_EQ(static_cast<millijson::String*>(output.get())->value, "do\"you\nbelieve\tin\rlife\fafter\blove\\ /");
+    }
+
+    // Unicode shenanigans.
+    {
+        auto output = parse_raw_json_string("\"I ❤️  NATALIE PORTMAN\""); 
+        EXPECT_EQ(output->type(), millijson::STRING);
+        EXPECT_EQ(static_cast<millijson::String*>(output.get())->value, "I ❤️  NATALIE PORTMAN");
+    }
+
+    {
+        auto output = parse_raw_json_string("\"I \\u2665 NATALIE PORTMAN\""); 
+        EXPECT_EQ(output->type(), millijson::STRING);
+        EXPECT_EQ(static_cast<millijson::String*>(output.get())->value, "I ❤️  NATALIE PORTMAN");
     }
 
     parse_raw_json_error(" \"asdasdaasd ", "unterminated string");

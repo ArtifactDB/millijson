@@ -4,6 +4,8 @@
 #include <memory>
 #include <vector>
 #include <cctype>
+#include <cstdlib>
+#include <cuchar>
 #include <string>
 #include <stdexcept>
 #include <cmath>
@@ -256,7 +258,38 @@ std::string extract_string(Input& input) {
                         case 't':
                             output += '\t';
                             break;
-                        // TODO: \u unicode?
+                        case 'u':
+                            {
+                                char32_t mb = 0;
+                                for (size_t i = 0; i < 4; ++i) {
+                                    input.advance();
+                                    if (!input.valid()){
+                                        throw std::runtime_error("unterminated string at position " + std::to_string(start));
+                                    }
+                                    mb *= 16;
+                                    char val = input.get();
+                                    switch (val) {
+                                        case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+                                            mb += val - '0';
+                                            break;
+                                        case 'a': case 'b': case 'c': case 'd': case 'e': case 'f': 
+                                            mb += val - 'a';
+                                            break;
+                                        case 'A': case 'B': case 'C': case 'D': case 'E': case 'F': 
+                                            mb += val - 'A';
+                                            break;
+                                        default:
+                                            throw std::runtime_error("invalid unicode escape detected at position " + std::to_string(input.position() + 1));
+                                    }
+                                }
+
+                                std::mbstate_t state{};
+                                size_t n = output.size();
+                                output.resize(n + MB_LEN_MAX);
+                                auto written = std::c32rtomb(&output[0] + n, mb, state);
+                                output.resize(n + written);
+                            }
+                            break;
                         default:
                             throw std::runtime_error("unrecognized escape '\\" + std::string(1, next2) + "'");
                     }
