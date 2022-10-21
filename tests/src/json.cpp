@@ -25,6 +25,7 @@ TEST(JsonParsingTest, NullLoading) {
 
     parse_raw_json_error("none", "expected a 'null'");
     parse_raw_json_error("nully", "trailing");
+    parse_raw_json_error("nul", "expected a 'null'");
 }
 
 TEST(JsonParsingTest, BooleanLoading) {
@@ -40,8 +41,11 @@ TEST(JsonParsingTest, BooleanLoading) {
         EXPECT_FALSE(static_cast<millijson::Boolean*>(output.get())->value);
     }
 
+    parse_raw_json_error("fals", "expected a 'false'");
     parse_raw_json_error("falsy", "expected a 'false'");
     parse_raw_json_error("falsey", "trailing");
+
+    parse_raw_json_error("tru", "expected a 'true'");
     parse_raw_json_error("truthy", "expected a 'true'");
     parse_raw_json_error("true-ish", "trailing");
 }
@@ -157,6 +161,7 @@ TEST(JsonParsingTest, FractionLoading) {
         EXPECT_FLOAT_EQ(static_cast<millijson::Number*>(output.get())->value, -0.123456);
     }
 
+    parse_raw_json_error(" 1.e2 ", "must be followed");
     parse_raw_json_error(" 00.12345 ", "starting with 0");
     parse_raw_json_error(" .12345 ", "starting with '.'");
     parse_raw_json_error(" 12.34f ", "containing 'f'");
@@ -185,6 +190,12 @@ TEST(JsonParsingTest, ScientificLoading) {
         auto output = parse_raw_json_string(" 1e-2 ");
         EXPECT_EQ(output->type(), millijson::NUMBER);
         EXPECT_EQ(static_cast<millijson::Number*>(output.get())->value, 0.01);
+    }
+
+    {
+        auto output = parse_raw_json_string(" 0E2 ");
+        EXPECT_EQ(output->type(), millijson::NUMBER);
+        EXPECT_EQ(static_cast<millijson::Number*>(output.get())->value, 0);
     }
 
     {
@@ -274,6 +285,7 @@ TEST(JsonParsingTest, ArrayLoading) {
 
     parse_raw_json_error(" [", "unterminated array");
     parse_raw_json_error(" [ 1,", "unterminated array");
+    parse_raw_json_error(" [ 1 ", "unterminated array");
     parse_raw_json_error(" [ 1, ", "unterminated array");
     parse_raw_json_error(" [ 1, ]", "unknown type starting with ']'");
     parse_raw_json_error(" [ 1 1 ]", "unknown character '1'");
@@ -353,10 +365,12 @@ TEST(JsonParsingTest, ObjectLoading) {
     parse_raw_json_error(" { \"foo\"", "unterminated object");
     parse_raw_json_error(" { \"foo\" :", "unterminated object");
     parse_raw_json_error(" { \"foo\" : \"bar\"", "unterminated object");
+    parse_raw_json_error(" { \"foo\" : \"bar\", ", "unterminated object");
     parse_raw_json_error(" { true", "expected a string");
     parse_raw_json_error(" { \"foo\" , \"bar\" }", "expected ':'");
     parse_raw_json_error(" { \"foo\": \"bar\", }", "expected a string");
     parse_raw_json_error(" { \"foo\": \"bar\": \"stuff\" }", "unknown character ':'");
+    parse_raw_json_error(" { \"foo\": \"bar\", \"foo\": \"stuff\" }", "duplicate");
 }
 
 TEST(JsonParsingTest, QuickGet) {

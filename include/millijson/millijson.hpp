@@ -711,7 +711,7 @@ inline std::shared_ptr<Base> parse_file(const char* path, size_t buffer_size = 6
             available = std::fread(buffer.data(), sizeof(char), buffer.size(), handle);
             if (available != buffer.size()) {
                 if (!std::feof(handle)) {
-                    throw std::runtime_error("failed to read raw binary file (fread error " + std::to_string(std::ferror(handle)) + ")");
+                    throw std::runtime_error("failed to read file (error " + std::to_string(std::ferror(handle)) + ")");
                 }
             }
         }

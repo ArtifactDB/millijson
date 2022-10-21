@@ -50,3 +50,15 @@ INSTANTIATE_TEST_SUITE_P(
     FileParsingTest,
     ::testing::Values(3, 11, 19, 51)
 );
+
+TEST(FileParsing, Errors) {
+    EXPECT_ANY_THROW({
+        try {
+            millijson::parse_file("TEST-missing.json", 1000);
+        } catch (std::exception& e) {
+            EXPECT_THAT(e.what(), ::testing::HasSubstr("failed to open file"));
+            throw;
+        }
+    });
+}
+
