@@ -74,7 +74,8 @@ $(function() {
   <div class="headertitle"><div class="title">Yet another JSON parser </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p ><a class="anchor" id="md__github_workspace_README"></a> </p><h1>Overview</h1>
+<div class="textblock"><p ><a class="anchor" id="md__github_workspace_README"></a> <img src="https://github.com/LTLA/millijson/actions/workflows/run-tests.yaml/badge.svg" alt="Unit tests" style="pointer-events: none;" class="inline"/> <img src="https://github.com/LTLA/millijson/actions/workflows/doxygenate.yaml/badge.svg" alt="Documentation" style="pointer-events: none;" class="inline"/> <a href="https://codecov.io/gh/LTLA/millijson"><img src="https://codecov.io/gh/LTLA/millijson/branch/master/graph/badge.svg?token=DLTMWKJAG3" alt="codecov" style="pointer-events: none;" class="inline"/></a></p>
+<h1>Overview</h1>
 <p ><b>millijson</b> is a header-only C++ library that provides a lightweight JSON parser. It has no selling points other than being small and simple, if you could call those selling points. I wrote it mostly for fun but also to provide a replacement for the <a href="https://github.com/nlohmann/json"><code>nlohmann/json</code></a> library - while excellent, its single-header source code is pretty large (around 25 kLoCs, if I remember correctly) and I wanted something slimmer. This is most noticeable when vendoring the file into various modules/packages, where C++ suddenly becomes the main language of the associated repository, and I didn't like that. Yes, I'm <em>that</em> petty.</p>
 <h1>Quick start</h1>
 <p >Given a JSON-formatted string:</p>
