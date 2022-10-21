@@ -192,9 +192,14 @@ inline const std::vector<std::shared_ptr<Base> >& Base::get_array() const {
     return static_cast<const Array*>(this)->values;
 }
 
+inline bool isspace(char x) {
+    // Allowable whitespaces as of https://www.rfc-editor.org/rfc/rfc7159#section-2.
+    return x == ' ' || x == '\n' || x == '\r' || x == '\t';
+}
+
 template<class Input>
 void chomp(Input& input) {
-    while (input.valid() && std::isspace(input.get())) {
+    while (input.valid() && isspace(input.get())) {
         input.advance();
     }
     return;
@@ -329,7 +334,7 @@ double extract_number(Input& input) {
     bool negative_exponent = false;
 
     auto is_terminator = [](char v) -> bool {
-        return v == ',' || v == ']' || v == '}' || std::isspace(v);
+        return v == ',' || v == ']' || v == '}' || isspace(v);
     };
 
     auto finalizer = [&]() -> double {
