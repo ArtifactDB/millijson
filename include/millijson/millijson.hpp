@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 #include <cctype>
+#include <cstdlib>
 #include <string>
 #include <stdexcept>
 #include <cmath>
@@ -256,7 +257,50 @@ std::string extract_string(Input& input) {
                         case 't':
                             output += '\t';
                             break;
-                        // TODO: \u unicode?
+                        case 'u':
+                            {
+                                unsigned short mb = 0;
+                                for (size_t i = 0; i < 4; ++i) {
+                                    input.advance();
+                                    if (!input.valid()){
+                                        throw std::runtime_error("unterminated string at position " + std::to_string(start));
+                                    }
+                                    mb *= 16;
+                                    char val = input.get();
+                                    switch (val) {
+                                        case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+                                            mb += val - '0';
+                                            break;
+                                        case 'a': case 'b': case 'c': case 'd': case 'e': case 'f': 
+                                            mb += (val - 'a') + 10;
+                                            break;
+                                        case 'A': case 'B': case 'C': case 'D': case 'E': case 'F': 
+                                            mb += (val - 'A') + 10;
+                                            break;
+                                        default:
+                                            throw std::runtime_error("invalid unicode escape detected at position " + std::to_string(input.position() + 1));
+                                    }
+                                }
+
+                                // Converting manually from UTF-16 to UTF-8. We only allow
+                                // 3 bytes at most because there's only 4 hex digits in JSON. 
+                                if (mb <= 127) {
+                                    output += static_cast<char>(mb);
+                                } else if (mb <= 2047) {
+                                    unsigned char left = (mb >> 6) | 0b11000000;
+                                    output += *(reinterpret_cast<char*>(&left));
+                                    unsigned char right = (mb & 0b00111111) | 0b10000000;
+                                    output += *(reinterpret_cast<char*>(&right));
+                                } else {
+                                    unsigned char left = (mb >> 12) | 0b11100000;
+                                    output += *(reinterpret_cast<char*>(&left));
+                                    unsigned char middle = ((mb >> 6) & 0b00111111) | 0b10000000;
+                                    output += *(reinterpret_cast<char*>(&middle));
+                                    unsigned char right = (mb & 0b00111111) | 0b10000000;
+                                    output += *(reinterpret_cast<char*>(&right));
+                                }
+                            }
+                            break;
                         default:
                             throw std::runtime_error("unrecognized escape '\\" + std::string(1, next2) + "'");
                     }
