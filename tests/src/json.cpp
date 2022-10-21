@@ -54,7 +54,7 @@ TEST(JsonParsingTest, StringLoading) {
     }
 
     {
-        auto output = parse_raw_json_string("\"do\\\"you\\nbelieve\\tin\\rlife\\fafter\\blove\\\\\"");
+        auto output = parse_raw_json_string("\"do\\\"you\\nbelieve\\tin\\rlife\\fafter\\blove\\\\ \\/\"");
         EXPECT_EQ(output->type(), millijson::STRING);
         EXPECT_EQ(static_cast<millijson::String*>(output.get())->value, "do\"you\nbelieve\tin\rlife\fafter\blove\\");
     }

@@ -244,6 +244,9 @@ std::string extract_string(Input& input) {
                         case '\\':
                             output += '\\';
                             break;
+                        case '/':
+                            output += '/';
+                            break;
                         case 'b':
                             output += '\b';
                             break;
