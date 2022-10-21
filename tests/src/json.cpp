@@ -61,20 +61,38 @@ TEST(JsonParsingTest, StringLoading) {
 
     // Unicode shenanigans.
     {
-        auto output = parse_raw_json_string("\"I ❤️  NATALIE PORTMAN\""); 
+        auto output = parse_raw_json_string("\"I ♥ NATALIE PORTMAN\""); 
         EXPECT_EQ(output->type(), millijson::STRING);
-        EXPECT_EQ(static_cast<millijson::String*>(output.get())->value, "I ❤️  NATALIE PORTMAN");
+        EXPECT_EQ(static_cast<millijson::String*>(output.get())->value, "I ♥ NATALIE PORTMAN");
     }
 
     {
-        auto output = parse_raw_json_string("\"I \\u2665 NATALIE PORTMAN\""); 
+        auto output = parse_raw_json_string("\"\\u0041aron\""); // 1 byte UTF-8 
         EXPECT_EQ(output->type(), millijson::STRING);
-        EXPECT_EQ(static_cast<millijson::String*>(output.get())->value, "I ❤️  NATALIE PORTMAN");
+        EXPECT_EQ(static_cast<millijson::String*>(output.get())->value, "Aaron");
+    }
+
+    {
+        auto output = parse_raw_json_string("\"sebasti\\u00E8n\""); // 2 byte UTF-8 
+        EXPECT_EQ(output->type(), millijson::STRING);
+        EXPECT_EQ(static_cast<millijson::String*>(output.get())->value, "sebastièn");
+
+        auto output2 = parse_raw_json_string("\"Fu\\u00dfball\""); // lower case
+        EXPECT_EQ(output2->type(), millijson::STRING);
+        EXPECT_EQ(static_cast<millijson::String*>(output2.get())->value, "Fußball");
+    }
+
+    {
+        auto output = parse_raw_json_string("\"I \\u2665 NATALIE PORTMAN\""); // 3 byte UTF-8
+        EXPECT_EQ(output->type(), millijson::STRING);
+        EXPECT_EQ(static_cast<millijson::String*>(output.get())->value, "I ♥ NATALIE PORTMAN");
     }
 
     parse_raw_json_error(" \"asdasdaasd ", "unterminated string");
     parse_raw_json_error(" \"asdasdaasd\\", "unterminated string");
     parse_raw_json_error(" \"asdasdaasd\\a", "unrecognized escape");
+    parse_raw_json_error(" \"asdas\\uasdasd", "invalid unicode");
+    parse_raw_json_error(" \"asdas\\u00", "unterminated string");
 }
 
 TEST(JsonParsingTest, IntegerLoading) {

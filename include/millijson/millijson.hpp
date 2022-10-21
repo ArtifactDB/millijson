@@ -5,7 +5,6 @@
 #include <vector>
 #include <cctype>
 #include <cstdlib>
-#include <cuchar>
 #include <string>
 #include <stdexcept>
 #include <cmath>
@@ -260,7 +259,7 @@ std::string extract_string(Input& input) {
                             break;
                         case 'u':
                             {
-                                char32_t mb = 0;
+                                unsigned short mb = 0;
                                 for (size_t i = 0; i < 4; ++i) {
                                     input.advance();
                                     if (!input.valid()){
@@ -273,21 +272,33 @@ std::string extract_string(Input& input) {
                                             mb += val - '0';
                                             break;
                                         case 'a': case 'b': case 'c': case 'd': case 'e': case 'f': 
-                                            mb += val - 'a';
+                                            mb += (val - 'a') + 10;
                                             break;
                                         case 'A': case 'B': case 'C': case 'D': case 'E': case 'F': 
-                                            mb += val - 'A';
+                                            mb += (val - 'A') + 10;
                                             break;
                                         default:
                                             throw std::runtime_error("invalid unicode escape detected at position " + std::to_string(input.position() + 1));
                                     }
                                 }
 
-                                std::mbstate_t state{};
-                                size_t n = output.size();
-                                output.resize(n + MB_LEN_MAX);
-                                auto written = std::c32rtomb(&output[0] + n, mb, state);
-                                output.resize(n + written);
+                                // Converting manually from UTF-16 to UTF-8. We only allow
+                                // 3 bytes at most because there's only 4 hex digits in JSON. 
+                                if (mb <= 127) {
+                                    output += static_cast<char>(mb);
+                                } else if (mb <= 2047) {
+                                    unsigned char left = (mb >> 6) | 0b11000000;
+                                    output += *(reinterpret_cast<char*>(&left));
+                                    unsigned char right = (mb & 0b00111111) | 0b10000000;
+                                    output += *(reinterpret_cast<char*>(&right));
+                                } else {
+                                    unsigned char left = (mb >> 12) | 0b11100000;
+                                    output += *(reinterpret_cast<char*>(&left));
+                                    unsigned char middle = ((mb >> 6) & 0b00111111) | 0b10000000;
+                                    output += *(reinterpret_cast<char*>(&middle));
+                                    unsigned char right = (mb & 0b00111111) | 0b10000000;
+                                    output += *(reinterpret_cast<char*>(&right));
+                                }
                             }
                             break;
                         default:
