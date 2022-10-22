@@ -98,10 +98,10 @@ $(function() {
 <div class="line">array[1]-&gt;type(); <span class="comment">// milljson::NUMBER</span></div>
 <div class="line"><span class="keyword">auto</span> number = array[1]-&gt;get_number(); <span class="comment">// double</span></div>
 <div class="ttc" id="amillijson_8hpp_html"><div class="ttname"><a href="millijson_8hpp.html">millijson.hpp</a></div><div class="ttdoc">Header-only library for JSON parsing.</div></div>
-<div class="ttc" id="anamespacemillijson_html_a5d9a99b81f8e008903cfcc8544e03f53"><div class="ttname"><a href="namespacemillijson.html#a5d9a99b81f8e008903cfcc8544e03f53">millijson::parse_string</a></div><div class="ttdeci">std::shared_ptr&lt; Base &gt; parse_string(const char *ptr, size_t len)</div><div class="ttdef"><b>Definition:</b> millijson.hpp:640</div></div>
+<div class="ttc" id="anamespacemillijson_html_a5d9a99b81f8e008903cfcc8544e03f53"><div class="ttname"><a href="namespacemillijson.html#a5d9a99b81f8e008903cfcc8544e03f53">millijson::parse_string</a></div><div class="ttdeci">std::shared_ptr&lt; Base &gt; parse_string(const char *ptr, size_t len)</div><div class="ttdef"><b>Definition:</b> millijson.hpp:636</div></div>
 </div><!-- fragment --><p >The same works with a file:</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> ptr = <a class="code hl_function" href="namespacemillijson.html#a7e60a26e1901bfd1ef89e8559c9774f6">millijson::parse_file</a>(<span class="stringliteral">&quot;some_json_file.json&quot;</span>);</div>
-<div class="ttc" id="anamespacemillijson_html_a7e60a26e1901bfd1ef89e8559c9774f6"><div class="ttname"><a href="namespacemillijson.html#a7e60a26e1901bfd1ef89e8559c9774f6">millijson::parse_file</a></div><div class="ttdeci">std::shared_ptr&lt; Base &gt; parse_file(const char *path, size_t buffer_size=65536)</div><div class="ttdef"><b>Definition:</b> millijson.hpp:672</div></div>
+<div class="ttc" id="anamespacemillijson_html_a7e60a26e1901bfd1ef89e8559c9774f6"><div class="ttname"><a href="namespacemillijson.html#a7e60a26e1901bfd1ef89e8559c9774f6">millijson::parse_file</a></div><div class="ttdeci">std::shared_ptr&lt; Base &gt; parse_file(const char *path, size_t buffer_size=65536)</div><div class="ttdef"><b>Definition:</b> millijson.hpp:668</div></div>
 </div><!-- fragment --><p >See the <a href="https://ltla.github.io/millijson">reference documentation</a> for more details.</p>
 <h1>Building projects</h1>
 <p >If you're using CMake, you just need to add something like this to your <code>CMakeLists.txt</code>:</p>
