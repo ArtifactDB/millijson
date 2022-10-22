@@ -337,17 +337,6 @@ double extract_number(Input& input) {
         return v == ',' || v == ']' || v == '}' || isspace(v);
     };
 
-    auto finalizer = [&]() -> double {
-        if (exponent) {
-            if (negative_exponent) {
-                exponent *= -1;
-            }
-            return value * std::pow(10.0, exponent);
-        } else {
-            return value;
-        }
-    };
-
     bool in_fraction = false;
     bool in_exponent = false;
 
@@ -365,7 +354,7 @@ double extract_number(Input& input) {
         } else if (val == 'e' || val == 'E') {
             in_exponent = true;
         } else if (is_terminator(val)) {
-            return finalizer();
+            return value;
         } else {
             throw std::runtime_error("invalid number starting with 0 at position " + std::to_string(start));
         }
@@ -383,7 +372,7 @@ double extract_number(Input& input) {
                 in_exponent = true;
                 break;
             } else if (is_terminator(val)) {
-                return finalizer();
+                return value;
             } else if (!std::isdigit(val)) {
                 throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
             }
@@ -415,7 +404,7 @@ double extract_number(Input& input) {
                 in_exponent = true;
                 break;
             } else if (is_terminator(val)) {
-                return finalizer();
+                return value;
             } else if (!std::isdigit(val)) {
                 throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
             }
@@ -454,7 +443,7 @@ double extract_number(Input& input) {
         while (input.valid()) {
             char val = input.get();
             if (is_terminator(val)) {
-                return finalizer();
+                break;
             } else if (!std::isdigit(val)) {
                 throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
             }
@@ -462,9 +451,16 @@ double extract_number(Input& input) {
             exponent += (val - '0');
             input.advance();
         } 
+
+        if (exponent) {
+            if (negative_exponent) {
+                exponent *= -1;
+            }
+            value *= std::pow(10.0, exponent);
+        }
     }
 
-    return finalizer();
+    return value;
 }
 
 template<class Input>
