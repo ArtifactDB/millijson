@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include <cmath>
 #include <unordered_map>
+#include <unordered_set>
 #include <cstdio>
 
 /**
@@ -155,6 +156,14 @@ struct Array : public Base {
      * Contents of the array.
      */
     std::vector<std::shared_ptr<Base> > values;
+
+    /**
+     * @param value Value to append to the array.
+     */
+    void add(std::shared_ptr<Base> value) {
+        values.push_back(std::move(value));
+        return;
+    }
 };
 
 /**
@@ -167,6 +176,23 @@ struct Object : public Base {
      * Key-value pairs of the object.
      */
     std::unordered_map<std::string, std::shared_ptr<Base> > values;
+
+    /**
+     * @param key String containing the key.
+     * @return Whether `key` already exists in the object.
+     */
+    bool has(const std::string& key) const {
+        return values.find(key) != values.end();
+    }
+
+    /**
+     * @param key String containing the key.
+     * @param value Value to add to the array.
+     */
+    void add(std::string key, std::shared_ptr<Base> value) {
+        values[std::move(key)] = std::move(value);
+        return;
+    }
 };
 
 /**
@@ -425,7 +451,7 @@ double extract_number(Input& input) {
             if (val == '-') {
                 negative_exponent = true;
             } else if (val != '+') {
-                throw std::runtime_error("'e/E' must be followed by a sign in number at position " + std::to_string(start));
+                throw std::runtime_error("'e/E' should be followed by a sign or digit in number at position " + std::to_string(start));
             }
             input.advance();
 
@@ -463,9 +489,82 @@ double extract_number(Input& input) {
     return value;
 }
 
-template<class Input>
-std::shared_ptr<Base> parse_thing(Input& input) {
-    std::shared_ptr<Base> output;
+struct DefaultProvisioner {
+    typedef ::millijson::Base base;
+
+    static Boolean* new_boolean(bool x) {
+        return new Boolean(x); 
+    }
+
+    static Number* new_number(double x) {
+        return new Number(x);
+    }
+
+    static String* new_string(std::string x) {
+        return new String(std::move(x));
+    }
+
+    static Nothing* new_nothing() {
+        return new Nothing;
+    }
+
+    static Array* new_array() {
+        return new Array;
+    }
+
+    static Object* new_object() {
+        return new Object;
+    }
+};
+
+struct FakeProvisioner {
+    struct FakeBase {};
+    typedef FakeBase base;
+
+    struct FakeBoolean : public FakeBase {};
+    static FakeBoolean* new_boolean(bool) {
+        return new FakeBoolean; 
+    }
+
+    struct FakeNumber : public FakeBase {};
+    static FakeNumber* new_number(double x) {
+        return new FakeNumber;
+    }
+
+    struct FakeString : public FakeBase {};
+    static FakeString* new_string(std::string x) {
+        return new FakeString;
+    }
+
+    struct FakeNothing : public FakeBase {};
+    static FakeNothing* new_nothing() {
+        return new FakeNothing;
+    }
+
+    struct FakeArray : public FakeBase {
+        void add(std::shared_ptr<FakeBase>) {}
+    };
+    static FakeArray* new_array() {
+        return new FakeArray;
+    }
+
+    struct FakeObject : public FakeBase {
+        std::unordered_set<std::string> keys;
+        bool has(const std::string& key) const {
+            return keys.find(key) != keys.end();
+        }
+        void add(std::string key, std::shared_ptr<FakeBase>) {
+            keys.insert(std::move(key));
+        }
+    };
+    static FakeObject* new_object() {
+        return new FakeObject;
+    }
+};
+
+template<class Provisioner, class Input>
+std::shared_ptr<typename Provisioner::base> parse_thing(Input& input) {
+    std::shared_ptr<typename Provisioner::base> output;
 
     size_t start = input.position() + 1;
     const char current = input.get();
@@ -474,25 +573,25 @@ std::shared_ptr<Base> parse_thing(Input& input) {
         if (!is_expected_string(input, "true")) {
             throw std::runtime_error("expected a 'true' string at position " + std::to_string(start));
         }
-        output.reset(new Boolean(true));
+        output.reset(Provisioner::new_boolean(true));
 
     } else if (current == 'f') {
         if (!is_expected_string(input, "false")) {
             throw std::runtime_error("expected a 'false' string at position " + std::to_string(start));
         }
-        output.reset(new Boolean(false));
+        output.reset(Provisioner::new_boolean(false));
 
     } else if (current == 'n') {
         if (!is_expected_string(input, "null")) {
             throw std::runtime_error("expected a 'null' string at position " + std::to_string(start));
         }
-        output.reset(new Nothing);
+        output.reset(Provisioner::new_nothing());
 
     } else if (current == '"') {
-        output.reset(new String(extract_string(input)));
+        output.reset(Provisioner::new_string(extract_string(input)));
 
     } else if (current == '[') {
-        auto ptr = new Array;
+        auto ptr = Provisioner::new_array();
         output.reset(ptr);
 
         input.advance();
@@ -503,7 +602,7 @@ std::shared_ptr<Base> parse_thing(Input& input) {
 
         if (input.get() != ']') {
             while (1) {
-                ptr->values.push_back(parse_thing(input));
+                ptr->add(parse_thing<Provisioner>(input));
 
                 chomp(input);
                 if (!input.valid()) {
@@ -528,9 +627,8 @@ std::shared_ptr<Base> parse_thing(Input& input) {
         input.advance(); // skip the closing bracket.
 
     } else if (current == '{') {
-        auto ptr = new Object;
+        auto ptr = Provisioner::new_object();
         output.reset(ptr);
-        auto& map = ptr->values;
 
         input.advance();
         chomp(input);
@@ -545,7 +643,7 @@ std::shared_ptr<Base> parse_thing(Input& input) {
                     throw std::runtime_error("expected a string as the object key at position " + std::to_string(input.position() + 1));
                 }
                 auto key = extract_string(input);
-                if (map.find(key) != map.end()) {
+                if (ptr->has(key)) {
                     throw std::runtime_error("detected duplicate keys in the object at position " + std::to_string(input.position() + 1));
                 }
 
@@ -562,7 +660,7 @@ std::shared_ptr<Base> parse_thing(Input& input) {
                 if (!input.valid()) {
                     throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
                 }
-                map[key] = parse_thing(input);
+                ptr->add(std::move(key), parse_thing<Provisioner>(input)); // consuming the key here.
 
                 chomp(input);
                 if (!input.valid()) {
@@ -591,15 +689,26 @@ std::shared_ptr<Base> parse_thing(Input& input) {
         if (!input.valid()) {
             throw std::runtime_error("incomplete number starting at position " + std::to_string(start));
         }
-        output.reset(new Number(-extract_number(input)));
+        output.reset(Provisioner::new_number(-extract_number(input)));
 
     } else if (std::isdigit(current)) {
-        output.reset(new Number(extract_number(input)));
+        output.reset(Provisioner::new_number(extract_number(input)));
 
     } else {
         throw std::runtime_error(std::string("unknown type starting with '") + std::string(1, current) + "' at position " + std::to_string(start));
     }
 
+    return output;
+}
+
+template<class Provisioner, class Input>
+std::shared_ptr<typename Provisioner::base> parse_thing_with_chomp(Input& input) {
+    chomp(input);
+    auto output = parse_thing<Provisioner>(input);
+    chomp(input);
+    if (input.valid()) {
+        throw std::runtime_error("invalid json with trailing non-space characters at position " + std::to_string(input.position() + 1));
+    }
     return output;
 }
 /**
@@ -619,14 +728,50 @@ std::shared_ptr<Base> parse_thing(Input& input) {
  */
 template<class Input>
 std::shared_ptr<Base> parse(Input& input) {
-    chomp(input);
-    auto output = parse_thing(input);
-    chomp(input);
-    if (input.valid()) {
-        throw std::runtime_error("invalid json with trailing non-space characters at position " + std::to_string(input.position() + 1));
-    }
-    return output;
+    return parse_thing_with_chomp<DefaultProvisioner>(input);
 }
+
+/**
+ * @tparam Input Any class that supplies input characters, see `parse()` for details. 
+ *
+ * @param input An instance of an `Input` class, referring to the bytes from a JSON-formatted file or string.
+ *
+ * If the JSON string is invalid, an error is raised.
+ */
+template<class Input>
+void validate(Input& input) {
+    parse_thing_with_chomp<FakeProvisioner>(input);
+    return;
+}
+
+/**
+ * @cond
+ */
+struct RawReader {
+    RawReader(const char* p, size_t n) : ptr_(p), len_(n) {}
+    size_t pos_ = 0;
+    const char * ptr_;
+    size_t len_;
+
+    char get() const {
+        return ptr_[pos_];
+    }
+
+    bool valid() const {
+        return pos_ < len_;
+    }
+
+    void advance() {
+        ++pos_;
+    }
+
+    size_t position() const {
+        return pos_;
+    }
+};
+/**
+ * @endcond
+ */
 
 /**
  * @param[in] ptr Pointer to an array containing a JSON string.
@@ -634,31 +779,78 @@ std::shared_ptr<Base> parse(Input& input) {
  * @return A pointer to a JSON value.
  */
 inline std::shared_ptr<Base> parse_string(const char* ptr, size_t len) {
-    struct RawReader {
-        RawReader(const char* p, size_t n) : ptr_(p), len_(n) {}
-        size_t pos_ = 0;
-        const char * ptr_;
-        size_t len_;
-
-        char get() const {
-            return ptr_[pos_];
-        }
-
-        bool valid() const {
-            return pos_ < len_;
-        }
-
-        void advance() {
-            ++pos_;
-        }
-
-        size_t position() const {
-            return pos_;
-        }
-    };
     RawReader input(ptr, len);
     return parse(input);
 }
+
+/**
+ * @param[in] ptr Pointer to an array containing a JSON string.
+ * @param len Length of the array.
+ *
+ * If the JSON string is invalid, an error is raised.
+ */
+inline void validate_string(const char* ptr, size_t len) {
+    RawReader input(ptr, len);
+    validate(input);
+    return;
+}
+
+/**
+ * @cond
+ */
+struct FileReader{
+    FileReader(const char* p, size_t b) : handle(std::fopen(p, "rb")), buffer(b) {
+        if (!handle) {
+            throw std::runtime_error("failed to open file at '" + std::string(p) + "'");
+        }
+        fill();
+    }
+
+    ~FileReader() {
+        std::fclose(handle);
+    }
+
+    FILE* handle;
+    std::vector<char> buffer;
+    size_t available = 0;
+    size_t index = 0;
+    size_t overall = 0;
+
+    char get() const {
+        return buffer[index];
+    }
+
+    bool valid() const {
+        return index < available;
+    }
+
+    void advance() {
+        ++index;
+        if (index < available) {
+            return;
+        }
+
+        index = 0;
+        overall += available;
+        fill();
+    }
+
+    void fill() {
+        available = std::fread(buffer.data(), sizeof(char), buffer.size(), handle);
+        if (available != buffer.size()) {
+            if (!std::feof(handle)) {
+                throw std::runtime_error("failed to read file (error " + std::to_string(std::ferror(handle)) + ")");
+            }
+        }
+    }
+
+    size_t position() const {
+        return overall + index;
+    }
+};
+/**
+ * @endcond
+ */
 
 /**
  * @param[in] path Pointer to an array containing a path to a JSON file.
@@ -666,59 +858,20 @@ inline std::shared_ptr<Base> parse_string(const char* ptr, size_t len) {
  * @return A pointer to a JSON value.
  */
 inline std::shared_ptr<Base> parse_file(const char* path, size_t buffer_size = 65536) {
-    struct FileReader{
-        FileReader(const char* p, size_t b) : handle(std::fopen(p, "rb")), buffer(b) {
-            if (!handle) {
-                throw std::runtime_error("failed to open file at '" + std::string(p) + "'");
-            }
-            fill();
-        }
-
-        ~FileReader() {
-            std::fclose(handle);
-        }
-
-        FILE* handle;
-        std::vector<char> buffer;
-        size_t available = 0;
-        size_t index = 0;
-        size_t overall = 0;
-
-        char get() const {
-            return buffer[index];
-        }
-
-        bool valid() const {
-            return index < available;
-        }
-
-        void advance() {
-            ++index;
-            if (index < available) {
-                return;
-            }
-
-            index = 0;
-            overall += available;
-            fill();
-        }
-
-        void fill() {
-            available = std::fread(buffer.data(), sizeof(char), buffer.size(), handle);
-            if (available != buffer.size()) {
-                if (!std::feof(handle)) {
-                    throw std::runtime_error("failed to read file (error " + std::to_string(std::ferror(handle)) + ")");
-                }
-            }
-        }
-
-        size_t position() const {
-            return overall + index;
-        }
-    };
-
     FileReader input(path, buffer_size);
     return parse(input);
+}
+
+/**
+ * @param[in] path Pointer to an array containing a path to a JSON file.
+ * @param buffer_size Size of the buffer to use for reading the file.
+ *
+ * If the JSON file is invalid, an error is raised.
+ */
+inline void validate_file(const char* path, size_t buffer_size = 65536) {
+    FileReader input(path, buffer_size);
+    validate(input);
+    return;
 }
 
 }

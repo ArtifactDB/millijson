@@ -211,7 +211,7 @@ TEST(JsonParsingTest, ScientificLoading) {
     }
 
     parse_raw_json_error(" 1e", "trailing 'e/E'");
-    parse_raw_json_error(" 1e ", "'e/E' must be followed");
+    parse_raw_json_error(" 1e ", "'e/E' should be followed");
     parse_raw_json_error(" 1e+", "trailing exponent sign");
     parse_raw_json_error(" 1e+ ", "must be followed by at least one digit");
     parse_raw_json_error(" 1e+1a", "containing 'a'");
@@ -406,4 +406,20 @@ TEST(JsonParsingTest, QuickGet) {
     // Checking the fourth.
     EXPECT_EQ(array[3]->type(), millijson::STRING);
     EXPECT_EQ(array[3]->get_string(), "advancer");
+}
+
+TEST(JsonValidateTest, Checks) {
+    // Getting some coverage on the validate_* functions.
+    std::string x = "[ { \"foo\": \"bar\" }, 1e-2, [ null, 98765 ], \"advancer\" ]";
+    millijson::validate_string(x.c_str(), x.size());
+
+    x = "{";
+    EXPECT_ANY_THROW({
+        try {
+            millijson::validate_string(x.c_str(), x.size());
+        } catch (std::exception& e) {
+            EXPECT_THAT(e.what(), ::testing::HasSubstr("unterminated object"));
+            throw;
+        }
+    });
 }

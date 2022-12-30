@@ -44,6 +44,12 @@ The same works with a file:
 auto ptr = millijson::parse_file("some_json_file.json");
 ```
 
+If you just want to validate a file, without using memory to load it:
+
+```cpp
+millijson::validate_file("some_json_file.json");
+```
+
 See the [reference documentation](https://ltla.github.io/millijson) for more details.
 
 ## Building projects

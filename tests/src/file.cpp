@@ -13,6 +13,7 @@ TEST_P(FileParsingTest, ChunkedFile) {
     }
 
     auto output = millijson::parse_file("TEST.json", GetParam());
+    millijson::validate_file("TEST.json", GetParam());
 
     EXPECT_EQ(output->type(), millijson::ARRAY);
     const auto& array = output->get_array();
@@ -61,4 +62,3 @@ TEST(FileParsing, Errors) {
         }
     });
 }
-
