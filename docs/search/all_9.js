@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['value_0',['value',['../structmillijson_1_1Number.html#ac69be2fd962eab06d6460bc8f73d0929',1,'millijson::Number::value()'],['../structmillijson_1_1String.html#aa8c4a4911002411aa2a7a142181b284e',1,'millijson::String::value()'],['../structmillijson_1_1Boolean.html#a1fd5e79b36732781997535f71aea865c',1,'millijson::Boolean::value()']]],
-  ['values_1',['values',['../structmillijson_1_1Array.html#afbc248664b1e22a1b8b7d6b01281d2ed',1,'millijson::Array::values()'],['../structmillijson_1_1Object.html#a2b44d4a526076630f5f76e45e48261e4',1,'millijson::Object::values()']]]
+  ['type_0',['type',['../structmillijson_1_1Base.html#a590630b66e2b0d00bf7f3e0ccfba7a53',1,'millijson::Base::type()'],['../structmillijson_1_1Number.html#a258f53a36e8ec12be2ed0936415131f1',1,'millijson::Number::type()'],['../structmillijson_1_1String.html#a1d4eb4f12c092177662129161b543f51',1,'millijson::String::type()'],['../structmillijson_1_1Boolean.html#a5b31c83c3bc2690bf30df465ca8e49fd',1,'millijson::Boolean::type()'],['../structmillijson_1_1Nothing.html#a549d250b32c4cd6ed92d23524ce2392f',1,'millijson::Nothing::type()'],['../structmillijson_1_1Array.html#a2b7598fd4ed816ee711eab9a50e4a4ee',1,'millijson::Array::type()'],['../structmillijson_1_1Object.html#acfe106773ae2807a0a362b5146617c02',1,'millijson::Object::type()']]],
+  ['type_1',['Type',['../namespacemillijson.html#aa16302fdbcf6f85a442a302b1745afb5',1,'millijson']]]
 ];

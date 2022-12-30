@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['millijson_0',['millijson',['../namespacemillijson.html',1,'']]],
-  ['millijson_2ehpp_1',['millijson.hpp',['../millijson_8hpp.html',1,'']]]
+  ['has_0',['has',['../structmillijson_1_1Object.html#aec86fa98f70330a79e4ce2827f95280d',1,'millijson::Object']]]
 ];

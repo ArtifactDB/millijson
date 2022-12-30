@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['parse_0',['parse',['../namespacemillijson.html#a1d6a86dc0ba8c3fc576b1ee08b16bd7d',1,'millijson']]],
-  ['parse_5ffile_1',['parse_file',['../namespacemillijson.html#a7e60a26e1901bfd1ef89e8559c9774f6',1,'millijson']]],
-  ['parse_5fstring_2',['parse_string',['../namespacemillijson.html#a5d9a99b81f8e008903cfcc8544e03f53',1,'millijson']]]
+  ['get_5farray_0',['get_array',['../structmillijson_1_1Base.html#a5cf60aa939f036ed0d6834048e3cfcf3',1,'millijson::Base']]],
+  ['get_5fboolean_1',['get_boolean',['../structmillijson_1_1Base.html#a566118f0ecb957424a0580a49e42179c',1,'millijson::Base']]],
+  ['get_5fnumber_2',['get_number',['../structmillijson_1_1Base.html#a6d59e2f8c813846355f635c3c684cdb0',1,'millijson::Base']]],
+  ['get_5fobject_3',['get_object',['../structmillijson_1_1Base.html#a4e97d5476e799b4a9bdf9778769c4442',1,'millijson::Base']]],
+  ['get_5fstring_4',['get_string',['../structmillijson_1_1Base.html#a40306840147eb2f73d37fc5e20097857',1,'millijson::Base']]]
 ];
