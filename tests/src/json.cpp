@@ -408,14 +408,22 @@ TEST(JsonParsingTest, QuickGet) {
     EXPECT_EQ(array[3]->get_string(), "advancer");
 }
 
+millijson::Type validate_raw_json_string(std::string x) {
+    return millijson::validate_string(x.c_str(), x.size());
+}
+
 TEST(JsonValidateTest, Checks) {
     // Getting some coverage on the validate_* functions.
-    std::string x = "[ { \"foo\": \"bar\" }, 1e-2, [ null, 98765 ], \"advancer\" ]";
-    millijson::validate_string(x.c_str(), x.size());
+    EXPECT_EQ(validate_raw_json_string("[ { \"foo\": \"bar\" }, 1e-2, [ null, 98765 ], \"advancer\" ]"), millijson::ARRAY);
+    EXPECT_EQ(validate_raw_json_string("false"), millijson::BOOLEAN);
+    EXPECT_EQ(validate_raw_json_string("1.323e48"), millijson::NUMBER);
+    EXPECT_EQ(validate_raw_json_string("\"ur mum\""), millijson::STRING);
+    EXPECT_EQ(validate_raw_json_string("{ \"a\": \"b\" }"), millijson::OBJECT);
+    EXPECT_EQ(validate_raw_json_string("null"), millijson::NOTHING);
 
-    x = "{";
     EXPECT_ANY_THROW({
         try {
+            std::string x = "{";
             millijson::validate_string(x.c_str(), x.size());
         } catch (std::exception& e) {
             EXPECT_THAT(e.what(), ::testing::HasSubstr("unterminated object"));

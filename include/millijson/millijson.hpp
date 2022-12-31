@@ -518,30 +518,41 @@ struct DefaultProvisioner {
 };
 
 struct FakeProvisioner {
-    struct FakeBase {};
+    struct FakeBase {
+        virtual Type type() const = 0;
+    };
     typedef FakeBase base;
 
-    struct FakeBoolean : public FakeBase {};
+    struct FakeBoolean : public FakeBase {
+        Type type() const { return BOOLEAN; }
+    };
     static FakeBoolean* new_boolean(bool) {
         return new FakeBoolean; 
     }
 
-    struct FakeNumber : public FakeBase {};
+    struct FakeNumber : public FakeBase {
+        Type type() const { return NUMBER; }
+    };
     static FakeNumber* new_number(double x) {
         return new FakeNumber;
     }
 
-    struct FakeString : public FakeBase {};
+    struct FakeString : public FakeBase {
+        Type type() const { return STRING; }
+    };
     static FakeString* new_string(std::string x) {
         return new FakeString;
     }
 
-    struct FakeNothing : public FakeBase {};
+    struct FakeNothing : public FakeBase {
+        Type type() const { return NOTHING; }
+    };
     static FakeNothing* new_nothing() {
         return new FakeNothing;
     }
 
     struct FakeArray : public FakeBase {
+        Type type() const { return ARRAY; }
         void add(std::shared_ptr<FakeBase>) {}
     };
     static FakeArray* new_array() {
@@ -549,6 +560,7 @@ struct FakeProvisioner {
     }
 
     struct FakeObject : public FakeBase {
+        Type type() const { return OBJECT; }
         std::unordered_set<std::string> keys;
         bool has(const std::string& key) const {
             return keys.find(key) != keys.end();
@@ -736,12 +748,13 @@ std::shared_ptr<Base> parse(Input& input) {
  *
  * @param input An instance of an `Input` class, referring to the bytes from a JSON-formatted file or string.
  *
+ * @return The type of the JSON variable stored in `input`.
  * If the JSON string is invalid, an error is raised.
  */
 template<class Input>
-void validate(Input& input) {
-    parse_thing_with_chomp<FakeProvisioner>(input);
-    return;
+Type validate(Input& input) {
+    auto ptr = parse_thing_with_chomp<FakeProvisioner>(input);
+    return ptr->type();
 }
 
 /**
@@ -787,12 +800,12 @@ inline std::shared_ptr<Base> parse_string(const char* ptr, size_t len) {
  * @param[in] ptr Pointer to an array containing a JSON string.
  * @param len Length of the array.
  *
+ * @return The type of the JSON variable stored in the string.
  * If the JSON string is invalid, an error is raised.
  */
-inline void validate_string(const char* ptr, size_t len) {
+inline Type validate_string(const char* ptr, size_t len) {
     RawReader input(ptr, len);
-    validate(input);
-    return;
+    return validate(input);
 }
 
 /**
@@ -866,12 +879,12 @@ inline std::shared_ptr<Base> parse_file(const char* path, size_t buffer_size = 6
  * @param[in] path Pointer to an array containing a path to a JSON file.
  * @param buffer_size Size of the buffer to use for reading the file.
  *
+ * @return The type of the JSON variable stored in the file.
  * If the JSON file is invalid, an error is raised.
  */
-inline void validate_file(const char* path, size_t buffer_size = 65536) {
+inline Type validate_file(const char* path, size_t buffer_size = 65536) {
     FileReader input(path, buffer_size);
-    validate(input);
-    return;
+    return validate(input);
 }
 
 }
