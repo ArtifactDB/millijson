@@ -225,8 +225,9 @@ inline bool isspace(char x) {
 
 template<class Input>
 void chomp(Input& input) {
-    while (input.valid() && isspace(input.get())) {
-        input.advance();
+    bool ok = input.valid();
+    while (ok && isspace(input.get())) {
+        ok = input.advance();
     }
     return;
 }
@@ -258,8 +259,7 @@ std::string extract_string(Input& input) {
                 input.advance(); // get past the closing quote.
                 return output;
             case '\\':
-                input.advance();
-                if (!input.valid()) {
+                if (!input.advance()) {
                     throw std::runtime_error("unterminated string at position " + std::to_string(start));
                 } else {
                     char next2 = input.get();
@@ -292,8 +292,7 @@ std::string extract_string(Input& input) {
                             {
                                 unsigned short mb = 0;
                                 for (size_t i = 0; i < 4; ++i) {
-                                    input.advance();
-                                    if (!input.valid()){
+                                    if (!input.advance()){
                                         throw std::runtime_error("unterminated string at position " + std::to_string(start));
                                     }
                                     mb *= 16;
@@ -342,8 +341,7 @@ std::string extract_string(Input& input) {
                 break;
         }
 
-        input.advance();
-        if (!input.valid()) {
+        if (!input.advance()) {
             throw std::runtime_error("unterminated string at position " + std::to_string(start));
         }
     }
@@ -369,8 +367,7 @@ double extract_number(Input& input) {
     // We assume we're starting from the absolute value, after removing any preceding negative sign. 
     char lead = input.get();
     if (lead == '0') {
-        input.advance();
-        if (!input.valid()) {
+        if (!input.advance()) {
             return 0;
         }
 
@@ -387,9 +384,8 @@ double extract_number(Input& input) {
 
     } else if (std::isdigit(lead)) {
         value += lead - '0';
-        input.advance();
 
-        while (input.valid()) {
+        while (input.advance()) {
             char val = input.get();
             if (val == '.') {
                 in_fraction = true;
@@ -404,7 +400,6 @@ double extract_number(Input& input) {
             }
             value *= 10;
             value += val - '0';
-            input.advance();
         }
 
     } else {
@@ -412,8 +407,7 @@ double extract_number(Input& input) {
     }
 
     if (in_fraction) {
-        input.advance();
-        if (!input.valid()) {
+        if (!input.advance()) {
             throw std::runtime_error("invalid number with trailing '.' at position " + std::to_string(start));
         }
 
@@ -423,8 +417,7 @@ double extract_number(Input& input) {
         }
         value += (val - '0') / fractional;
 
-        input.advance();
-        while (input.valid()) {
+        while (input.advance()) {
             char val = input.get();
             if (val == 'e' || val == 'E') {
                 in_exponent = true;
@@ -436,13 +429,11 @@ double extract_number(Input& input) {
             }
             fractional *= 10;
             value += (val - '0') / fractional;
-            input.advance();
         } 
     }
 
     if (in_exponent) {
-        input.advance();
-        if (!input.valid()) {
+        if (!input.advance()) {
             throw std::runtime_error("invalid number with trailing 'e/E' at position " + std::to_string(start));
         }
 
@@ -453,9 +444,8 @@ double extract_number(Input& input) {
             } else if (val != '+') {
                 throw std::runtime_error("'e/E' should be followed by a sign or digit in number at position " + std::to_string(start));
             }
-            input.advance();
 
-            if (!input.valid()) {
+            if (!input.advance()) {
                 throw std::runtime_error("invalid number with trailing exponent sign at position " + std::to_string(start));
             }
             val = input.get();
@@ -465,8 +455,8 @@ double extract_number(Input& input) {
         }
 
         exponent += (val - '0');
-        input.advance();
-        while (input.valid()) {
+
+        while (input.advance()) {
             char val = input.get();
             if (is_terminator(val)) {
                 break;
@@ -475,7 +465,6 @@ double extract_number(Input& input) {
             }
             exponent *= 10;
             exponent += (val - '0');
-            input.advance();
         } 
 
         if (exponent) {
@@ -697,8 +686,7 @@ std::shared_ptr<typename Provisioner::base> parse_thing(Input& input) {
         input.advance(); // skip the closing brace.
 
     } else if (current == '-') {
-        input.advance(); 
-        if (!input.valid()) {
+        if (!input.advance()) {
             throw std::runtime_error("incomplete number starting at position " + std::to_string(start));
         }
         output.reset(Provisioner::new_number(-extract_number(input)));
@@ -732,7 +720,7 @@ std::shared_ptr<typename Provisioner::base> parse_thing_with_chomp(Input& input)
  *
  * - `char get() const `, which extracts a `char` from the input source without advancing the position on the byte stream.
  * - `bool valid() const`, to determine whether an input `char` can be `get()` from the input.
- * - `void advance()`, to advance the input stream.
+ * - `bool advance()`, to advance the input stream and return `valid()` at the new position.
  * - `size_t position() const`, for the current position relative to the start of the byte stream.
  *
  * @param input An instance of an `Input` class, referring to the bytes from a JSON-formatted file or string.
@@ -774,8 +762,9 @@ struct RawReader {
         return pos_ < len_;
     }
 
-    void advance() {
+    bool advance() {
         ++pos_;
+        return valid();
     }
 
     size_t position() const {
@@ -828,6 +817,7 @@ struct FileReader{
     size_t available = 0;
     size_t index = 0;
     size_t overall = 0;
+    bool finished = false;
 
     char get() const {
         return buffer[index];
@@ -837,23 +827,33 @@ struct FileReader{
         return index < available;
     }
 
-    void advance() {
+    bool advance() {
         ++index;
         if (index < available) {
-            return;
+            return true;
         }
 
         index = 0;
         overall += available;
         fill();
+        return valid();
     }
 
     void fill() {
+        if (finished) {
+            available = 0;
+            return;
+        }
+
         available = std::fread(buffer.data(), sizeof(char), buffer.size(), handle);
-        if (available != buffer.size()) {
-            if (!std::feof(handle)) {
-                throw std::runtime_error("failed to read file (error " + std::to_string(std::ferror(handle)) + ")");
-            }
+        if (available == buffer.size()) {
+            return;
+        }
+
+        if (std::feof(handle)) {
+            finished = true;
+        } else {
+            throw std::runtime_error("failed to read file (error " + std::to_string(std::ferror(handle)) + ")");
         }
     }
 
