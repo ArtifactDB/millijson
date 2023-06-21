@@ -24,6 +24,18 @@ target_link_libraries(
     millijson
 )
 
+FetchContent_Declare(
+    byteme 
+    GIT_REPOSITORY https://github.com/LTLA/byteme
+    GIT_TAG 0d1f128a7c07d3739ccc65e39758f209ede834a9
+)
+
+target_link_libraries(
+    libtest
+    byteme
+)
+
+FetchContent_MakeAvailable(byteme)
 set(CODE_COVERAGE OFF CACHE BOOL "Enable coverage testing")
 if(CODE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     target_compile_options(libtest PRIVATE -O0 -g --coverage)

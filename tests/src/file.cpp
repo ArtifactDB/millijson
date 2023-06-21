@@ -2,6 +2,7 @@
 #include <gmock/gmock.h>
 #include <fstream>
 #include "millijson/millijson.hpp"
+#include "byteme/byteme.hpp"
 
 class FileParsingTest : public ::testing::TestWithParam<int> {};
 
@@ -44,6 +45,43 @@ TEST_P(FileParsingTest, ChunkedFile) {
     // Checking the fourth.
     EXPECT_EQ(array[3]->type(), millijson::STRING);
     EXPECT_EQ(array[3]->get_string(), "advancer");
+}
+
+TEST_P(FileParsingTest, BytemeCompatibility) {
+    std::string foo = "{ \"foo\": \"bar\", \"YAY\": [ 5, 3, 2 ], \"whee\": null }";
+    {
+        std::ofstream output("TEST.json");
+        output << foo << std::endl;
+    }
+
+    byteme::PerByte pb(std::make_unique<byteme::RawFileReader>("TEST.json", GetParam()));
+    auto output = millijson::parse(pb);
+
+    EXPECT_EQ(output->type(), millijson::OBJECT);
+    const auto& mapping = output->get_object();
+    EXPECT_EQ(mapping.size(), 3);
+
+    // Checking the first key.
+    auto it = mapping.find("foo");
+    EXPECT_TRUE(it != mapping.end());
+    EXPECT_EQ((it->second)->type(), millijson::STRING);
+    EXPECT_EQ((it->second)->get_string(), "bar");
+
+    // Checking the second key.
+    it = mapping.find("YAY");
+    EXPECT_TRUE(it != mapping.end());
+    EXPECT_EQ((it->second)->type(), millijson::ARRAY);
+
+    const auto& arr = (it->second)->get_array();
+    EXPECT_EQ(arr.size(), 3);
+    EXPECT_EQ(arr[0]->type(), millijson::NUMBER);
+    EXPECT_EQ(arr[1]->type(), millijson::NUMBER);
+    EXPECT_EQ(arr[2]->type(), millijson::NUMBER);
+
+    // Checking the third key.
+    it = mapping.find("whee");
+    EXPECT_TRUE(it != mapping.end());
+    EXPECT_EQ((it->second)->type(), millijson::NOTHING);
 }
 
 INSTANTIATE_TEST_SUITE_P(
