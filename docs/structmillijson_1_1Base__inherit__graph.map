@@ -1,9 +1,15 @@
 <map id="millijson::Base" name="millijson::Base">
-<area shape="rect" id="node1" title="Virtual base class for all JSON types." alt="" coords="5,129,111,155"/>
-<area shape="rect" id="node2" href="$structmillijson_1_1Array.html" title="JSON array." alt="" coords="167,5,273,31"/>
-<area shape="rect" id="node3" href="$structmillijson_1_1Boolean.html" title="JSON boolean." alt="" coords="159,55,281,80"/>
-<area shape="rect" id="node4" href="$structmillijson_1_1Nothing.html" title="JSON null." alt="" coords="160,104,280,129"/>
-<area shape="rect" id="node5" href="$structmillijson_1_1Number.html" title="JSON number." alt="" coords="159,153,281,179"/>
-<area shape="rect" id="node6" href="$structmillijson_1_1Object.html" title="JSON object." alt="" coords="163,203,277,228"/>
-<area shape="rect" id="node7" href="$structmillijson_1_1String.html" title="JSON string." alt="" coords="165,252,275,277"/>
+<area shape="rect" id="Node000001" title="Virtual base class for all JSON types." alt="" coords="5,129,110,155"/>
+<area shape="rect" id="Node000002" href="$structmillijson_1_1Array.html" title="JSON array." alt="" coords="166,5,271,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,116,111,78,156,40,176,29,179,34,159,44,115,81,80,119"/>
+<area shape="rect" id="Node000003" href="$structmillijson_1_1Boolean.html" title="JSON boolean." alt="" coords="158,55,279,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="95,120,157,89,181,78,183,83,159,94,97,125"/>
+<area shape="rect" id="Node000004" href="$structmillijson_1_1Nothing.html" title="JSON null." alt="" coords="159,104,278,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="124,129,158,124,159,129,125,134"/>
+<area shape="rect" id="Node000005" href="$structmillijson_1_1Number.html" title="JSON number." alt="" coords="158,153,279,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="125,149,158,155,157,160,124,155"/>
+<area shape="rect" id="Node000006" href="$structmillijson_1_1Object.html" title="JSON object." alt="" coords="162,203,275,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="98,160,159,189,184,200,182,205,157,194,96,165"/>
+<area shape="rect" id="Node000007" href="$structmillijson_1_1String.html" title="JSON string." alt="" coords="164,252,273,278"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="80,165,115,202,159,239,179,249,176,254,156,243,111,206,76,168"/>
 </map>
