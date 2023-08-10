@@ -509,6 +509,7 @@ struct DefaultProvisioner {
 struct FakeProvisioner {
     struct FakeBase {
         virtual Type type() const = 0;
+        virtual ~FakeBase() {}
     };
     typedef FakeBase base;
 
@@ -522,14 +523,14 @@ struct FakeProvisioner {
     struct FakeNumber : public FakeBase {
         Type type() const { return NUMBER; }
     };
-    static FakeNumber* new_number(double x) {
+    static FakeNumber* new_number(double) {
         return new FakeNumber;
     }
 
     struct FakeString : public FakeBase {
         Type type() const { return STRING; }
     };
-    static FakeString* new_string(std::string x) {
+    static FakeString* new_string(std::string) {
         return new FakeString;
     }
 

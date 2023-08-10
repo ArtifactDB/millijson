@@ -27,13 +27,15 @@ target_link_libraries(
 FetchContent_Declare(
     byteme 
     GIT_REPOSITORY https://github.com/LTLA/byteme
-    GIT_TAG 0d1f128a7c07d3739ccc65e39758f209ede834a9
+    GIT_TAG master
 )
 
 target_link_libraries(
     libtest
     byteme
 )
+
+target_compile_options(libtest PRIVATE -Wall -Wextra -Wpedantic -Werror)
 
 FetchContent_MakeAvailable(byteme)
 set(CODE_COVERAGE OFF CACHE BOOL "Enable coverage testing")
