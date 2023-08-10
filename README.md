@@ -1,8 +1,8 @@
 # Yet another JSON parser
 
-![Unit tests](https://github.com/LTLA/millijson/actions/workflows/run-tests.yaml/badge.svg)
-![Documentation](https://github.com/LTLA/millijson/actions/workflows/doxygenate.yaml/badge.svg)
-[![codecov](https://codecov.io/gh/LTLA/millijson/branch/master/graph/badge.svg?token=DLTMWKJAG3)](https://codecov.io/gh/LTLA/millijson)
+![Unit tests](https://github.com/ArtifactDB/millijson/actions/workflows/run-tests.yaml/badge.svg)
+![Documentation](https://github.com/ArtifactDB/millijson/actions/workflows/doxygenate.yaml/badge.svg)
+[![codecov](https://codecov.io/gh/ArtifactDB/millijson/branch/master/graph/badge.svg?token=DLTMWKJAG3)](https://codecov.io/gh/ArtifactDB/millijson)
 
 ## Overview
 
@@ -54,6 +54,8 @@ See the [reference documentation](https://ltla.github.io/millijson) for more det
 
 ## Building projects
 
+### CMake with `FetchContent`
+
 If you're using CMake, you just need to add something like this to your `CMakeLists.txt`:
 
 ```
@@ -78,7 +80,27 @@ target_link_libraries(myexe millijson)
 target_link_libraries(mylib INTERFACE millijson)
 ```
 
-Or you can just copy the [`millijson.hpp`](include/millijson/millijson.hpp) file into your source directory.
+### CMake with `find_package()`
+
+You can install the library by cloning a suitable version of this repository and running the following commands:
+
+```sh
+mkdir build && cd build
+cmake .. -DMILLIJSON_TESTS=OFF
+cmake --build . --target install
+```
+
+Then you can use `find_package()` as usual:
+
+```cmake
+find_package(ltla_millijson CONFIG REQUIRED)
+target_link_libraries(mylib INTERFACE ltla::millijson)
+```
+
+### Manual
+
+If you're not using CMake, the simple approach is to just copy the files in the `include/` subdirectory - 
+either directly or with Git submodules - and include their path during compilation with, e.g., GCC's `-I`.
 
 ## Links
 
