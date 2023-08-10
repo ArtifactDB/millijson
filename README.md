@@ -50,7 +50,7 @@ If you just want to validate a file, without using memory to load it:
 millijson::validate_file("some_json_file.json");
 ```
 
-See the [reference documentation](https://ltla.github.io/millijson) for more details.
+See the [reference documentation](https://artifactdb.github.io/millijson) for more details.
 
 ## Building projects
 
@@ -63,7 +63,7 @@ include(FetchContent)
 
 FetchContent_Declare(
   millijson 
-  GIT_REPOSITORY https://github.com/LTLA/millijson
+  GIT_REPOSITORY https://github.com/ArtifactDB/millijson
   GIT_TAG master # or any version of interest
 )
 
