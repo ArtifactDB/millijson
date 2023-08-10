@@ -74,7 +74,7 @@ $(function() {
   <div class="headertitle"><div class="title">Yet another JSON parser </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md__2github_2workspace_2README"></a> <img src="https://github.com/LTLA/millijson/actions/workflows/run-tests.yaml/badge.svg" alt="Unit tests" style="pointer-events: none;" class="inline"/> <img src="https://github.com/LTLA/millijson/actions/workflows/doxygenate.yaml/badge.svg" alt="Documentation" style="pointer-events: none;" class="inline"/> <a href="https://codecov.io/gh/LTLA/millijson"><img src="https://codecov.io/gh/LTLA/millijson/branch/master/graph/badge.svg?token=DLTMWKJAG3" alt="codecov" style="pointer-events: none;" class="inline"/></a></p>
+<div class="textblock"><p><a class="anchor" id="md__2github_2workspace_2README"></a> <img src="https://github.com/ArtifactDB/millijson/actions/workflows/run-tests.yaml/badge.svg" alt="Unit tests" style="pointer-events: none;" class="inline"/> <img src="https://github.com/ArtifactDB/millijson/actions/workflows/doxygenate.yaml/badge.svg" alt="Documentation" style="pointer-events: none;" class="inline"/> <a href="https://codecov.io/gh/ArtifactDB/millijson"><img src="https://codecov.io/gh/ArtifactDB/millijson/branch/master/graph/badge.svg?token=DLTMWKJAG3" alt="codecov" style="pointer-events: none;" class="inline"/></a></p>
 <h1>Overview</h1>
 <p><b>millijson</b> is a header-only C++ library that provides a lightweight JSON parser. It has no selling points other than being small and simple, if you could call those selling points. I wrote it mostly for fun but also to provide a replacement for the <a href="https://github.com/nlohmann/json"><code>nlohmann/json</code></a> library - while excellent, its single-header source code is pretty large (around 25 kLoCs, if I remember correctly) and I wanted something slimmer. This is most noticeable when vendoring the file into various modules/packages, where C++ suddenly becomes the main language of the associated repository, and I didn't like that. Yes, I'm <em>that</em> petty.</p>
 <h1>Quick start</h1>
@@ -107,6 +107,7 @@ $(function() {
 <div class="ttc" id="anamespacemillijson_html_a87b9da0b860b13582e79779e161506e6"><div class="ttname"><a href="namespacemillijson.html#a87b9da0b860b13582e79779e161506e6">millijson::validate_file</a></div><div class="ttdeci">Type validate_file(const char *path, size_t buffer_size=65536)</div><div class="ttdef"><b>Definition</b> millijson.hpp:886</div></div>
 </div><!-- fragment --><p>See the <a href="https://ltla.github.io/millijson">reference documentation</a> for more details.</p>
 <h1>Building projects</h1>
+<h2>CMake with <code>FetchContent</code></h2>
 <p>If you're using CMake, you just need to add something like this to your <code>CMakeLists.txt</code>:</p>
 <div class="fragment"><div class="line">include(FetchContent)</div>
 <div class="line"> </div>
@@ -123,7 +124,16 @@ $(function() {
 <div class="line"> </div>
 <div class="line"># For libaries</div>
 <div class="line">target_link_libraries(mylib INTERFACE millijson)</div>
-</div><!-- fragment --><p>Or you can just copy the <a href="include/millijson/millijson.hpp"><code>millijson.hpp</code></a> file into your source directory.</p>
+</div><!-- fragment --><h2>CMake with <code>find_package()</code></h2>
+<p>You can install the library by cloning a suitable version of this repository and running the following commands:</p>
+<div class="fragment"><div class="line">mkdir build &amp;&amp; cd build</div>
+<div class="line">cmake .. -DMILLIJSON_TESTS=OFF</div>
+<div class="line">cmake --build . --target install</div>
+</div><!-- fragment --><p>Then you can use <code>find_package()</code> as usual:</p>
+<div class="fragment"><div class="line">find_package(ltla_millijson CONFIG REQUIRED)</div>
+<div class="line">target_link_libraries(mylib INTERFACE ltla::millijson)</div>
+</div><!-- fragment --><h2>Manual</h2>
+<p>If you're not using CMake, the simple approach is to just copy the files in the <code>include/</code> subdirectory - either directly or with Git submodules - and include their path during compilation with, e.g., GCC's <code>-I</code>.</p>
 <h1>Links</h1>
 <p>Parsing is based on the JSON standard described <a href="https://www.json.org/json-en.html">here</a>.</p>
 <p>This interface was inspired by the implementation in <a href="https://github.com/nlohmann/json"><code>nlohmann/json</code></a>. </p>
