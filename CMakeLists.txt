@@ -8,7 +8,7 @@ project(millijson
 set(CMAKE_CXX_STANDARD 17)
 
 add_library(millijson INTERFACE)
-add_library(ltla::millijson INTERFACE millijson)
+add_library(ltla::millijson ALIAS millijson)
 
 include(GNUInstallDirs)
 target_include_directories(millijson INTERFACE 
