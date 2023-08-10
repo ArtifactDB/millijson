@@ -40,7 +40,7 @@ install(TARGETS millijson
 
 install(EXPORT millijsonTargets
     FILE ltla_millijsonTargets.cmake
-    NAMESPACE millijson::
+    NAMESPACE ltla::
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ltla_millijson)
 
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Config.cmake.in
