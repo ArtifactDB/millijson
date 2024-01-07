@@ -97,6 +97,8 @@ TEST(JsonParsingTest, StringLoading) {
     parse_raw_json_error(" \"asdasdaasd\\a", "unrecognized escape");
     parse_raw_json_error(" \"asdas\\uasdasd", "invalid unicode");
     parse_raw_json_error(" \"asdas\\u00", "unterminated string");
+    parse_raw_json_error(" \"0sdasd\nasdasd\"", "string contains ASCII control character at position 9");
+    parse_raw_json_error(" \"sdasd\tasdasd\"", "string contains ASCII control character at position 8");
 }
 
 TEST(JsonParsingTest, IntegerLoading) {
