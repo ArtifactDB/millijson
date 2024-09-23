@@ -312,7 +312,7 @@ std::string extract_string(Input& input) {
                                     }
                                 }
 
-                                // Converting manually from UTF-16 to UTF-8. We only allow
+                                // Manually convert Unicode code points to UTF-8. We only allow
                                 // 3 bytes at most because there's only 4 hex digits in JSON. 
                                 if (mb <= 127) {
                                     output += static_cast<char>(mb);
