@@ -922,26 +922,54 @@ public:
  */
 
 /**
+ * @brief Options for `parse_file()` and `validate_file()`.
+ */
+struct FileReadOptions {
+    /**
+     * Size of the buffer to use for reading the file.
+     */
+    size_t buffer_size = 65536;
+};
+
+/**
  * @param[in] path Pointer to an array containing a path to a JSON file.
- * @param buffer_size Size of the buffer to use for reading the file.
+ * @param options Further options.
  * @return A pointer to a JSON value.
  */
-inline std::shared_ptr<Base> parse_file(const char* path, size_t buffer_size = 65536) {
-    FileReader input(path, buffer_size);
+inline std::shared_ptr<Base> parse_file(const char* path, const FileReadOptions& options) {
+    FileReader input(path, options.buffer_size);
     return parse(input);
 }
 
 /**
  * @param[in] path Pointer to an array containing a path to a JSON file.
- * @param buffer_size Size of the buffer to use for reading the file.
+ * @param options Further options.
  *
  * @return The type of the JSON variable stored in the file.
  * If the JSON file is invalid, an error is raised.
  */
-inline Type validate_file(const char* path, size_t buffer_size = 65536) {
-    FileReader input(path, buffer_size);
+inline Type validate_file(const char* path, const FileReadOptions& options) {
+    FileReader input(path, options.buffer_size);
     return validate(input);
 }
+
+/**
+ * @cond
+ */
+inline std::shared_ptr<Base> parse_file(const char* path, size_t buffer_size = 65536) {
+    FileReadOptions opt;
+    opt.buffer_size = buffer_size;
+    return parse_file(path, opt);
+}
+
+inline Type validate_file(const char* path, size_t buffer_size = 65536) {
+    FileReadOptions opt;
+    opt.buffer_size = buffer_size;
+    return validate(path, opt);
+}
+/**
+ * @endcond
+ */
 
 }
 
