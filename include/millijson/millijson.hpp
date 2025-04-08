@@ -488,19 +488,21 @@ double extract_number(Input_& input) {
 
         exponent += (val - '0');
 
-        while (input.advance()) {
-            char val = input.get();
-            switch (val) {
-                case ',': case ']': case '}': case ' ': case '\r': case '\n': case '\t':
-                    return;
-                case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
-                    exponent *= 10;
-                    exponent += (val - '0');
-                    break;
-                default:
-                    throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
+        [&]{ // wrapping it in an IIFE to easily break out of the loop inside the switch.
+            while (input.advance()) {
+                char val = input.get();
+                switch (val) {
+                    case ',': case ']': case '}': case ' ': case '\r': case '\n': case '\t':
+                        return;
+                    case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+                        exponent *= 10;
+                        exponent += (val - '0');
+                        break;
+                    default:
+                        throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
+                }
             }
-        }
+        }();
 
         if (exponent) {
             if (negative_exponent) {
@@ -611,120 +613,122 @@ std::shared_ptr<typename Provisioner_::base> parse_thing(Input_& input) {
             if (!is_expected_string(input, "true")) {
                 throw std::runtime_error("expected a 'true' string at position " + std::to_string(start));
             }
-            output.reset(Provisioner::new_boolean(true));
+            output.reset(Provisioner_::new_boolean(true));
             break;
 
         case 'f':
             if (!is_expected_string(input, "false")) {
                 throw std::runtime_error("expected a 'false' string at position " + std::to_string(start));
             }
-            output.reset(Provisioner::new_boolean(false));
+            output.reset(Provisioner_::new_boolean(false));
             break;
 
         case 'n':
             if (!is_expected_string(input, "null")) {
                 throw std::runtime_error("expected a 'null' string at position " + std::to_string(start));
             }
-            output.reset(Provisioner::new_nothing());
+            output.reset(Provisioner_::new_nothing());
             break;
 
         case '"': 
-            output.reset(Provisioner::new_string(extract_string(input)));
+            output.reset(Provisioner_::new_string(extract_string(input)));
             break;
 
         case '[':
-            auto ptr = Provisioner::new_array();
-            output.reset(ptr);
+            {
+                auto ptr = Provisioner_::new_array();
+                output.reset(ptr);
 
-            input.advance();
-            chomp(input);
-            if (!input.valid()) {
-                throw std::runtime_error("unterminated array starting at position " + std::to_string(start));
-            }
+                input.advance();
+                chomp(input);
+                if (!input.valid()) {
+                    throw std::runtime_error("unterminated array starting at position " + std::to_string(start));
+                }
 
-            if (input.get() != ']') {
-                while (1) {
-                    ptr->add(parse_thing<Provisioner>(input));
+                if (input.get() != ']') {
+                    while (1) {
+                        ptr->add(parse_thing<Provisioner_>(input));
 
-                    chomp(input);
-                    if (!input.valid()) {
-                        throw std::runtime_error("unterminated array starting at position " + std::to_string(start));
-                    }
+                        chomp(input);
+                        if (!input.valid()) {
+                            throw std::runtime_error("unterminated array starting at position " + std::to_string(start));
+                        }
 
-                    char next = input.get();
-                    if (next == ']') {
-                        break;
-                    } else if (next != ',') {
-                        throw std::runtime_error("unknown character '" + std::string(1, next) + "' in array at position " + std::to_string(input.position() + 1));
-                    }
+                        char next = input.get();
+                        if (next == ']') {
+                            break;
+                        } else if (next != ',') {
+                            throw std::runtime_error("unknown character '" + std::string(1, next) + "' in array at position " + std::to_string(input.position() + 1));
+                        }
 
-                    input.advance(); 
-                    chomp(input);
-                    if (!input.valid()) {
-                        throw std::runtime_error("unterminated array starting at position " + std::to_string(start));
+                        input.advance(); 
+                        chomp(input);
+                        if (!input.valid()) {
+                            throw std::runtime_error("unterminated array starting at position " + std::to_string(start));
+                        }
                     }
                 }
             }
-
             input.advance(); // skip the closing bracket.
             break;
 
         case '{':
-            auto ptr = Provisioner::new_object();
-            output.reset(ptr);
+            {
+                auto ptr = Provisioner_::new_object();
+                output.reset(ptr);
 
-            input.advance();
-            chomp(input);
-            if (!input.valid()) {
-                throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
-            }
+                input.advance();
+                chomp(input);
+                if (!input.valid()) {
+                    throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
+                }
 
-            if (input.get() != '}') {
-                while (1) {
-                    char next = input.get();
-                    if (next != '"') {
-                        throw std::runtime_error("expected a string as the object key at position " + std::to_string(input.position() + 1));
-                    }
-                    auto key = extract_string(input);
-                    if (ptr->has(key)) {
-                        throw std::runtime_error("detected duplicate keys in the object at position " + std::to_string(input.position() + 1));
-                    }
+                if (input.get() != '}') {
+                    while (1) {
+                        char next = input.get();
+                        if (next != '"') {
+                            throw std::runtime_error("expected a string as the object key at position " + std::to_string(input.position() + 1));
+                        }
+                        auto key = extract_string(input);
+                        if (ptr->has(key)) {
+                            throw std::runtime_error("detected duplicate keys in the object at position " + std::to_string(input.position() + 1));
+                        }
 
-                    chomp(input);
-                    if (!input.valid()) {
-                        throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
-                    }
-                    if (input.get() != ':') {
-                        throw std::runtime_error("expected ':' to separate keys and values at position " + std::to_string(input.position() + 1));
-                    }
+                        chomp(input);
+                        if (!input.valid()) {
+                            throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
+                        }
+                        if (input.get() != ':') {
+                            throw std::runtime_error("expected ':' to separate keys and values at position " + std::to_string(input.position() + 1));
+                        }
 
-                    input.advance();
-                    chomp(input);
-                    if (!input.valid()) {
-                        throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
-                    }
-                    ptr->add(std::move(key), parse_thing<Provisioner>(input)); // consuming the key here.
+                        input.advance();
+                        chomp(input);
+                        if (!input.valid()) {
+                            throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
+                        }
+                        ptr->add(std::move(key), parse_thing<Provisioner_>(input)); // consuming the key here.
 
-                    chomp(input);
-                    if (!input.valid()) {
-                        throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
-                    }
+                        chomp(input);
+                        if (!input.valid()) {
+                            throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
+                        }
 
-                    next = input.get();
-                    if (next == '}') {
-                        break;
-                    } else if (next != ',') {
-                        throw std::runtime_error("unknown character '" + std::string(1, next) + "' in array at position " + std::to_string(input.position() + 1));
-                    }
+                        next = input.get();
+                        if (next == '}') {
+                            break;
+                        } else if (next != ',') {
+                            throw std::runtime_error("unknown character '" + std::string(1, next) + "' in array at position " + std::to_string(input.position() + 1));
+                        }
 
-                    input.advance(); 
-                    chomp(input);
-                    if (!input.valid()) {
-                        throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
+                        input.advance(); 
+                        chomp(input);
+                        if (!input.valid()) {
+                            throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
+                        }
                     }
                 }
             }
-
             input.advance(); // skip the closing brace.
             break;
 
@@ -732,11 +736,11 @@ std::shared_ptr<typename Provisioner_::base> parse_thing(Input_& input) {
             if (!input.advance()) {
                 throw std::runtime_error("incomplete number starting at position " + std::to_string(start));
             }
-            output.reset(Provisioner::new_number(-extract_number(input)));
+            output.reset(Provisioner_::new_number(-extract_number(input)));
             break;
 
         case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
-            output.reset(Provisioner::new_number(extract_number(input)));
+            output.reset(Provisioner_::new_number(extract_number(input)));
             break;
 
         default:
@@ -772,7 +776,7 @@ std::shared_ptr<typename Provisioner_::base> parse_thing_with_chomp(Input_& inpu
  * @return A pointer to a JSON value.
  */
 template<class Input_>
-std::shared_ptr<Base> parse(Input& input) {
+std::shared_ptr<Base> parse(Input_& input) {
     return parse_thing_with_chomp<DefaultProvisioner>(input);
 }
 
@@ -785,7 +789,7 @@ std::shared_ptr<Base> parse(Input& input) {
  * If the JSON string is invalid, an error is raised.
  */
 template<class Input_>
-Type validate(Input& input) {
+Type validate(Input_& input) {
     auto ptr = parse_thing_with_chomp<FakeProvisioner>(input);
     return ptr->type();
 }
@@ -851,15 +855,15 @@ inline Type validate_string(const char* ptr, size_t len) {
  */
 class FileReader {
 public:
-    FileReader(const char* p, size_t b) : handle(std::fopen(p, "rb")), buffer(b) {
-        if (!handle) {
-            throw std::runtime_error("failed to open file at '" + std::string(p) + "'");
+    FileReader(const char* path, size_t buffer_size) : my_handle(std::fopen(path, "rb")), my_buffer(buffer_size) {
+        if (!my_handle) {
+            throw std::runtime_error("failed to open file at '" + std::string(path) + "'");
         }
         fill();
     }
 
     ~FileReader() {
-        std::fclose(handle);
+        std::fclose(my_handle);
     }
 
 private:
@@ -886,7 +890,7 @@ public:
         }
 
         my_index = 0;
-        overall += my_available;
+        my_overall += my_available;
         fill();
         return valid();
     }
@@ -903,7 +907,7 @@ public:
         }
 
         if (std::feof(my_handle)) {
-            finished = true;
+            my_finished = true;
         } else {
             throw std::runtime_error("failed to read file (error " + std::to_string(std::ferror(my_handle)) + ")");
         }
