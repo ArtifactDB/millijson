@@ -38,7 +38,8 @@ enum Type {
 /**
  * @brief Virtual base class for all JSON types.
  */
-struct Base {
+class Base {
+public:
     /**
      * @return Type of the JSON value.
      */
@@ -81,7 +82,8 @@ struct Base {
 /**
  * @brief JSON number.
  */
-struct Number : public Base {
+class Number final : public Base {
+public:
     /**
      * @cond
      */
@@ -101,7 +103,8 @@ struct Number : public Base {
 /**
  * @brief JSON string.
  */
-struct String : public Base {
+class String final : public Base {
+public:
     /**
      * @cond
      */
@@ -121,7 +124,8 @@ struct String : public Base {
 /**
  * @brief JSON boolean.
  */
-struct Boolean : public Base {
+class Boolean final : public Base {
+public:
     /**
      * @cond
      */
@@ -141,14 +145,16 @@ struct Boolean : public Base {
 /**
  * @brief JSON null.
  */
-struct Nothing : public Base {
+class Nothing final : public Base {
+public:
     Type type() const { return NOTHING; }
 };
 
 /**
  * @brief JSON array.
  */
-struct Array : public Base {
+class Array final : public Base {
+public:
     Type type() const { return ARRAY; }
 
     /**
@@ -168,7 +174,8 @@ struct Array : public Base {
 /**
  * @brief JSON object.
  */
-struct Object : public Base {
+class Object final : public Base {
+public:
     Type type() const { return OBJECT; }
 
     /**
@@ -218,8 +225,7 @@ inline const std::vector<std::shared_ptr<Base> >& Base::get_array() const {
 }
 
 template<class Input_>
-bool chomp(Input_& input) {
-    bool ok = input.valid();
+bool raw_chomp(Input_& input, bool ok) {
     while (ok) {
         switch(input.get()) {
             // Allowable whitespaces as of https://www.rfc-editor.org/rfc/rfc7159#section-2.
@@ -234,11 +240,15 @@ bool chomp(Input_& input) {
 }
 
 template<class Input_>
+bool chomp(Input_& input) {
+    bool ok = input.valid();
+    return raw_chomp(input, ok);
+}
+
+template<class Input_>
 bool advance_and_chomp(Input_& input) {
-    if (!input.advance()) {
-        return false;
-    }
-    return chomp(input);
+    bool ok = input.advance();
+    return raw_chomp(input, ok);
 }
 
 inline bool is_digit(char val) {
@@ -553,41 +563,47 @@ struct DefaultProvisioner {
 };
 
 struct FakeProvisioner {
-    struct FakeBase {
+    class FakeBase {
+    public:
         virtual Type type() const = 0;
         virtual ~FakeBase() {}
     };
     typedef FakeBase base;
 
-    struct FakeBoolean : public FakeBase {
+    class FakeBoolean final : public FakeBase {
+    public:
         Type type() const { return BOOLEAN; }
     };
     static FakeBoolean* new_boolean(bool) {
         return new FakeBoolean; 
     }
 
-    struct FakeNumber : public FakeBase {
+    class FakeNumber final : public FakeBase {
+    public:    
         Type type() const { return NUMBER; }
     };
     static FakeNumber* new_number(double) {
         return new FakeNumber;
     }
 
-    struct FakeString : public FakeBase {
+    class FakeString final : public FakeBase {
+    public:
         Type type() const { return STRING; }
     };
     static FakeString* new_string(std::string) {
         return new FakeString;
     }
 
-    struct FakeNothing : public FakeBase {
+    class FakeNothing final : public FakeBase {
+    public:
         Type type() const { return NOTHING; }
     };
     static FakeNothing* new_nothing() {
         return new FakeNothing;
     }
 
-    struct FakeArray : public FakeBase {
+    class FakeArray final : public FakeBase {
+    public:
         Type type() const { return ARRAY; }
         void add(std::shared_ptr<FakeBase>) {}
     };
@@ -595,7 +611,8 @@ struct FakeProvisioner {
         return new FakeArray;
     }
 
-    struct FakeObject : public FakeBase {
+    class FakeObject final : public FakeBase {
+    public:
         Type type() const { return OBJECT; }
         std::unordered_set<std::string> keys;
         bool has(const std::string& key) const {
@@ -725,6 +742,7 @@ std::shared_ptr<typename Provisioner_::base> parse_thing(Input_& input) {
                     }
                 }
             }
+
             input.advance(); // skip the closing brace.
             break;
 
