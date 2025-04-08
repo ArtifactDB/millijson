@@ -3,7 +3,6 @@
 
 #include <memory>
 #include <vector>
-#include <cctype>
 #include <cstdlib>
 #include <string>
 #include <stdexcept>
@@ -218,22 +217,28 @@ inline const std::vector<std::shared_ptr<Base> >& Base::get_array() const {
     return static_cast<const Array*>(this)->values;
 }
 
-inline bool isspace(char x) {
-    // Allowable whitespaces as of https://www.rfc-editor.org/rfc/rfc7159#section-2.
-    return x == ' ' || x == '\n' || x == '\r' || x == '\t';
-}
-
-template<class Input>
-void chomp(Input& input) {
+template<class Input_>
+void chomp(Input_& input) {
     bool ok = input.valid();
-    while (ok && isspace(input.get())) {
+    while (ok) {
+        switch(input.get()) {
+            // Allowable whitespaces as of https://www.rfc-editor.org/rfc/rfc7159#section-2.
+            case ' ': case '\n': case '\r': case '\t':
+                break;
+            default:
+                return;
+        }
         ok = input.advance();
     }
     return;
 }
 
-template<class Input>
-bool is_expected_string(Input& input, const std::string& expected) {
+inline bool is_digit(char val) {
+    return val >= '0' && val <= '9';
+}
+
+template<class Input_>
+bool is_expected_string(Input_& input, const std::string& expected) {
     for (auto x : expected) {
         if (!input.valid()) {
             return false;
@@ -246,8 +251,8 @@ bool is_expected_string(Input& input, const std::string& expected) {
     return true;
 }
 
-template<class Input>
-std::string extract_string(Input& input) {
+template<class Input_>
+std::string extract_string(Input_& input) {
     size_t start = input.position() + 1;
     input.advance(); // get past the opening quote.
     std::string output;
@@ -258,6 +263,7 @@ std::string extract_string(Input& input) {
             case '"':
                 input.advance(); // get past the closing quote.
                 return output;
+
             case '\\':
                 if (!input.advance()) {
                     throw std::runtime_error("unterminated string at position " + std::to_string(start));
@@ -336,11 +342,13 @@ std::string extract_string(Input& input) {
                     }
                 }
                 break;
+
             case (char) 0: case (char) 1: case (char) 2: case (char) 3: case (char) 4: case (char) 5: case (char) 6: case (char) 7: case (char) 8: case (char) 9:
             case (char)10: case (char)11: case (char)12: case (char)13: case (char)14: case (char)15: case (char)16: case (char)17: case (char)18: case (char)19:
             case (char)20: case (char)21: case (char)22: case (char)23: case (char)24: case (char)25: case (char)26: case (char)27: case (char)28: case (char)29:
             case (char)30: case (char)31:
                 throw std::runtime_error("string contains ASCII control character at position " + std::to_string(input.position() + 1));
+
             default:
                 output += next;
                 break;
@@ -354,57 +362,61 @@ std::string extract_string(Input& input) {
     return output; // Technically unreachable, but whatever.
 }
 
-template<class Input>
-double extract_number(Input& input) {
+template<class Input_>
+double extract_number(Input_& input) {
     size_t start = input.position() + 1;
     double value = 0;
-    double fractional = 10;
-    double exponent = 0; 
-    bool negative_exponent = false;
-
-    auto is_terminator = [](char v) -> bool {
-        return v == ',' || v == ']' || v == '}' || isspace(v);
-    };
-
     bool in_fraction = false;
     bool in_exponent = false;
 
-    // We assume we're starting from the absolute value, after removing any preceding negative sign. 
+    // We assume we're starting from the absolute value, after removing any preceding negative sign.
     char lead = input.get();
     if (lead == '0') {
         if (!input.advance()) {
             return 0;
         }
 
-        char val = input.get();
-        if (val == '.') {
-            in_fraction = true;
-        } else if (val == 'e' || val == 'E') {
-            in_exponent = true;
-        } else if (is_terminator(val)) {
-            return value;
-        } else {
-            throw std::runtime_error("invalid number starting with 0 at position " + std::to_string(start));
-        }
-
-    } else if (std::isdigit(lead)) {
-        value += lead - '0';
-
-        while (input.advance()) {
-            char val = input.get();
-            if (val == '.') {
+        switch (input.get()) {
+            case '.':
                 in_fraction = true;
                 break;
-            } else if (val == 'e' || val == 'E') {
+            case 'e': case 'E':
                 in_exponent = true;
                 break;
-            } else if (is_terminator(val)) {
+            case ',': case ']': case '}': case ' ': case '\r': case '\n': case '\t':
                 return value;
-            } else if (!std::isdigit(val)) {
-                throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
+            default:
+                throw std::runtime_error("invalid number starting with 0 at position " + std::to_string(start));
+        }
+
+    } else if (is_digit(lead)) {
+        value += lead - '0';
+
+        bool done = [&]{ // wrapping it in an IIFE to easily break out of the loop inside the switch.
+            while (input.advance()) {
+                char val = input.get();
+                switch (input.get()) {
+                    case '.':
+                        in_fraction = true;
+                        return false;
+                    case 'e': case 'E':
+                        in_exponent = true;
+                        return false;
+                    case ',': case ']': case '}': case ' ': case '\r': case '\n': case '\t':
+                        return true;
+                    case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+                        value *= 10;
+                        value += val - '0';
+                        break;
+                    default:
+                        throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
+                }
             }
-            value *= 10;
-            value += val - '0';
+            return true; // this is reached only when we run out of digits.
+        }();
+
+        if (done) {
+            return value;
         }
 
     } else {
@@ -417,33 +429,48 @@ double extract_number(Input& input) {
         }
 
         char val = input.get();
-        if (!std::isdigit(val)) {
+        if (!is_digit(val)) {
             throw std::runtime_error("'.' must be followed by at least one digit at position " + std::to_string(start));
         }
+
+        double fractional = 10;
         value += (val - '0') / fractional;
 
-        while (input.advance()) {
-            char val = input.get();
-            if (val == 'e' || val == 'E') {
-                in_exponent = true;
-                break;
-            } else if (is_terminator(val)) {
-                return value;
-            } else if (!std::isdigit(val)) {
-                throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
-            }
-            fractional *= 10;
-            value += (val - '0') / fractional;
-        } 
+        bool done = [&]{ // wrapping it in an IIFE to easily break out of the loop inside the switch.
+            while (input.advance()) {
+                char val = input.get();
+                switch (input.get()) {
+                    case 'e': case 'E':
+                        in_exponent = true;
+                        return false;
+                    case ',': case ']': case '}': case ' ': case '\r': case '\n': case '\t':
+                        return true;
+                    case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+                        fractional *= 10;
+                        value += (val - '0') / fractional;
+                        break;
+                    default:
+                        throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
+                }
+            } 
+            return true; // should only be reached if we ran out of digits.
+        }();
+
+        if (done) {
+            return value;
+        }
     }
 
     if (in_exponent) {
+        double exponent = 0; 
+        bool negative_exponent = false;
+
         if (!input.advance()) {
             throw std::runtime_error("invalid number with trailing 'e/E' at position " + std::to_string(start));
         }
 
         char val = input.get();
-        if (!std::isdigit(val)) {
+        if (!is_digit(val)) {
             if (val == '-') {
                 negative_exponent = true;
             } else if (val != '+') {
@@ -454,7 +481,7 @@ double extract_number(Input& input) {
                 throw std::runtime_error("invalid number with trailing exponent sign at position " + std::to_string(start));
             }
             val = input.get();
-            if (!std::isdigit(val)) {
+            if (!is_digit(val)) {
                 throw std::runtime_error("exponent sign must be followed by at least one digit in number at position " + std::to_string(start));
             }
         }
@@ -463,14 +490,17 @@ double extract_number(Input& input) {
 
         while (input.advance()) {
             char val = input.get();
-            if (is_terminator(val)) {
-                break;
-            } else if (!std::isdigit(val)) {
-                throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
+            switch (val) {
+                case ',': case ']': case '}': case ' ': case '\r': case '\n': case '\t':
+                    return;
+                case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+                    exponent *= 10;
+                    exponent += (val - '0');
+                    break;
+                default:
+                    throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
             }
-            exponent *= 10;
-            exponent += (val - '0');
-        } 
+        }
 
         if (exponent) {
             if (negative_exponent) {
@@ -569,148 +599,157 @@ struct FakeProvisioner {
     }
 };
 
-template<class Provisioner, class Input>
-std::shared_ptr<typename Provisioner::base> parse_thing(Input& input) {
-    std::shared_ptr<typename Provisioner::base> output;
+template<class Provisioner_, class Input_>
+std::shared_ptr<typename Provisioner_::base> parse_thing(Input_& input) {
+    std::shared_ptr<typename Provisioner_::base> output;
 
     size_t start = input.position() + 1;
     const char current = input.get();
 
-    if (current == 't') {
-        if (!is_expected_string(input, "true")) {
-            throw std::runtime_error("expected a 'true' string at position " + std::to_string(start));
-        }
-        output.reset(Provisioner::new_boolean(true));
+    switch(current) {
+        case 't':
+            if (!is_expected_string(input, "true")) {
+                throw std::runtime_error("expected a 'true' string at position " + std::to_string(start));
+            }
+            output.reset(Provisioner::new_boolean(true));
+            break;
 
-    } else if (current == 'f') {
-        if (!is_expected_string(input, "false")) {
-            throw std::runtime_error("expected a 'false' string at position " + std::to_string(start));
-        }
-        output.reset(Provisioner::new_boolean(false));
+        case 'f':
+            if (!is_expected_string(input, "false")) {
+                throw std::runtime_error("expected a 'false' string at position " + std::to_string(start));
+            }
+            output.reset(Provisioner::new_boolean(false));
+            break;
 
-    } else if (current == 'n') {
-        if (!is_expected_string(input, "null")) {
-            throw std::runtime_error("expected a 'null' string at position " + std::to_string(start));
-        }
-        output.reset(Provisioner::new_nothing());
+        case 'n':
+            if (!is_expected_string(input, "null")) {
+                throw std::runtime_error("expected a 'null' string at position " + std::to_string(start));
+            }
+            output.reset(Provisioner::new_nothing());
+            break;
 
-    } else if (current == '"') {
-        output.reset(Provisioner::new_string(extract_string(input)));
+        case '"': 
+            output.reset(Provisioner::new_string(extract_string(input)));
+            break;
 
-    } else if (current == '[') {
-        auto ptr = Provisioner::new_array();
-        output.reset(ptr);
+        case '[':
+            auto ptr = Provisioner::new_array();
+            output.reset(ptr);
 
-        input.advance();
-        chomp(input);
-        if (!input.valid()) {
-            throw std::runtime_error("unterminated array starting at position " + std::to_string(start));
-        }
+            input.advance();
+            chomp(input);
+            if (!input.valid()) {
+                throw std::runtime_error("unterminated array starting at position " + std::to_string(start));
+            }
 
-        if (input.get() != ']') {
-            while (1) {
-                ptr->add(parse_thing<Provisioner>(input));
+            if (input.get() != ']') {
+                while (1) {
+                    ptr->add(parse_thing<Provisioner>(input));
 
-                chomp(input);
-                if (!input.valid()) {
-                    throw std::runtime_error("unterminated array starting at position " + std::to_string(start));
-                }
+                    chomp(input);
+                    if (!input.valid()) {
+                        throw std::runtime_error("unterminated array starting at position " + std::to_string(start));
+                    }
 
-                char next = input.get();
-                if (next == ']') {
-                    break;
-                } else if (next != ',') {
-                    throw std::runtime_error("unknown character '" + std::string(1, next) + "' in array at position " + std::to_string(input.position() + 1));
-                }
+                    char next = input.get();
+                    if (next == ']') {
+                        break;
+                    } else if (next != ',') {
+                        throw std::runtime_error("unknown character '" + std::string(1, next) + "' in array at position " + std::to_string(input.position() + 1));
+                    }
 
-                input.advance(); 
-                chomp(input);
-                if (!input.valid()) {
-                    throw std::runtime_error("unterminated array starting at position " + std::to_string(start));
+                    input.advance(); 
+                    chomp(input);
+                    if (!input.valid()) {
+                        throw std::runtime_error("unterminated array starting at position " + std::to_string(start));
+                    }
                 }
             }
-        }
 
-        input.advance(); // skip the closing bracket.
+            input.advance(); // skip the closing bracket.
+            break;
 
-    } else if (current == '{') {
-        auto ptr = Provisioner::new_object();
-        output.reset(ptr);
+        case '{':
+            auto ptr = Provisioner::new_object();
+            output.reset(ptr);
 
-        input.advance();
-        chomp(input);
-        if (!input.valid()) {
-            throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
-        }
+            input.advance();
+            chomp(input);
+            if (!input.valid()) {
+                throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
+            }
 
-        if (input.get() != '}') {
-            while (1) {
-                char next = input.get();
-                if (next != '"') {
-                    throw std::runtime_error("expected a string as the object key at position " + std::to_string(input.position() + 1));
-                }
-                auto key = extract_string(input);
-                if (ptr->has(key)) {
-                    throw std::runtime_error("detected duplicate keys in the object at position " + std::to_string(input.position() + 1));
-                }
+            if (input.get() != '}') {
+                while (1) {
+                    char next = input.get();
+                    if (next != '"') {
+                        throw std::runtime_error("expected a string as the object key at position " + std::to_string(input.position() + 1));
+                    }
+                    auto key = extract_string(input);
+                    if (ptr->has(key)) {
+                        throw std::runtime_error("detected duplicate keys in the object at position " + std::to_string(input.position() + 1));
+                    }
 
-                chomp(input);
-                if (!input.valid()) {
-                    throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
-                }
-                if (input.get() != ':') {
-                    throw std::runtime_error("expected ':' to separate keys and values at position " + std::to_string(input.position() + 1));
-                }
+                    chomp(input);
+                    if (!input.valid()) {
+                        throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
+                    }
+                    if (input.get() != ':') {
+                        throw std::runtime_error("expected ':' to separate keys and values at position " + std::to_string(input.position() + 1));
+                    }
 
-                input.advance();
-                chomp(input);
-                if (!input.valid()) {
-                    throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
-                }
-                ptr->add(std::move(key), parse_thing<Provisioner>(input)); // consuming the key here.
+                    input.advance();
+                    chomp(input);
+                    if (!input.valid()) {
+                        throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
+                    }
+                    ptr->add(std::move(key), parse_thing<Provisioner>(input)); // consuming the key here.
 
-                chomp(input);
-                if (!input.valid()) {
-                    throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
-                }
+                    chomp(input);
+                    if (!input.valid()) {
+                        throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
+                    }
 
-                next = input.get();
-                if (next == '}') {
-                    break;
-                } else if (next != ',') {
-                    throw std::runtime_error("unknown character '" + std::string(1, next) + "' in array at position " + std::to_string(input.position() + 1));
-                }
+                    next = input.get();
+                    if (next == '}') {
+                        break;
+                    } else if (next != ',') {
+                        throw std::runtime_error("unknown character '" + std::string(1, next) + "' in array at position " + std::to_string(input.position() + 1));
+                    }
 
-                input.advance(); 
-                chomp(input);
-                if (!input.valid()) {
-                    throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
+                    input.advance(); 
+                    chomp(input);
+                    if (!input.valid()) {
+                        throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
+                    }
                 }
             }
-        }
 
-        input.advance(); // skip the closing brace.
+            input.advance(); // skip the closing brace.
+            break;
 
-    } else if (current == '-') {
-        if (!input.advance()) {
-            throw std::runtime_error("incomplete number starting at position " + std::to_string(start));
-        }
-        output.reset(Provisioner::new_number(-extract_number(input)));
+        case '-':
+            if (!input.advance()) {
+                throw std::runtime_error("incomplete number starting at position " + std::to_string(start));
+            }
+            output.reset(Provisioner::new_number(-extract_number(input)));
+            break;
 
-    } else if (std::isdigit(current)) {
-        output.reset(Provisioner::new_number(extract_number(input)));
+        case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+            output.reset(Provisioner::new_number(extract_number(input)));
+            break;
 
-    } else {
-        throw std::runtime_error(std::string("unknown type starting with '") + std::string(1, current) + "' at position " + std::to_string(start));
+        default:
+            throw std::runtime_error(std::string("unknown type starting with '") + std::string(1, current) + "' at position " + std::to_string(start));
     }
 
     return output;
 }
 
-template<class Provisioner, class Input>
-std::shared_ptr<typename Provisioner::base> parse_thing_with_chomp(Input& input) {
+template<class Provisioner_, class Input_>
+std::shared_ptr<typename Provisioner_::base> parse_thing_with_chomp(Input_& input) {
     chomp(input);
-    auto output = parse_thing<Provisioner>(input);
+    auto output = parse_thing<Provisioner_>(input);
     chomp(input);
     if (input.valid()) {
         throw std::runtime_error("invalid json with trailing non-space characters at position " + std::to_string(input.position() + 1));
@@ -722,7 +761,7 @@ std::shared_ptr<typename Provisioner::base> parse_thing_with_chomp(Input& input)
  */
 
 /**
- * @tparam Input Any class that provides the following methods:
+ * @tparam Input_ Any class that provides the following methods:
  *
  * - `char get() const `, which extracts a `char` from the input source without advancing the position on the byte stream.
  * - `bool valid() const`, to determine whether an input `char` can be `get()` from the input.
@@ -732,20 +771,20 @@ std::shared_ptr<typename Provisioner::base> parse_thing_with_chomp(Input& input)
  * @param input An instance of an `Input` class, referring to the bytes from a JSON-formatted file or string.
  * @return A pointer to a JSON value.
  */
-template<class Input>
+template<class Input_>
 std::shared_ptr<Base> parse(Input& input) {
     return parse_thing_with_chomp<DefaultProvisioner>(input);
 }
 
 /**
- * @tparam Input Any class that supplies input characters, see `parse()` for details. 
+ * @tparam Input_ Any class that supplies input characters, see `parse()` for details. 
  *
  * @param input An instance of an `Input` class, referring to the bytes from a JSON-formatted file or string.
  *
  * @return The type of the JSON variable stored in `input`.
  * If the JSON string is invalid, an error is raised.
  */
-template<class Input>
+template<class Input_>
 Type validate(Input& input) {
     auto ptr = parse_thing_with_chomp<FakeProvisioner>(input);
     return ptr->type();
@@ -754,27 +793,31 @@ Type validate(Input& input) {
 /**
  * @cond
  */
-struct RawReader {
-    RawReader(const char* p, size_t n) : ptr_(p), len_(n) {}
-    size_t pos_ = 0;
-    const char * ptr_;
-    size_t len_;
+class RawReader {
+public:
+    RawReader(const char* ptr, size_t len) : my_ptr(ptr), my_len(len) {}
 
+private:
+    size_t my_pos = 0;
+    const char * my_ptr;
+    size_t my_len;
+
+public:
     char get() const {
-        return ptr_[pos_];
+        return my_ptr[my_pos];
     }
 
     bool valid() const {
-        return pos_ < len_;
+        return my_pos < my_len;
     }
 
     bool advance() {
-        ++pos_;
+        ++my_pos;
         return valid();
     }
 
     size_t position() const {
-        return pos_;
+        return my_pos;
     }
 };
 /**
@@ -806,7 +849,8 @@ inline Type validate_string(const char* ptr, size_t len) {
 /**
  * @cond
  */
-struct FileReader{
+class FileReader {
+public:
     FileReader(const char* p, size_t b) : handle(std::fopen(p, "rb")), buffer(b) {
         if (!handle) {
             throw std::runtime_error("failed to open file at '" + std::string(p) + "'");
@@ -818,53 +862,55 @@ struct FileReader{
         std::fclose(handle);
     }
 
-    FILE* handle;
-    std::vector<char> buffer;
-    size_t available = 0;
-    size_t index = 0;
-    size_t overall = 0;
-    bool finished = false;
+private:
+    FILE* my_handle;
+    std::vector<char> my_buffer;
+    size_t my_available = 0;
+    size_t my_index = 0;
+    size_t my_overall = 0;
+    bool my_finished = false;
 
+public:
     char get() const {
-        return buffer[index];
+        return my_buffer[my_index];
     }
 
     bool valid() const {
-        return index < available;
+        return my_index < my_available;
     }
 
     bool advance() {
-        ++index;
-        if (index < available) {
+        ++my_index;
+        if (my_index < my_available) {
             return true;
         }
 
-        index = 0;
-        overall += available;
+        my_index = 0;
+        overall += my_available;
         fill();
         return valid();
     }
 
     void fill() {
-        if (finished) {
-            available = 0;
+        if (my_finished) {
+            my_available = 0;
             return;
         }
 
-        available = std::fread(buffer.data(), sizeof(char), buffer.size(), handle);
-        if (available == buffer.size()) {
+        my_available = std::fread(my_buffer.data(), sizeof(char), my_buffer.size(), my_handle);
+        if (my_available == my_buffer.size()) {
             return;
         }
 
-        if (std::feof(handle)) {
+        if (std::feof(my_handle)) {
             finished = true;
         } else {
-            throw std::runtime_error("failed to read file (error " + std::to_string(std::ferror(handle)) + ")");
+            throw std::runtime_error("failed to read file (error " + std::to_string(std::ferror(my_handle)) + ")");
         }
     }
 
     size_t position() const {
-        return overall + index;
+        return my_overall + my_index;
     }
 };
 /**
