@@ -392,7 +392,7 @@ double extract_number(Input_& input) {
     } else { // 'lead' must be a digit, as extract_number is only called when the current character is a digit.
         value += lead - '0';
 
-        bool done = [&]{ // wrapping it in an IIFE to easily break out of the loop inside the switch.
+        bool finished = [&]{ // wrapping it in an IIFE to easily break out of the loop inside the switch.
             while (input.advance()) {
                 char val = input.get();
                 switch (input.get()) {
@@ -415,7 +415,7 @@ double extract_number(Input_& input) {
             return true; // this is reached only when we run out of digits.
         }();
 
-        if (done) {
+        if (finished) {
             return value;
         }
     }
@@ -433,7 +433,7 @@ double extract_number(Input_& input) {
         double fractional = 10;
         value += (val - '0') / fractional;
 
-        bool done = [&]{ // wrapping it in an IIFE to easily break out of the loop inside the switch.
+        bool finished = [&]{ // wrapping it in an IIFE to easily break out of the loop inside the switch.
             while (input.advance()) {
                 char val = input.get();
                 switch (input.get()) {
@@ -453,7 +453,7 @@ double extract_number(Input_& input) {
             return true; // should only be reached if we ran out of digits.
         }();
 
-        if (done) {
+        if (finished) {
             return value;
         }
     }
