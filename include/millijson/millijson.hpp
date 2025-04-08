@@ -389,7 +389,7 @@ double extract_number(Input_& input) {
                 throw std::runtime_error("invalid number starting with 0 at position " + std::to_string(start));
         }
 
-    } else if (is_digit(lead)) {
+    } else { // 'lead' must be a digit, as extract_number is only called when the current character is a digit.
         value += lead - '0';
 
         bool done = [&]{ // wrapping it in an IIFE to easily break out of the loop inside the switch.
@@ -418,9 +418,6 @@ double extract_number(Input_& input) {
         if (done) {
             return value;
         }
-
-    } else {
-        // this should never happen, as extract_number is only called when the lead is a digit (or '-').
     }
 
     if (in_fraction) {
@@ -736,6 +733,9 @@ std::shared_ptr<typename Provisioner_::base> parse_thing(Input_& input) {
             if (!input.advance()) {
                 throw std::runtime_error("incomplete number starting at position " + std::to_string(start));
             }
+            if (!is_digit(input.get())) {
+                throw std::runtime_error("invalid number starting at position " + std::to_string(start));
+            }
             output.reset(Provisioner_::new_number(-extract_number(input)));
             break;
 
@@ -965,7 +965,7 @@ inline std::shared_ptr<Base> parse_file(const char* path, size_t buffer_size = 6
 inline Type validate_file(const char* path, size_t buffer_size = 65536) {
     FileReadOptions opt;
     opt.buffer_size = buffer_size;
-    return validate(path, opt);
+    return validate_file(path, opt);
 }
 /**
  * @endcond

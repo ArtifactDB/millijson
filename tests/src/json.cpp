@@ -109,6 +109,12 @@ TEST(JsonParsingTest, IntegerLoading) {
     }
 
     {
+        auto output = parse_raw_json_string(" 12345 ");
+        EXPECT_EQ(output->type(), millijson::NUMBER);
+        EXPECT_EQ(static_cast<millijson::Number*>(output.get())->value, 12345);
+    }
+
+    {
         auto output = parse_raw_json_string(" 123"); // no trailing space.
         EXPECT_EQ(output->type(), millijson::NUMBER);
         EXPECT_EQ(static_cast<millijson::Number*>(output.get())->value, 123);
@@ -136,6 +142,7 @@ TEST(JsonParsingTest, IntegerLoading) {
     parse_raw_json_error(" 0123456 ", "starting with 0");
     parse_raw_json_error(" 1.", "trailing '.'");
     parse_raw_json_error(" -", "incomplete number");
+    parse_raw_json_error(" -a", "invalid number");
 }
 
 TEST(JsonParsingTest, FractionLoading) {
