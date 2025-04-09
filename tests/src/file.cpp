@@ -54,7 +54,16 @@ TEST_P(FileParsingTest, BytemeCompatibility) {
         output << foo << std::endl;
     }
 
-    byteme::PerByte pb(std::make_unique<byteme::RawFileReader>("TEST.json", GetParam()));
+    byteme::PerByteSerial<char> pb(
+        std::make_unique<byteme::RawFileReader>(
+            "TEST.json",
+            [&]{
+                byteme::RawFileReaderOptions opt;
+                opt.buffer_size = GetParam();
+                return opt;
+            }()
+        )
+    );
     auto output = millijson::parse(pb);
 
     EXPECT_EQ(output->type(), millijson::OBJECT);
