@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['object_0',['Object',['../structmillijson_1_1Object.html',1,'millijson']]]
+  ['nothing_0',['Nothing',['../classmillijson_1_1Nothing.html',1,'millijson']]],
+  ['number_1',['Number',['../classmillijson_1_1Number.html',1,'millijson']]]
 ];

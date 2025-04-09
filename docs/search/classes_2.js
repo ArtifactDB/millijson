@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['nothing_0',['Nothing',['../structmillijson_1_1Nothing.html',1,'millijson']]],
-  ['number_1',['Number',['../structmillijson_1_1Number.html',1,'millijson']]]
+  ['filereadoptions_0',['FileReadOptions',['../structmillijson_1_1FileReadOptions.html',1,'millijson']]]
 ];
