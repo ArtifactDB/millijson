@@ -371,6 +371,7 @@ std::string extract_string(Input_& input) {
             case (char)10: case (char)11: case (char)12: case (char)13: case (char)14: case (char)15: case (char)16: case (char)17: case (char)18: case (char)19:
             case (char)20: case (char)21: case (char)22: case (char)23: case (char)24: case (char)25: case (char)26: case (char)27: case (char)28: case (char)29:
             case (char)30: case (char)31:
+            case (char)127:
                 throw std::runtime_error("string contains ASCII control character at position " + std::to_string(input.position() + 1));
 
             default:
