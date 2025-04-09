@@ -224,6 +224,8 @@ inline const std::vector<std::shared_ptr<Base> >& Base::get_array() const {
     return static_cast<const Array*>(this)->values;
 }
 
+// Return value of the various chomp functions indicates whether there are any
+// characters left in 'input', allowing us to avoid an extra call to valid(). 
 template<class Input_>
 bool raw_chomp(Input_& input, bool ok) {
     while (ok) {
@@ -236,11 +238,11 @@ bool raw_chomp(Input_& input, bool ok) {
         }
         ok = input.advance();
     }
-    return false; // return value indicates whether there are any characters left in 'input'.
+    return false;
 }
 
 template<class Input_>
-bool chomp(Input_& input) {
+bool check_and_chomp(Input_& input) {
     bool ok = input.valid();
     return raw_chomp(input, ok);
 }
@@ -673,7 +675,7 @@ std::shared_ptr<typename Provisioner_::base> parse_thing(Input_& input) {
                     while (1) {
                         ptr->add(parse_thing<Provisioner_>(input));
 
-                        if (!chomp(input)) {
+                        if (!check_and_chomp(input)) {
                             throw std::runtime_error("unterminated array starting at position " + std::to_string(start));
                         }
 
@@ -713,7 +715,7 @@ std::shared_ptr<typename Provisioner_::base> parse_thing(Input_& input) {
                             throw std::runtime_error("detected duplicate keys in the object at position " + std::to_string(input.position() + 1));
                         }
 
-                        if (!chomp(input)) {
+                        if (!check_and_chomp(input)) {
                             throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
                         }
                         if (input.get() != ':') {
@@ -725,7 +727,7 @@ std::shared_ptr<typename Provisioner_::base> parse_thing(Input_& input) {
                         }
                         ptr->add(std::move(key), parse_thing<Provisioner_>(input)); // consuming the key here.
 
-                        if (!chomp(input)) {
+                        if (!check_and_chomp(input)) {
                             throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
                         }
 
@@ -769,11 +771,12 @@ std::shared_ptr<typename Provisioner_::base> parse_thing(Input_& input) {
 
 template<class Provisioner_, class Input_>
 std::shared_ptr<typename Provisioner_::base> parse_thing_with_chomp(Input_& input) {
-    chomp(input);
+    if (!check_and_chomp(input)) {
+        throw std::runtime_error("invalid JSON with no contents");
+    }
     auto output = parse_thing<Provisioner_>(input);
-    if (chomp(input)) {
-        std::cout << (int)input.get() << std::endl;
-        throw std::runtime_error("invalid json with trailing non-space characters at position " + std::to_string(input.position() + 1));
+    if (check_and_chomp(input)) {
+        throw std::runtime_error("invalid JSON with trailing non-space characters at position " + std::to_string(input.position() + 1));
     }
     return output;
 }
