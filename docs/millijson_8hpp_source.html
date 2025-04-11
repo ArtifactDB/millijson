@@ -789,160 +789,160 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00781" name="l00781"></a><span class="lineno">  781</span>    }</div>
 <div class="line"><a id="l00782" name="l00782"></a><span class="lineno">  782</span>    <span class="keywordflow">return</span> output;</div>
 <div class="line"><a id="l00783" name="l00783"></a><span class="lineno">  783</span>}</div>
-<div class="line"><a id="l00799" name="l00799"></a><span class="lineno">  799</span><span class="keyword">template</span>&lt;<span class="keyword">class</span> Input_&gt;</div>
-<div class="foldopen" id="foldopen00800" data-start="{" data-end="}">
-<div class="line"><a id="l00800" name="l00800"></a><span class="lineno"><a class="line" href="namespacemillijson.html#aac596a9636c9f8862d447b033df8fd3e">  800</a></span>std::shared_ptr&lt;Base&gt; <a class="code hl_function" href="namespacemillijson.html#aac596a9636c9f8862d447b033df8fd3e">parse</a>(Input_&amp; input) {</div>
-<div class="line"><a id="l00801" name="l00801"></a><span class="lineno">  801</span>    <span class="keywordflow">return</span> parse_thing_with_chomp&lt;DefaultProvisioner&gt;(input);</div>
-<div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span>}</div>
+<div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span><span class="keyword">template</span>&lt;<span class="keyword">class</span> Input_&gt;</div>
+<div class="foldopen" id="foldopen00801" data-start="{" data-end="}">
+<div class="line"><a id="l00801" name="l00801"></a><span class="lineno"><a class="line" href="namespacemillijson.html#aac596a9636c9f8862d447b033df8fd3e">  801</a></span>std::shared_ptr&lt;Base&gt; <a class="code hl_function" href="namespacemillijson.html#aac596a9636c9f8862d447b033df8fd3e">parse</a>(Input_&amp; input) {</div>
+<div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span>    <span class="keywordflow">return</span> parse_thing_with_chomp&lt;DefaultProvisioner&gt;(input);</div>
+<div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span>}</div>
 </div>
-<div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span> </div>
-<div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span><span class="keyword">template</span>&lt;<span class="keyword">class</span> Input_&gt;</div>
-<div class="foldopen" id="foldopen00813" data-start="{" data-end="}">
-<div class="line"><a id="l00813" name="l00813"></a><span class="lineno"><a class="line" href="namespacemillijson.html#a5d202f16e1879c17199bbfbbc5059889">  813</a></span><a class="code hl_enumeration" href="namespacemillijson.html#aa16302fdbcf6f85a442a302b1745afb5">Type</a> <a class="code hl_function" href="namespacemillijson.html#a5d202f16e1879c17199bbfbbc5059889">validate</a>(Input_&amp; input) {</div>
-<div class="line"><a id="l00814" name="l00814"></a><span class="lineno">  814</span>    <span class="keyword">auto</span> ptr = parse_thing_with_chomp&lt;FakeProvisioner&gt;(input);</div>
-<div class="line"><a id="l00815" name="l00815"></a><span class="lineno">  815</span>    <span class="keywordflow">return</span> ptr-&gt;type();</div>
-<div class="line"><a id="l00816" name="l00816"></a><span class="lineno">  816</span>}</div>
+<div class="line"><a id="l00804" name="l00804"></a><span class="lineno">  804</span> </div>
+<div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span><span class="keyword">template</span>&lt;<span class="keyword">class</span> Input_&gt;</div>
+<div class="foldopen" id="foldopen00814" data-start="{" data-end="}">
+<div class="line"><a id="l00814" name="l00814"></a><span class="lineno"><a class="line" href="namespacemillijson.html#a5d202f16e1879c17199bbfbbc5059889">  814</a></span><a class="code hl_enumeration" href="namespacemillijson.html#aa16302fdbcf6f85a442a302b1745afb5">Type</a> <a class="code hl_function" href="namespacemillijson.html#a5d202f16e1879c17199bbfbbc5059889">validate</a>(Input_&amp; input) {</div>
+<div class="line"><a id="l00815" name="l00815"></a><span class="lineno">  815</span>    <span class="keyword">auto</span> ptr = parse_thing_with_chomp&lt;FakeProvisioner&gt;(input);</div>
+<div class="line"><a id="l00816" name="l00816"></a><span class="lineno">  816</span>    <span class="keywordflow">return</span> ptr-&gt;type();</div>
+<div class="line"><a id="l00817" name="l00817"></a><span class="lineno">  817</span>}</div>
 </div>
-<div class="line"><a id="l00817" name="l00817"></a><span class="lineno">  817</span> </div>
-<div class="line"><a id="l00821" name="l00821"></a><span class="lineno">  821</span><span class="keyword">class </span>RawReader {</div>
-<div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span>    RawReader(<span class="keyword">const</span> <span class="keywordtype">char</span>* ptr, <span class="keywordtype">size_t</span> len) : my_ptr(ptr), my_len(len) {}</div>
-<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span> </div>
-<div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span>    <span class="keywordtype">size_t</span> my_pos = 0;</div>
-<div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span>    <span class="keyword">const</span> <span class="keywordtype">char</span> * my_ptr;</div>
-<div class="line"><a id="l00828" name="l00828"></a><span class="lineno">  828</span>    <span class="keywordtype">size_t</span> my_len;</div>
-<div class="line"><a id="l00829" name="l00829"></a><span class="lineno">  829</span> </div>
-<div class="line"><a id="l00830" name="l00830"></a><span class="lineno">  830</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00831" name="l00831"></a><span class="lineno">  831</span>    <span class="keywordtype">char</span> get()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00832" name="l00832"></a><span class="lineno">  832</span>        <span class="keywordflow">return</span> my_ptr[my_pos];</div>
-<div class="line"><a id="l00833" name="l00833"></a><span class="lineno">  833</span>    }</div>
-<div class="line"><a id="l00834" name="l00834"></a><span class="lineno">  834</span> </div>
-<div class="line"><a id="l00835" name="l00835"></a><span class="lineno">  835</span>    <span class="keywordtype">bool</span> valid()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00836" name="l00836"></a><span class="lineno">  836</span>        <span class="keywordflow">return</span> my_pos &lt; my_len;</div>
-<div class="line"><a id="l00837" name="l00837"></a><span class="lineno">  837</span>    }</div>
-<div class="line"><a id="l00838" name="l00838"></a><span class="lineno">  838</span> </div>
-<div class="line"><a id="l00839" name="l00839"></a><span class="lineno">  839</span>    <span class="keywordtype">bool</span> advance() {</div>
-<div class="line"><a id="l00840" name="l00840"></a><span class="lineno">  840</span>        ++my_pos;</div>
-<div class="line"><a id="l00841" name="l00841"></a><span class="lineno">  841</span>        <span class="keywordflow">return</span> valid();</div>
-<div class="line"><a id="l00842" name="l00842"></a><span class="lineno">  842</span>    }</div>
-<div class="line"><a id="l00843" name="l00843"></a><span class="lineno">  843</span> </div>
-<div class="line"><a id="l00844" name="l00844"></a><span class="lineno">  844</span>    <span class="keywordtype">size_t</span> position()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00845" name="l00845"></a><span class="lineno">  845</span>        <span class="keywordflow">return</span> my_pos;</div>
-<div class="line"><a id="l00846" name="l00846"></a><span class="lineno">  846</span>    }</div>
-<div class="line"><a id="l00847" name="l00847"></a><span class="lineno">  847</span>};</div>
-<div class="foldopen" id="foldopen00857" data-start="{" data-end="}">
-<div class="line"><a id="l00857" name="l00857"></a><span class="lineno"><a class="line" href="namespacemillijson.html#a5d9a99b81f8e008903cfcc8544e03f53">  857</a></span><span class="keyword">inline</span> std::shared_ptr&lt;Base&gt; <a class="code hl_function" href="namespacemillijson.html#a5d9a99b81f8e008903cfcc8544e03f53">parse_string</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* ptr, <span class="keywordtype">size_t</span> len) {</div>
-<div class="line"><a id="l00858" name="l00858"></a><span class="lineno">  858</span>    RawReader input(ptr, len);</div>
-<div class="line"><a id="l00859" name="l00859"></a><span class="lineno">  859</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacemillijson.html#aac596a9636c9f8862d447b033df8fd3e">parse</a>(input);</div>
-<div class="line"><a id="l00860" name="l00860"></a><span class="lineno">  860</span>}</div>
+<div class="line"><a id="l00818" name="l00818"></a><span class="lineno">  818</span> </div>
+<div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span><span class="keyword">class </span>RawReader {</div>
+<div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span>    RawReader(<span class="keyword">const</span> <span class="keywordtype">char</span>* ptr, <span class="keywordtype">size_t</span> len) : my_ptr(ptr), my_len(len) {}</div>
+<div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span> </div>
+<div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span>    <span class="keywordtype">size_t</span> my_pos = 0;</div>
+<div class="line"><a id="l00828" name="l00828"></a><span class="lineno">  828</span>    <span class="keyword">const</span> <span class="keywordtype">char</span> * my_ptr;</div>
+<div class="line"><a id="l00829" name="l00829"></a><span class="lineno">  829</span>    <span class="keywordtype">size_t</span> my_len;</div>
+<div class="line"><a id="l00830" name="l00830"></a><span class="lineno">  830</span> </div>
+<div class="line"><a id="l00831" name="l00831"></a><span class="lineno">  831</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00832" name="l00832"></a><span class="lineno">  832</span>    <span class="keywordtype">char</span> get()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00833" name="l00833"></a><span class="lineno">  833</span>        <span class="keywordflow">return</span> my_ptr[my_pos];</div>
+<div class="line"><a id="l00834" name="l00834"></a><span class="lineno">  834</span>    }</div>
+<div class="line"><a id="l00835" name="l00835"></a><span class="lineno">  835</span> </div>
+<div class="line"><a id="l00836" name="l00836"></a><span class="lineno">  836</span>    <span class="keywordtype">bool</span> valid()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00837" name="l00837"></a><span class="lineno">  837</span>        <span class="keywordflow">return</span> my_pos &lt; my_len;</div>
+<div class="line"><a id="l00838" name="l00838"></a><span class="lineno">  838</span>    }</div>
+<div class="line"><a id="l00839" name="l00839"></a><span class="lineno">  839</span> </div>
+<div class="line"><a id="l00840" name="l00840"></a><span class="lineno">  840</span>    <span class="keywordtype">bool</span> advance() {</div>
+<div class="line"><a id="l00841" name="l00841"></a><span class="lineno">  841</span>        ++my_pos;</div>
+<div class="line"><a id="l00842" name="l00842"></a><span class="lineno">  842</span>        <span class="keywordflow">return</span> valid();</div>
+<div class="line"><a id="l00843" name="l00843"></a><span class="lineno">  843</span>    }</div>
+<div class="line"><a id="l00844" name="l00844"></a><span class="lineno">  844</span> </div>
+<div class="line"><a id="l00845" name="l00845"></a><span class="lineno">  845</span>    <span class="keywordtype">size_t</span> position()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00846" name="l00846"></a><span class="lineno">  846</span>        <span class="keywordflow">return</span> my_pos;</div>
+<div class="line"><a id="l00847" name="l00847"></a><span class="lineno">  847</span>    }</div>
+<div class="line"><a id="l00848" name="l00848"></a><span class="lineno">  848</span>};</div>
+<div class="foldopen" id="foldopen00858" data-start="{" data-end="}">
+<div class="line"><a id="l00858" name="l00858"></a><span class="lineno"><a class="line" href="namespacemillijson.html#a5d9a99b81f8e008903cfcc8544e03f53">  858</a></span><span class="keyword">inline</span> std::shared_ptr&lt;Base&gt; <a class="code hl_function" href="namespacemillijson.html#a5d9a99b81f8e008903cfcc8544e03f53">parse_string</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* ptr, <span class="keywordtype">size_t</span> len) {</div>
+<div class="line"><a id="l00859" name="l00859"></a><span class="lineno">  859</span>    RawReader input(ptr, len);</div>
+<div class="line"><a id="l00860" name="l00860"></a><span class="lineno">  860</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacemillijson.html#aac596a9636c9f8862d447b033df8fd3e">parse</a>(input);</div>
+<div class="line"><a id="l00861" name="l00861"></a><span class="lineno">  861</span>}</div>
 </div>
-<div class="line"><a id="l00861" name="l00861"></a><span class="lineno">  861</span> </div>
-<div class="foldopen" id="foldopen00869" data-start="{" data-end="}">
-<div class="line"><a id="l00869" name="l00869"></a><span class="lineno"><a class="line" href="namespacemillijson.html#a9ba75129059e2161877310cc4d947ff1">  869</a></span><span class="keyword">inline</span> <a class="code hl_enumeration" href="namespacemillijson.html#aa16302fdbcf6f85a442a302b1745afb5">Type</a> <a class="code hl_function" href="namespacemillijson.html#a9ba75129059e2161877310cc4d947ff1">validate_string</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* ptr, <span class="keywordtype">size_t</span> len) {</div>
-<div class="line"><a id="l00870" name="l00870"></a><span class="lineno">  870</span>    RawReader input(ptr, len);</div>
-<div class="line"><a id="l00871" name="l00871"></a><span class="lineno">  871</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacemillijson.html#a5d202f16e1879c17199bbfbbc5059889">validate</a>(input);</div>
-<div class="line"><a id="l00872" name="l00872"></a><span class="lineno">  872</span>}</div>
+<div class="line"><a id="l00862" name="l00862"></a><span class="lineno">  862</span> </div>
+<div class="foldopen" id="foldopen00870" data-start="{" data-end="}">
+<div class="line"><a id="l00870" name="l00870"></a><span class="lineno"><a class="line" href="namespacemillijson.html#a9ba75129059e2161877310cc4d947ff1">  870</a></span><span class="keyword">inline</span> <a class="code hl_enumeration" href="namespacemillijson.html#aa16302fdbcf6f85a442a302b1745afb5">Type</a> <a class="code hl_function" href="namespacemillijson.html#a9ba75129059e2161877310cc4d947ff1">validate_string</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* ptr, <span class="keywordtype">size_t</span> len) {</div>
+<div class="line"><a id="l00871" name="l00871"></a><span class="lineno">  871</span>    RawReader input(ptr, len);</div>
+<div class="line"><a id="l00872" name="l00872"></a><span class="lineno">  872</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacemillijson.html#a5d202f16e1879c17199bbfbbc5059889">validate</a>(input);</div>
+<div class="line"><a id="l00873" name="l00873"></a><span class="lineno">  873</span>}</div>
 </div>
-<div class="line"><a id="l00873" name="l00873"></a><span class="lineno">  873</span> </div>
-<div class="line"><a id="l00877" name="l00877"></a><span class="lineno">  877</span><span class="keyword">class </span>FileReader {</div>
-<div class="line"><a id="l00878" name="l00878"></a><span class="lineno">  878</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00879" name="l00879"></a><span class="lineno">  879</span>    FileReader(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">size_t</span> buffer_size) : my_handle(std::fopen(path, <span class="stringliteral">&quot;rb&quot;</span>)), my_buffer(buffer_size) {</div>
-<div class="line"><a id="l00880" name="l00880"></a><span class="lineno">  880</span>        <span class="keywordflow">if</span> (!my_handle) {</div>
-<div class="line"><a id="l00881" name="l00881"></a><span class="lineno">  881</span>            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;failed to open file at &#39;&quot;</span> + std::string(path) + <span class="stringliteral">&quot;&#39;&quot;</span>);</div>
-<div class="line"><a id="l00882" name="l00882"></a><span class="lineno">  882</span>        }</div>
-<div class="line"><a id="l00883" name="l00883"></a><span class="lineno">  883</span>        fill();</div>
-<div class="line"><a id="l00884" name="l00884"></a><span class="lineno">  884</span>    }</div>
-<div class="line"><a id="l00885" name="l00885"></a><span class="lineno">  885</span> </div>
-<div class="line"><a id="l00886" name="l00886"></a><span class="lineno">  886</span>    ~FileReader() {</div>
-<div class="line"><a id="l00887" name="l00887"></a><span class="lineno">  887</span>        std::fclose(my_handle);</div>
-<div class="line"><a id="l00888" name="l00888"></a><span class="lineno">  888</span>    }</div>
-<div class="line"><a id="l00889" name="l00889"></a><span class="lineno">  889</span> </div>
-<div class="line"><a id="l00890" name="l00890"></a><span class="lineno">  890</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00891" name="l00891"></a><span class="lineno">  891</span>    FILE* my_handle;</div>
-<div class="line"><a id="l00892" name="l00892"></a><span class="lineno">  892</span>    std::vector&lt;char&gt; my_buffer;</div>
-<div class="line"><a id="l00893" name="l00893"></a><span class="lineno">  893</span>    <span class="keywordtype">size_t</span> my_available = 0;</div>
-<div class="line"><a id="l00894" name="l00894"></a><span class="lineno">  894</span>    <span class="keywordtype">size_t</span> my_index = 0;</div>
-<div class="line"><a id="l00895" name="l00895"></a><span class="lineno">  895</span>    <span class="keywordtype">size_t</span> my_overall = 0;</div>
-<div class="line"><a id="l00896" name="l00896"></a><span class="lineno">  896</span>    <span class="keywordtype">bool</span> my_finished = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00897" name="l00897"></a><span class="lineno">  897</span> </div>
-<div class="line"><a id="l00898" name="l00898"></a><span class="lineno">  898</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00899" name="l00899"></a><span class="lineno">  899</span>    <span class="keywordtype">char</span> get()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00900" name="l00900"></a><span class="lineno">  900</span>        <span class="keywordflow">return</span> my_buffer[my_index];</div>
-<div class="line"><a id="l00901" name="l00901"></a><span class="lineno">  901</span>    }</div>
-<div class="line"><a id="l00902" name="l00902"></a><span class="lineno">  902</span> </div>
-<div class="line"><a id="l00903" name="l00903"></a><span class="lineno">  903</span>    <span class="keywordtype">bool</span> valid()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00904" name="l00904"></a><span class="lineno">  904</span>        <span class="keywordflow">return</span> my_index &lt; my_available;</div>
-<div class="line"><a id="l00905" name="l00905"></a><span class="lineno">  905</span>    }</div>
-<div class="line"><a id="l00906" name="l00906"></a><span class="lineno">  906</span> </div>
-<div class="line"><a id="l00907" name="l00907"></a><span class="lineno">  907</span>    <span class="keywordtype">bool</span> advance() {</div>
-<div class="line"><a id="l00908" name="l00908"></a><span class="lineno">  908</span>        ++my_index;</div>
-<div class="line"><a id="l00909" name="l00909"></a><span class="lineno">  909</span>        <span class="keywordflow">if</span> (my_index &lt; my_available) {</div>
-<div class="line"><a id="l00910" name="l00910"></a><span class="lineno">  910</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00911" name="l00911"></a><span class="lineno">  911</span>        }</div>
-<div class="line"><a id="l00912" name="l00912"></a><span class="lineno">  912</span> </div>
-<div class="line"><a id="l00913" name="l00913"></a><span class="lineno">  913</span>        my_index = 0;</div>
-<div class="line"><a id="l00914" name="l00914"></a><span class="lineno">  914</span>        my_overall += my_available;</div>
-<div class="line"><a id="l00915" name="l00915"></a><span class="lineno">  915</span>        fill();</div>
-<div class="line"><a id="l00916" name="l00916"></a><span class="lineno">  916</span>        <span class="keywordflow">return</span> valid();</div>
-<div class="line"><a id="l00917" name="l00917"></a><span class="lineno">  917</span>    }</div>
-<div class="line"><a id="l00918" name="l00918"></a><span class="lineno">  918</span> </div>
-<div class="line"><a id="l00919" name="l00919"></a><span class="lineno">  919</span>    <span class="keywordtype">void</span> fill() {</div>
-<div class="line"><a id="l00920" name="l00920"></a><span class="lineno">  920</span>        <span class="keywordflow">if</span> (my_finished) {</div>
-<div class="line"><a id="l00921" name="l00921"></a><span class="lineno">  921</span>            my_available = 0;</div>
-<div class="line"><a id="l00922" name="l00922"></a><span class="lineno">  922</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00923" name="l00923"></a><span class="lineno">  923</span>        }</div>
-<div class="line"><a id="l00924" name="l00924"></a><span class="lineno">  924</span> </div>
-<div class="line"><a id="l00925" name="l00925"></a><span class="lineno">  925</span>        my_available = std::fread(my_buffer.data(), <span class="keyword">sizeof</span>(<span class="keywordtype">char</span>), my_buffer.size(), my_handle);</div>
-<div class="line"><a id="l00926" name="l00926"></a><span class="lineno">  926</span>        <span class="keywordflow">if</span> (my_available == my_buffer.size()) {</div>
-<div class="line"><a id="l00927" name="l00927"></a><span class="lineno">  927</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00928" name="l00928"></a><span class="lineno">  928</span>        }</div>
-<div class="line"><a id="l00929" name="l00929"></a><span class="lineno">  929</span> </div>
-<div class="line"><a id="l00930" name="l00930"></a><span class="lineno">  930</span>        <span class="keywordflow">if</span> (std::feof(my_handle)) {</div>
-<div class="line"><a id="l00931" name="l00931"></a><span class="lineno">  931</span>            my_finished = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00932" name="l00932"></a><span class="lineno">  932</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00933" name="l00933"></a><span class="lineno">  933</span>            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;failed to read file (error &quot;</span> + std::to_string(std::ferror(my_handle)) + <span class="stringliteral">&quot;)&quot;</span>);</div>
-<div class="line"><a id="l00934" name="l00934"></a><span class="lineno">  934</span>        }</div>
-<div class="line"><a id="l00935" name="l00935"></a><span class="lineno">  935</span>    }</div>
-<div class="line"><a id="l00936" name="l00936"></a><span class="lineno">  936</span> </div>
-<div class="line"><a id="l00937" name="l00937"></a><span class="lineno">  937</span>    <span class="keywordtype">size_t</span> position()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00938" name="l00938"></a><span class="lineno">  938</span>        <span class="keywordflow">return</span> my_overall + my_index;</div>
-<div class="line"><a id="l00939" name="l00939"></a><span class="lineno">  939</span>    }</div>
-<div class="line"><a id="l00940" name="l00940"></a><span class="lineno">  940</span>};</div>
-<div class="foldopen" id="foldopen00948" data-start="{" data-end="};">
-<div class="line"><a id="l00948" name="l00948"></a><span class="lineno"><a class="line" href="structmillijson_1_1FileReadOptions.html">  948</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structmillijson_1_1FileReadOptions.html">FileReadOptions</a> {</div>
-<div class="line"><a id="l00952" name="l00952"></a><span class="lineno"><a class="line" href="structmillijson_1_1FileReadOptions.html#ab5f49ec8d3601c3d927e44daab7fd903">  952</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structmillijson_1_1FileReadOptions.html#ab5f49ec8d3601c3d927e44daab7fd903">buffer_size</a> = 65536;</div>
-<div class="line"><a id="l00953" name="l00953"></a><span class="lineno">  953</span>};</div>
+<div class="line"><a id="l00874" name="l00874"></a><span class="lineno">  874</span> </div>
+<div class="line"><a id="l00878" name="l00878"></a><span class="lineno">  878</span><span class="keyword">class </span>FileReader {</div>
+<div class="line"><a id="l00879" name="l00879"></a><span class="lineno">  879</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00880" name="l00880"></a><span class="lineno">  880</span>    FileReader(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">size_t</span> buffer_size) : my_handle(std::fopen(path, <span class="stringliteral">&quot;rb&quot;</span>)), my_buffer(buffer_size) {</div>
+<div class="line"><a id="l00881" name="l00881"></a><span class="lineno">  881</span>        <span class="keywordflow">if</span> (!my_handle) {</div>
+<div class="line"><a id="l00882" name="l00882"></a><span class="lineno">  882</span>            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;failed to open file at &#39;&quot;</span> + std::string(path) + <span class="stringliteral">&quot;&#39;&quot;</span>);</div>
+<div class="line"><a id="l00883" name="l00883"></a><span class="lineno">  883</span>        }</div>
+<div class="line"><a id="l00884" name="l00884"></a><span class="lineno">  884</span>        fill();</div>
+<div class="line"><a id="l00885" name="l00885"></a><span class="lineno">  885</span>    }</div>
+<div class="line"><a id="l00886" name="l00886"></a><span class="lineno">  886</span> </div>
+<div class="line"><a id="l00887" name="l00887"></a><span class="lineno">  887</span>    ~FileReader() {</div>
+<div class="line"><a id="l00888" name="l00888"></a><span class="lineno">  888</span>        std::fclose(my_handle);</div>
+<div class="line"><a id="l00889" name="l00889"></a><span class="lineno">  889</span>    }</div>
+<div class="line"><a id="l00890" name="l00890"></a><span class="lineno">  890</span> </div>
+<div class="line"><a id="l00891" name="l00891"></a><span class="lineno">  891</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00892" name="l00892"></a><span class="lineno">  892</span>    FILE* my_handle;</div>
+<div class="line"><a id="l00893" name="l00893"></a><span class="lineno">  893</span>    std::vector&lt;char&gt; my_buffer;</div>
+<div class="line"><a id="l00894" name="l00894"></a><span class="lineno">  894</span>    <span class="keywordtype">size_t</span> my_available = 0;</div>
+<div class="line"><a id="l00895" name="l00895"></a><span class="lineno">  895</span>    <span class="keywordtype">size_t</span> my_index = 0;</div>
+<div class="line"><a id="l00896" name="l00896"></a><span class="lineno">  896</span>    <span class="keywordtype">size_t</span> my_overall = 0;</div>
+<div class="line"><a id="l00897" name="l00897"></a><span class="lineno">  897</span>    <span class="keywordtype">bool</span> my_finished = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00898" name="l00898"></a><span class="lineno">  898</span> </div>
+<div class="line"><a id="l00899" name="l00899"></a><span class="lineno">  899</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00900" name="l00900"></a><span class="lineno">  900</span>    <span class="keywordtype">char</span> get()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00901" name="l00901"></a><span class="lineno">  901</span>        <span class="keywordflow">return</span> my_buffer[my_index];</div>
+<div class="line"><a id="l00902" name="l00902"></a><span class="lineno">  902</span>    }</div>
+<div class="line"><a id="l00903" name="l00903"></a><span class="lineno">  903</span> </div>
+<div class="line"><a id="l00904" name="l00904"></a><span class="lineno">  904</span>    <span class="keywordtype">bool</span> valid()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00905" name="l00905"></a><span class="lineno">  905</span>        <span class="keywordflow">return</span> my_index &lt; my_available;</div>
+<div class="line"><a id="l00906" name="l00906"></a><span class="lineno">  906</span>    }</div>
+<div class="line"><a id="l00907" name="l00907"></a><span class="lineno">  907</span> </div>
+<div class="line"><a id="l00908" name="l00908"></a><span class="lineno">  908</span>    <span class="keywordtype">bool</span> advance() {</div>
+<div class="line"><a id="l00909" name="l00909"></a><span class="lineno">  909</span>        ++my_index;</div>
+<div class="line"><a id="l00910" name="l00910"></a><span class="lineno">  910</span>        <span class="keywordflow">if</span> (my_index &lt; my_available) {</div>
+<div class="line"><a id="l00911" name="l00911"></a><span class="lineno">  911</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00912" name="l00912"></a><span class="lineno">  912</span>        }</div>
+<div class="line"><a id="l00913" name="l00913"></a><span class="lineno">  913</span> </div>
+<div class="line"><a id="l00914" name="l00914"></a><span class="lineno">  914</span>        my_index = 0;</div>
+<div class="line"><a id="l00915" name="l00915"></a><span class="lineno">  915</span>        my_overall += my_available;</div>
+<div class="line"><a id="l00916" name="l00916"></a><span class="lineno">  916</span>        fill();</div>
+<div class="line"><a id="l00917" name="l00917"></a><span class="lineno">  917</span>        <span class="keywordflow">return</span> valid();</div>
+<div class="line"><a id="l00918" name="l00918"></a><span class="lineno">  918</span>    }</div>
+<div class="line"><a id="l00919" name="l00919"></a><span class="lineno">  919</span> </div>
+<div class="line"><a id="l00920" name="l00920"></a><span class="lineno">  920</span>    <span class="keywordtype">void</span> fill() {</div>
+<div class="line"><a id="l00921" name="l00921"></a><span class="lineno">  921</span>        <span class="keywordflow">if</span> (my_finished) {</div>
+<div class="line"><a id="l00922" name="l00922"></a><span class="lineno">  922</span>            my_available = 0;</div>
+<div class="line"><a id="l00923" name="l00923"></a><span class="lineno">  923</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00924" name="l00924"></a><span class="lineno">  924</span>        }</div>
+<div class="line"><a id="l00925" name="l00925"></a><span class="lineno">  925</span> </div>
+<div class="line"><a id="l00926" name="l00926"></a><span class="lineno">  926</span>        my_available = std::fread(my_buffer.data(), <span class="keyword">sizeof</span>(<span class="keywordtype">char</span>), my_buffer.size(), my_handle);</div>
+<div class="line"><a id="l00927" name="l00927"></a><span class="lineno">  927</span>        <span class="keywordflow">if</span> (my_available == my_buffer.size()) {</div>
+<div class="line"><a id="l00928" name="l00928"></a><span class="lineno">  928</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00929" name="l00929"></a><span class="lineno">  929</span>        }</div>
+<div class="line"><a id="l00930" name="l00930"></a><span class="lineno">  930</span> </div>
+<div class="line"><a id="l00931" name="l00931"></a><span class="lineno">  931</span>        <span class="keywordflow">if</span> (std::feof(my_handle)) {</div>
+<div class="line"><a id="l00932" name="l00932"></a><span class="lineno">  932</span>            my_finished = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00933" name="l00933"></a><span class="lineno">  933</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00934" name="l00934"></a><span class="lineno">  934</span>            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;failed to read file (error &quot;</span> + std::to_string(std::ferror(my_handle)) + <span class="stringliteral">&quot;)&quot;</span>);</div>
+<div class="line"><a id="l00935" name="l00935"></a><span class="lineno">  935</span>        }</div>
+<div class="line"><a id="l00936" name="l00936"></a><span class="lineno">  936</span>    }</div>
+<div class="line"><a id="l00937" name="l00937"></a><span class="lineno">  937</span> </div>
+<div class="line"><a id="l00938" name="l00938"></a><span class="lineno">  938</span>    <span class="keywordtype">size_t</span> position()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00939" name="l00939"></a><span class="lineno">  939</span>        <span class="keywordflow">return</span> my_overall + my_index;</div>
+<div class="line"><a id="l00940" name="l00940"></a><span class="lineno">  940</span>    }</div>
+<div class="line"><a id="l00941" name="l00941"></a><span class="lineno">  941</span>};</div>
+<div class="foldopen" id="foldopen00949" data-start="{" data-end="};">
+<div class="line"><a id="l00949" name="l00949"></a><span class="lineno"><a class="line" href="structmillijson_1_1FileReadOptions.html">  949</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structmillijson_1_1FileReadOptions.html">FileReadOptions</a> {</div>
+<div class="line"><a id="l00953" name="l00953"></a><span class="lineno"><a class="line" href="structmillijson_1_1FileReadOptions.html#ab5f49ec8d3601c3d927e44daab7fd903">  953</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structmillijson_1_1FileReadOptions.html#ab5f49ec8d3601c3d927e44daab7fd903">buffer_size</a> = 65536;</div>
+<div class="line"><a id="l00954" name="l00954"></a><span class="lineno">  954</span>};</div>
 </div>
-<div class="line"><a id="l00954" name="l00954"></a><span class="lineno">  954</span> </div>
-<div class="foldopen" id="foldopen00960" data-start="{" data-end="}">
-<div class="line"><a id="l00960" name="l00960"></a><span class="lineno"><a class="line" href="namespacemillijson.html#a4dd4654de4a3abb1b786924ada07a686">  960</a></span><span class="keyword">inline</span> std::shared_ptr&lt;Base&gt; <a class="code hl_function" href="namespacemillijson.html#a4dd4654de4a3abb1b786924ada07a686">parse_file</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">const</span> <a class="code hl_struct" href="structmillijson_1_1FileReadOptions.html">FileReadOptions</a>&amp; options) {</div>
-<div class="line"><a id="l00961" name="l00961"></a><span class="lineno">  961</span>    FileReader input(path, options.<a class="code hl_variable" href="structmillijson_1_1FileReadOptions.html#ab5f49ec8d3601c3d927e44daab7fd903">buffer_size</a>);</div>
-<div class="line"><a id="l00962" name="l00962"></a><span class="lineno">  962</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacemillijson.html#aac596a9636c9f8862d447b033df8fd3e">parse</a>(input);</div>
-<div class="line"><a id="l00963" name="l00963"></a><span class="lineno">  963</span>}</div>
+<div class="line"><a id="l00955" name="l00955"></a><span class="lineno">  955</span> </div>
+<div class="foldopen" id="foldopen00961" data-start="{" data-end="}">
+<div class="line"><a id="l00961" name="l00961"></a><span class="lineno"><a class="line" href="namespacemillijson.html#a4dd4654de4a3abb1b786924ada07a686">  961</a></span><span class="keyword">inline</span> std::shared_ptr&lt;Base&gt; <a class="code hl_function" href="namespacemillijson.html#a4dd4654de4a3abb1b786924ada07a686">parse_file</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">const</span> <a class="code hl_struct" href="structmillijson_1_1FileReadOptions.html">FileReadOptions</a>&amp; options) {</div>
+<div class="line"><a id="l00962" name="l00962"></a><span class="lineno">  962</span>    FileReader input(path, options.<a class="code hl_variable" href="structmillijson_1_1FileReadOptions.html#ab5f49ec8d3601c3d927e44daab7fd903">buffer_size</a>);</div>
+<div class="line"><a id="l00963" name="l00963"></a><span class="lineno">  963</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacemillijson.html#aac596a9636c9f8862d447b033df8fd3e">parse</a>(input);</div>
+<div class="line"><a id="l00964" name="l00964"></a><span class="lineno">  964</span>}</div>
 </div>
-<div class="line"><a id="l00964" name="l00964"></a><span class="lineno">  964</span> </div>
-<div class="foldopen" id="foldopen00972" data-start="{" data-end="}">
-<div class="line"><a id="l00972" name="l00972"></a><span class="lineno"><a class="line" href="namespacemillijson.html#a106d56a54d20dcec59f404929e9c7e19">  972</a></span><span class="keyword">inline</span> <a class="code hl_enumeration" href="namespacemillijson.html#aa16302fdbcf6f85a442a302b1745afb5">Type</a> <a class="code hl_function" href="namespacemillijson.html#a106d56a54d20dcec59f404929e9c7e19">validate_file</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">const</span> <a class="code hl_struct" href="structmillijson_1_1FileReadOptions.html">FileReadOptions</a>&amp; options) {</div>
-<div class="line"><a id="l00973" name="l00973"></a><span class="lineno">  973</span>    FileReader input(path, options.<a class="code hl_variable" href="structmillijson_1_1FileReadOptions.html#ab5f49ec8d3601c3d927e44daab7fd903">buffer_size</a>);</div>
-<div class="line"><a id="l00974" name="l00974"></a><span class="lineno">  974</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacemillijson.html#a5d202f16e1879c17199bbfbbc5059889">validate</a>(input);</div>
-<div class="line"><a id="l00975" name="l00975"></a><span class="lineno">  975</span>}</div>
+<div class="line"><a id="l00965" name="l00965"></a><span class="lineno">  965</span> </div>
+<div class="foldopen" id="foldopen00973" data-start="{" data-end="}">
+<div class="line"><a id="l00973" name="l00973"></a><span class="lineno"><a class="line" href="namespacemillijson.html#a106d56a54d20dcec59f404929e9c7e19">  973</a></span><span class="keyword">inline</span> <a class="code hl_enumeration" href="namespacemillijson.html#aa16302fdbcf6f85a442a302b1745afb5">Type</a> <a class="code hl_function" href="namespacemillijson.html#a106d56a54d20dcec59f404929e9c7e19">validate_file</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">const</span> <a class="code hl_struct" href="structmillijson_1_1FileReadOptions.html">FileReadOptions</a>&amp; options) {</div>
+<div class="line"><a id="l00974" name="l00974"></a><span class="lineno">  974</span>    FileReader input(path, options.<a class="code hl_variable" href="structmillijson_1_1FileReadOptions.html#ab5f49ec8d3601c3d927e44daab7fd903">buffer_size</a>);</div>
+<div class="line"><a id="l00975" name="l00975"></a><span class="lineno">  975</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacemillijson.html#a5d202f16e1879c17199bbfbbc5059889">validate</a>(input);</div>
+<div class="line"><a id="l00976" name="l00976"></a><span class="lineno">  976</span>}</div>
 </div>
-<div class="line"><a id="l00976" name="l00976"></a><span class="lineno">  976</span> </div>
-<div class="line"><a id="l00980" name="l00980"></a><span class="lineno">  980</span><span class="keyword">inline</span> std::shared_ptr&lt;Base&gt; <a class="code hl_function" href="namespacemillijson.html#a4dd4654de4a3abb1b786924ada07a686">parse_file</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">size_t</span> buffer_size = 65536) {</div>
-<div class="line"><a id="l00981" name="l00981"></a><span class="lineno">  981</span>    FileReadOptions opt;</div>
-<div class="line"><a id="l00982" name="l00982"></a><span class="lineno">  982</span>    opt.buffer_size = buffer_size;</div>
-<div class="line"><a id="l00983" name="l00983"></a><span class="lineno">  983</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacemillijson.html#a4dd4654de4a3abb1b786924ada07a686">parse_file</a>(path, opt);</div>
-<div class="line"><a id="l00984" name="l00984"></a><span class="lineno">  984</span>}</div>
-<div class="line"><a id="l00985" name="l00985"></a><span class="lineno">  985</span> </div>
-<div class="line"><a id="l00986" name="l00986"></a><span class="lineno">  986</span><span class="keyword">inline</span> <a class="code hl_enumeration" href="namespacemillijson.html#aa16302fdbcf6f85a442a302b1745afb5">Type</a> <a class="code hl_function" href="namespacemillijson.html#a106d56a54d20dcec59f404929e9c7e19">validate_file</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">size_t</span> buffer_size = 65536) {</div>
-<div class="line"><a id="l00987" name="l00987"></a><span class="lineno">  987</span>    FileReadOptions opt;</div>
-<div class="line"><a id="l00988" name="l00988"></a><span class="lineno">  988</span>    opt.buffer_size = buffer_size;</div>
-<div class="line"><a id="l00989" name="l00989"></a><span class="lineno">  989</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacemillijson.html#a106d56a54d20dcec59f404929e9c7e19">validate_file</a>(path, opt);</div>
-<div class="line"><a id="l00990" name="l00990"></a><span class="lineno">  990</span>}</div>
-<div class="line"><a id="l00995" name="l00995"></a><span class="lineno">  995</span>}</div>
-<div class="line"><a id="l00996" name="l00996"></a><span class="lineno">  996</span> </div>
-<div class="line"><a id="l00997" name="l00997"></a><span class="lineno">  997</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00977" name="l00977"></a><span class="lineno">  977</span> </div>
+<div class="line"><a id="l00981" name="l00981"></a><span class="lineno">  981</span><span class="keyword">inline</span> std::shared_ptr&lt;Base&gt; <a class="code hl_function" href="namespacemillijson.html#a4dd4654de4a3abb1b786924ada07a686">parse_file</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">size_t</span> buffer_size = 65536) {</div>
+<div class="line"><a id="l00982" name="l00982"></a><span class="lineno">  982</span>    FileReadOptions opt;</div>
+<div class="line"><a id="l00983" name="l00983"></a><span class="lineno">  983</span>    opt.buffer_size = buffer_size;</div>
+<div class="line"><a id="l00984" name="l00984"></a><span class="lineno">  984</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacemillijson.html#a4dd4654de4a3abb1b786924ada07a686">parse_file</a>(path, opt);</div>
+<div class="line"><a id="l00985" name="l00985"></a><span class="lineno">  985</span>}</div>
+<div class="line"><a id="l00986" name="l00986"></a><span class="lineno">  986</span> </div>
+<div class="line"><a id="l00987" name="l00987"></a><span class="lineno">  987</span><span class="keyword">inline</span> <a class="code hl_enumeration" href="namespacemillijson.html#aa16302fdbcf6f85a442a302b1745afb5">Type</a> <a class="code hl_function" href="namespacemillijson.html#a106d56a54d20dcec59f404929e9c7e19">validate_file</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keywordtype">size_t</span> buffer_size = 65536) {</div>
+<div class="line"><a id="l00988" name="l00988"></a><span class="lineno">  988</span>    FileReadOptions opt;</div>
+<div class="line"><a id="l00989" name="l00989"></a><span class="lineno">  989</span>    opt.buffer_size = buffer_size;</div>
+<div class="line"><a id="l00990" name="l00990"></a><span class="lineno">  990</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespacemillijson.html#a106d56a54d20dcec59f404929e9c7e19">validate_file</a>(path, opt);</div>
+<div class="line"><a id="l00991" name="l00991"></a><span class="lineno">  991</span>}</div>
+<div class="line"><a id="l00996" name="l00996"></a><span class="lineno">  996</span>}</div>
+<div class="line"><a id="l00997" name="l00997"></a><span class="lineno">  997</span> </div>
+<div class="line"><a id="l00998" name="l00998"></a><span class="lineno">  998</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclassmillijson_1_1Array_html"><div class="ttname"><a href="classmillijson_1_1Array.html">millijson::Array</a></div><div class="ttdoc">JSON array.</div><div class="ttdef"><b>Definition</b> millijson.hpp:156</div></div>
 <div class="ttc" id="aclassmillijson_1_1Array_html_a2b7598fd4ed816ee711eab9a50e4a4ee"><div class="ttname"><a href="classmillijson_1_1Array.html#a2b7598fd4ed816ee711eab9a50e4a4ee">millijson::Array::type</a></div><div class="ttdeci">Type type() const</div><div class="ttdef"><b>Definition</b> millijson.hpp:158</div></div>
 <div class="ttc" id="aclassmillijson_1_1Array_html_a5711db03510336baeac0f1a9941d7500"><div class="ttname"><a href="classmillijson_1_1Array.html#a5711db03510336baeac0f1a9941d7500">millijson::Array::add</a></div><div class="ttdeci">void add(std::shared_ptr&lt; Base &gt; value)</div><div class="ttdef"><b>Definition</b> millijson.hpp:168</div></div>
@@ -971,15 +971,15 @@ $(function(){ initResizable(false); });
 <div class="ttc" id="aclassmillijson_1_1String_html_a1d4eb4f12c092177662129161b543f51"><div class="ttname"><a href="classmillijson_1_1String.html#a1d4eb4f12c092177662129161b543f51">millijson::String::type</a></div><div class="ttdeci">Type type() const</div><div class="ttdef"><b>Definition</b> millijson.hpp:116</div></div>
 <div class="ttc" id="aclassmillijson_1_1String_html_aa8c4a4911002411aa2a7a142181b284e"><div class="ttname"><a href="classmillijson_1_1String.html#aa8c4a4911002411aa2a7a142181b284e">millijson::String::value</a></div><div class="ttdeci">std::string value</div><div class="ttdef"><b>Definition</b> millijson.hpp:121</div></div>
 <div class="ttc" id="anamespacemillijson_html"><div class="ttname"><a href="namespacemillijson.html">millijson</a></div><div class="ttdoc">A lightweight header-only JSON parser.</div></div>
-<div class="ttc" id="anamespacemillijson_html_a106d56a54d20dcec59f404929e9c7e19"><div class="ttname"><a href="namespacemillijson.html#a106d56a54d20dcec59f404929e9c7e19">millijson::validate_file</a></div><div class="ttdeci">Type validate_file(const char *path, const FileReadOptions &amp;options)</div><div class="ttdef"><b>Definition</b> millijson.hpp:972</div></div>
-<div class="ttc" id="anamespacemillijson_html_a4dd4654de4a3abb1b786924ada07a686"><div class="ttname"><a href="namespacemillijson.html#a4dd4654de4a3abb1b786924ada07a686">millijson::parse_file</a></div><div class="ttdeci">std::shared_ptr&lt; Base &gt; parse_file(const char *path, const FileReadOptions &amp;options)</div><div class="ttdef"><b>Definition</b> millijson.hpp:960</div></div>
-<div class="ttc" id="anamespacemillijson_html_a5d202f16e1879c17199bbfbbc5059889"><div class="ttname"><a href="namespacemillijson.html#a5d202f16e1879c17199bbfbbc5059889">millijson::validate</a></div><div class="ttdeci">Type validate(Input_ &amp;input)</div><div class="ttdef"><b>Definition</b> millijson.hpp:813</div></div>
-<div class="ttc" id="anamespacemillijson_html_a5d9a99b81f8e008903cfcc8544e03f53"><div class="ttname"><a href="namespacemillijson.html#a5d9a99b81f8e008903cfcc8544e03f53">millijson::parse_string</a></div><div class="ttdeci">std::shared_ptr&lt; Base &gt; parse_string(const char *ptr, size_t len)</div><div class="ttdef"><b>Definition</b> millijson.hpp:857</div></div>
-<div class="ttc" id="anamespacemillijson_html_a9ba75129059e2161877310cc4d947ff1"><div class="ttname"><a href="namespacemillijson.html#a9ba75129059e2161877310cc4d947ff1">millijson::validate_string</a></div><div class="ttdeci">Type validate_string(const char *ptr, size_t len)</div><div class="ttdef"><b>Definition</b> millijson.hpp:869</div></div>
+<div class="ttc" id="anamespacemillijson_html_a106d56a54d20dcec59f404929e9c7e19"><div class="ttname"><a href="namespacemillijson.html#a106d56a54d20dcec59f404929e9c7e19">millijson::validate_file</a></div><div class="ttdeci">Type validate_file(const char *path, const FileReadOptions &amp;options)</div><div class="ttdef"><b>Definition</b> millijson.hpp:973</div></div>
+<div class="ttc" id="anamespacemillijson_html_a4dd4654de4a3abb1b786924ada07a686"><div class="ttname"><a href="namespacemillijson.html#a4dd4654de4a3abb1b786924ada07a686">millijson::parse_file</a></div><div class="ttdeci">std::shared_ptr&lt; Base &gt; parse_file(const char *path, const FileReadOptions &amp;options)</div><div class="ttdef"><b>Definition</b> millijson.hpp:961</div></div>
+<div class="ttc" id="anamespacemillijson_html_a5d202f16e1879c17199bbfbbc5059889"><div class="ttname"><a href="namespacemillijson.html#a5d202f16e1879c17199bbfbbc5059889">millijson::validate</a></div><div class="ttdeci">Type validate(Input_ &amp;input)</div><div class="ttdef"><b>Definition</b> millijson.hpp:814</div></div>
+<div class="ttc" id="anamespacemillijson_html_a5d9a99b81f8e008903cfcc8544e03f53"><div class="ttname"><a href="namespacemillijson.html#a5d9a99b81f8e008903cfcc8544e03f53">millijson::parse_string</a></div><div class="ttdeci">std::shared_ptr&lt; Base &gt; parse_string(const char *ptr, size_t len)</div><div class="ttdef"><b>Definition</b> millijson.hpp:858</div></div>
+<div class="ttc" id="anamespacemillijson_html_a9ba75129059e2161877310cc4d947ff1"><div class="ttname"><a href="namespacemillijson.html#a9ba75129059e2161877310cc4d947ff1">millijson::validate_string</a></div><div class="ttdeci">Type validate_string(const char *ptr, size_t len)</div><div class="ttdef"><b>Definition</b> millijson.hpp:870</div></div>
 <div class="ttc" id="anamespacemillijson_html_aa16302fdbcf6f85a442a302b1745afb5"><div class="ttname"><a href="namespacemillijson.html#aa16302fdbcf6f85a442a302b1745afb5">millijson::Type</a></div><div class="ttdeci">Type</div><div class="ttdef"><b>Definition</b> millijson.hpp:29</div></div>
-<div class="ttc" id="anamespacemillijson_html_aac596a9636c9f8862d447b033df8fd3e"><div class="ttname"><a href="namespacemillijson.html#aac596a9636c9f8862d447b033df8fd3e">millijson::parse</a></div><div class="ttdeci">std::shared_ptr&lt; Base &gt; parse(Input_ &amp;input)</div><div class="ttdef"><b>Definition</b> millijson.hpp:800</div></div>
-<div class="ttc" id="astructmillijson_1_1FileReadOptions_html"><div class="ttname"><a href="structmillijson_1_1FileReadOptions.html">millijson::FileReadOptions</a></div><div class="ttdoc">Options for parse_file() and validate_file().</div><div class="ttdef"><b>Definition</b> millijson.hpp:948</div></div>
-<div class="ttc" id="astructmillijson_1_1FileReadOptions_html_ab5f49ec8d3601c3d927e44daab7fd903"><div class="ttname"><a href="structmillijson_1_1FileReadOptions.html#ab5f49ec8d3601c3d927e44daab7fd903">millijson::FileReadOptions::buffer_size</a></div><div class="ttdeci">size_t buffer_size</div><div class="ttdef"><b>Definition</b> millijson.hpp:952</div></div>
+<div class="ttc" id="anamespacemillijson_html_aac596a9636c9f8862d447b033df8fd3e"><div class="ttname"><a href="namespacemillijson.html#aac596a9636c9f8862d447b033df8fd3e">millijson::parse</a></div><div class="ttdeci">std::shared_ptr&lt; Base &gt; parse(Input_ &amp;input)</div><div class="ttdef"><b>Definition</b> millijson.hpp:801</div></div>
+<div class="ttc" id="astructmillijson_1_1FileReadOptions_html"><div class="ttname"><a href="structmillijson_1_1FileReadOptions.html">millijson::FileReadOptions</a></div><div class="ttdoc">Options for parse_file() and validate_file().</div><div class="ttdef"><b>Definition</b> millijson.hpp:949</div></div>
+<div class="ttc" id="astructmillijson_1_1FileReadOptions_html_ab5f49ec8d3601c3d927e44daab7fd903"><div class="ttname"><a href="structmillijson_1_1FileReadOptions.html#ab5f49ec8d3601c3d927e44daab7fd903">millijson::FileReadOptions::buffer_size</a></div><div class="ttdeci">size_t buffer_size</div><div class="ttdef"><b>Definition</b> millijson.hpp:953</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -192,7 +192,7 @@ template&lt;class Input_ &gt; </div>
 </div><div class="memdoc">
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Input_</td><td>Any class that provides the following methods:</td></tr>
+    <tr><td class="paramname">Input_</td><td>Class of the source of input bytes. This should satisfy the <a href="https://ltla.github.io/byteme"><code>byteme::PerByteInterface</code></a> interface with the following methods:</td></tr>
   </table>
   </dd>
 </dl>
@@ -204,7 +204,7 @@ template&lt;class Input_ &gt; </div>
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">input</td><td>An instance of an <code>Input</code> class, referring to the bytes from a JSON-formatted file or string. </td></tr>
+    <tr><td class="paramname">input</td><td>A source of input bytes, usually from a JSON-formatted file or string. </td></tr>
   </table>
   </dd>
 </dl>
@@ -310,7 +310,7 @@ template&lt;class Input_ &gt; </div>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">input</td><td>An instance of an <code>Input</code> class, referring to the bytes from a JSON-formatted file or string.</td></tr>
+    <tr><td class="paramname">input</td><td>A source of input bytes, usually from a JSON-formatted file or string.</td></tr>
   </table>
   </dd>
 </dl>
