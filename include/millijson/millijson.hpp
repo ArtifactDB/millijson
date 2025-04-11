@@ -786,14 +786,15 @@ std::shared_ptr<typename Provisioner_::base> parse_thing_with_chomp(Input_& inpu
  */
 
 /**
- * @tparam Input_ Any class that provides the following methods:
+ * @tparam Input_ Class of the source of input bytes.
+ * This should satisfy the [`byteme::PerByteInterface`](https://ltla.github.io/byteme) interface with the following methods:
  *
  * - `char get() const `, which extracts a `char` from the input source without advancing the position on the byte stream.
  * - `bool valid() const`, to determine whether an input `char` can be `get()` from the input.
  * - `bool advance()`, to advance the input stream and return `valid()` at the new position.
  * - `size_t position() const`, for the current position relative to the start of the byte stream.
  *
- * @param input An instance of an `Input` class, referring to the bytes from a JSON-formatted file or string.
+ * @param input A source of input bytes, usually from a JSON-formatted file or string.
  * @return A pointer to a JSON value.
  */
 template<class Input_>
@@ -804,7 +805,7 @@ std::shared_ptr<Base> parse(Input_& input) {
 /**
  * @tparam Input_ Any class that supplies input characters, see `parse()` for details. 
  *
- * @param input An instance of an `Input` class, referring to the bytes from a JSON-formatted file or string.
+ * @param input A source of input bytes, usually from a JSON-formatted file or string.
  *
  * @return The type of the JSON variable stored in `input`.
  * If the JSON string is invalid, an error is raised.
