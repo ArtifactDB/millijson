@@ -48,35 +48,15 @@ public:
     /**
      * @cond
      */
+    Base() = default;
+    Base(Base&&) = default;
+    Base(const Base&) = default;
+    Base& operator=(Base&&) = default;
+    Base& operator=(const Base&) = default;
     virtual ~Base() {}
     /**
      * @endcond
      */
-
-    /**
-     * @return The number, if `this` points to a `Number` class.
-     */
-    double get_number() const;
-
-    /**
-     * @return The string, if `this` points to a `String` class.
-     */ 
-    const std::string& get_string() const;
-
-    /**
-     * @return The boolean, if `this` points to a `Boolean` class.
-     */ 
-    bool get_boolean() const;
-
-    /**
-     * @return An unordered map of key-value pairs, if `this` points to an `Object` class.
-     */ 
-    const std::unordered_map<std::string, std::shared_ptr<Base> >& get_object() const;
-
-    /**
-     * @return A vector of `Base` objects, if `this` points to an `Array` class.
-     */ 
-    const std::vector<std::shared_ptr<Base> >& get_array() const;
 };
 
 /**
@@ -85,19 +65,25 @@ public:
 class Number final : public Base {
 public:
     /**
-     * @cond
+     * @param x Value of the number.
      */
-    Number(double v) : value(v) {}
-    /**
-     * @endcond
-     */
+    Number(double x) : my_value(x) {}
 
     Type type() const { return NUMBER; }
 
+public:
     /**
-     * Value of the number.
+     * @return Value of the number.
      */
-    double value;
+    const double& value() const { return my_value; }
+
+    /**
+     * @return Value of the number.
+     */
+    double& value() { return my_value; }
+
+private:
+    double my_value;
 };
 
 /**
@@ -106,19 +92,25 @@ public:
 class String final : public Base {
 public:
     /**
-     * @cond
+     * @param x Value of the string.
      */
-    String(std::string s) : value(std::move(s)) {}
-    /**
-     * @endcond
-     */
+    String(std::string x) : my_value(std::move(x)) {}
 
     Type type() const { return STRING; }
 
+public:
     /**
-     * Value of the string.
+     * @return Value of the string.
      */
-    std::string value;
+    const std::string& value() const { return my_value; }
+
+    /**
+     * @return Value of the string.
+     */
+    std::string& value() { return my_value; }
+
+private:
+    std::string my_value;
 };
 
 /**
@@ -127,19 +119,25 @@ public:
 class Boolean final : public Base {
 public:
     /**
-     * @cond
+     * @param x Value of the boolean.
      */
-    Boolean(bool v) : value(v) {}
-    /**
-     * @endcond
-     */
+    Boolean(bool x) : my_value(x) {}
 
     Type type() const { return BOOLEAN; }
 
+public:
     /**
-     * Value of the boolean.
+     * @return Value of the boolean.
      */
-    bool value;
+    const bool& value() const { return my_value; }
+
+    /**
+     * @return Value of the string.
+     */
+    bool& value() { return my_value; }
+
+private:
+    bool my_value;
 };
 
 /**
@@ -155,20 +153,30 @@ public:
  */
 class Array final : public Base {
 public:
+    /**
+     * @param x Contents of the array.
+     */
+    Array(std::vector<std::shared_ptr<Base> > x) : my_value(std::move(x)) {}
+
     Type type() const { return ARRAY; }
 
+public:
     /**
-     * Contents of the array.
+     * @return Contents of the array.
      */
-    std::vector<std::shared_ptr<Base> > values;
+    const std::vector<std::shared_ptr<Base> >& value() const {
+        return my_value;
+    }
 
     /**
-     * @param value Value to append to the array.
+     * @return Contents of the array.
      */
-    void add(std::shared_ptr<Base> value) {
-        values.push_back(std::move(value));
-        return;
+    std::vector<std::shared_ptr<Base> >& value() {
+        return my_value;
     }
+
+private:
+    std::vector<std::shared_ptr<Base> > my_value;
 };
 
 /**
@@ -176,54 +184,35 @@ public:
  */
 class Object final : public Base {
 public:
+     /**
+     * @param x Key-value pairs of the object.
+     */
+    Object(std::unordered_map<std::string, std::shared_ptr<Base> > x) : my_value(std::move(x)) {}
+
     Type type() const { return OBJECT; }
 
+public:
     /**
-     * Key-value pairs of the object.
+     * @return Key-value pairs of the object.
      */
-    std::unordered_map<std::string, std::shared_ptr<Base> > values;
-
-    /**
-     * @param key String containing the key.
-     * @return Whether `key` already exists in the object.
-     */
-    bool has(const std::string& key) const {
-        return values.find(key) != values.end();
+    const std::unordered_map<std::string, std::shared_ptr<Base> >& value() const {
+        return my_value;
     }
 
     /**
-     * @param key String containing the key.
-     * @param value Value to add to the array.
+     * @return Key-value pairs of the object.
      */
-    void add(std::string key, std::shared_ptr<Base> value) {
-        values[std::move(key)] = std::move(value);
-        return;
+    std::unordered_map<std::string, std::shared_ptr<Base> >& value() {
+        return my_value;
     }
+
+private:
+    std::unordered_map<std::string, std::shared_ptr<Base> > my_value;
 };
 
 /**
  * @cond
  */
-inline double Base::get_number() const {
-    return static_cast<const Number*>(this)->value;
-}
-
-inline const std::string& Base::get_string() const {
-    return static_cast<const String*>(this)->value;
-}
-
-inline bool Base::get_boolean() const {
-    return static_cast<const Boolean*>(this)->value;
-}
-
-inline const std::unordered_map<std::string, std::shared_ptr<Base> >& Base::get_object() const {
-    return static_cast<const Object*>(this)->values;
-}
-
-inline const std::vector<std::shared_ptr<Base> >& Base::get_array() const {
-    return static_cast<const Array*>(this)->values;
-}
-
 // Return value of the various chomp functions indicates whether there are any
 // characters left in 'input', allowing us to avoid an extra call to valid(). 
 template<class Input_>
@@ -537,41 +526,13 @@ double extract_number(Input_& input) {
     return value;
 }
 
-struct DefaultProvisioner {
-    typedef ::millijson::Base base;
-
-    static Boolean* new_boolean(bool x) {
-        return new Boolean(x); 
-    }
-
-    static Number* new_number(double x) {
-        return new Number(x);
-    }
-
-    static String* new_string(std::string x) {
-        return new String(std::move(x));
-    }
-
-    static Nothing* new_nothing() {
-        return new Nothing;
-    }
-
-    static Array* new_array() {
-        return new Array;
-    }
-
-    static Object* new_object() {
-        return new Object;
-    }
-};
-
 struct FakeProvisioner {
     class FakeBase {
     public:
         virtual Type type() const = 0;
         virtual ~FakeBase() {}
     };
-    typedef FakeBase base;
+    typedef FakeBase Base;
 
     class FakeBoolean final : public FakeBase {
     public:
@@ -608,31 +569,23 @@ struct FakeProvisioner {
     class FakeArray final : public FakeBase {
     public:
         Type type() const { return ARRAY; }
-        void add(std::shared_ptr<FakeBase>) {}
     };
-    static FakeArray* new_array() {
+    static FakeArray* new_array(std::vector<std::shared_ptr<FakeBase> >) {
         return new FakeArray;
     }
 
     class FakeObject final : public FakeBase {
     public:
         Type type() const { return OBJECT; }
-        std::unordered_set<std::string> keys;
-        bool has(const std::string& key) const {
-            return keys.find(key) != keys.end();
-        }
-        void add(std::string key, std::shared_ptr<FakeBase>) {
-            keys.insert(std::move(key));
-        }
     };
-    static FakeObject* new_object() {
+    static FakeObject* new_object(std::unordered_map<std::string, std::shared_ptr<FakeBase> >) {
         return new FakeObject;
     }
 };
 
 template<class Provisioner_, class Input_>
-std::shared_ptr<typename Provisioner_::base> parse_thing(Input_& input) {
-    std::shared_ptr<typename Provisioner_::base> output;
+std::shared_ptr<typename Provisioner_::Base> parse_thing(Input_& input) {
+    std::shared_ptr<typename Provisioner_::Base> output;
 
     size_t start = input.position() + 1;
     const char current = input.get();
@@ -665,8 +618,7 @@ std::shared_ptr<typename Provisioner_::base> parse_thing(Input_& input) {
 
         case '[':
             {
-                auto ptr = Provisioner_::new_array();
-                output.reset(ptr);
+                std::vector<std::shared_ptr<typename Provisioner_::Base> > contents;
 
                 if (!advance_and_chomp(input)) {
                     throw std::runtime_error("unterminated array starting at position " + std::to_string(start));
@@ -674,7 +626,7 @@ std::shared_ptr<typename Provisioner_::base> parse_thing(Input_& input) {
 
                 if (input.get() != ']') {
                     while (1) {
-                        ptr->add(parse_thing<Provisioner_>(input));
+                        contents.push_back(parse_thing<Provisioner_>(input));
 
                         if (!check_and_chomp(input)) {
                             throw std::runtime_error("unterminated array starting at position " + std::to_string(start));
@@ -692,14 +644,15 @@ std::shared_ptr<typename Provisioner_::base> parse_thing(Input_& input) {
                         }
                     }
                 }
+
+                output.reset(Provisioner_::new_array(std::move(contents)));
             }
             input.advance(); // skip the closing bracket.
             break;
 
         case '{':
             {
-                auto ptr = Provisioner_::new_object();
-                output.reset(ptr);
+                std::unordered_map<std::string, std::shared_ptr<typename Provisioner_::Base> > contents;
 
                 if (!advance_and_chomp(input)) {
                     throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
@@ -712,7 +665,7 @@ std::shared_ptr<typename Provisioner_::base> parse_thing(Input_& input) {
                             throw std::runtime_error("expected a string as the object key at position " + std::to_string(input.position() + 1));
                         }
                         auto key = extract_string(input);
-                        if (ptr->has(key)) {
+                        if (contents.find(key) != contents.end()) {
                             throw std::runtime_error("detected duplicate keys in the object at position " + std::to_string(input.position() + 1));
                         }
 
@@ -726,7 +679,7 @@ std::shared_ptr<typename Provisioner_::base> parse_thing(Input_& input) {
                         if (!advance_and_chomp(input)) {
                             throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
                         }
-                        ptr->add(std::move(key), parse_thing<Provisioner_>(input)); // consuming the key here.
+                        contents[std::move(key)] = parse_thing<Provisioner_>(input); // consuming the key here.
 
                         if (!check_and_chomp(input)) {
                             throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
@@ -744,8 +697,9 @@ std::shared_ptr<typename Provisioner_::base> parse_thing(Input_& input) {
                         }
                     }
                 }
-            }
 
+                output.reset(Provisioner_::new_object(std::move(contents)));
+            }
             input.advance(); // skip the closing brace.
             break;
 
@@ -771,7 +725,7 @@ std::shared_ptr<typename Provisioner_::base> parse_thing(Input_& input) {
 }
 
 template<class Provisioner_, class Input_>
-std::shared_ptr<typename Provisioner_::base> parse_thing_with_chomp(Input_& input) {
+std::shared_ptr<typename Provisioner_::Base> parse_thing_with_chomp(Input_& input) {
     if (!check_and_chomp(input)) {
         throw std::runtime_error("invalid JSON with no contents");
     }
@@ -786,6 +740,66 @@ std::shared_ptr<typename Provisioner_::base> parse_thing_with_chomp(Input_& inpu
  */
 
 /**
+ * @brief Default methods to provision representations of JSON types.
+ */
+struct DefaultProvisioner {
+    /**
+     * Alias for the base class for all JSON representations.
+     * All classes returned by `new_*` methods should be derived from this class.
+     */
+    typedef ::millijson::Base Base;
+
+    /**
+     * @param x Value of the boolean.
+     * @return Pointer to a new JSON boolean instance.
+     */
+    static Boolean* new_boolean(bool x) {
+        return new Boolean(x); 
+    }
+
+    /**
+     * @param x Value of the number.
+     * @return Pointer to a new JSON number instance.
+     */
+    static Number* new_number(double x) {
+        return new Number(x);
+    }
+
+    /**
+     * @param x Value of the string.
+     * @return Pointer to a new JSON string instance.
+     */
+    static String* new_string(std::string x) {
+        return new String(std::move(x));
+    }
+
+    /**
+     * @return Pointer to a new JSON null instance.
+     */
+    static Nothing* new_nothing() {
+        return new Nothing;
+    }
+
+    /**
+     * @param x Contents of the JSON array.
+     * @return Pointer to a new JSON array instance.
+     */
+    static Array* new_array(std::vector<std::shared_ptr<Base> > x) {
+        return new Array(std::move(x));
+    }
+
+    /**
+     * @param x Contents of the JSON object.
+     * @return Pointer to a new JSON object instance.
+     */
+    static Object* new_object(std::unordered_map<std::string, std::shared_ptr<Base> > x) {
+        return new Object(std::move(x));
+    }
+};
+
+/**
+ * @tparam Provisioner_ Class that provide methods for provisioning each JSON type, see `DefaultProvisioner` for an example.
+ * All types should be subclasses of the provisioner's base class (which may but is not required to be `Base`).
  * @tparam Input_ Class of the source of input bytes.
  * This should satisfy the [`byteme::PerByteInterface`](https://ltla.github.io/byteme) interface with the following methods:
  *
@@ -797,9 +811,9 @@ std::shared_ptr<typename Provisioner_::base> parse_thing_with_chomp(Input_& inpu
  * @param input A source of input bytes, usually from a JSON-formatted file or string.
  * @return A pointer to a JSON value.
  */
-template<class Input_>
-std::shared_ptr<Base> parse(Input_& input) {
-    return parse_thing_with_chomp<DefaultProvisioner>(input);
+template<class Provisioner_ = DefaultProvisioner, class Input_>
+std::shared_ptr<typename DefaultProvisioner::Base> parse(Input_& input) {
+    return parse_thing_with_chomp<Provisioner_>(input);
 }
 
 /**
@@ -851,13 +865,16 @@ public:
  */
 
 /**
+ * @tparam Provisioner_ Class that provide methods for provisioning each JSON type, see `DefaultProvisioner` for an example.
+ * All types should be subclasses of the provisioner's base class (which may but is not required to be `Base`).
  * @param[in] ptr Pointer to an array containing a JSON string.
  * @param len Length of the array.
  * @return A pointer to a JSON value.
  */
-inline std::shared_ptr<Base> parse_string(const char* ptr, size_t len) {
+template<class Provisioner_ = DefaultProvisioner>
+inline std::shared_ptr<typename Provisioner_::Base> parse_string(const char* ptr, size_t len) {
     RawReader input(ptr, len);
-    return parse(input);
+    return parse<Provisioner_>(input);
 }
 
 /**
@@ -958,7 +975,8 @@ struct FileReadOptions {
  * @param options Further options.
  * @return A pointer to a JSON value.
  */
-inline std::shared_ptr<Base> parse_file(const char* path, const FileReadOptions& options) {
+template<class Provisioner_ = DefaultProvisioner>
+std::shared_ptr<Base> parse_file(const char* path, const FileReadOptions& options) {
     FileReader input(path, options.buffer_size);
     return parse(input);
 }
@@ -974,24 +992,6 @@ inline Type validate_file(const char* path, const FileReadOptions& options) {
     FileReader input(path, options.buffer_size);
     return validate(input);
 }
-
-/**
- * @cond
- */
-inline std::shared_ptr<Base> parse_file(const char* path, size_t buffer_size = 65536) {
-    FileReadOptions opt;
-    opt.buffer_size = buffer_size;
-    return parse_file(path, opt);
-}
-
-inline Type validate_file(const char* path, size_t buffer_size = 65536) {
-    FileReadOptions opt;
-    opt.buffer_size = buffer_size;
-    return validate_file(path, opt);
-}
-/**
- * @endcond
- */
 
 }
 
