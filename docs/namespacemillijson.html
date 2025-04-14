@@ -195,14 +195,9 @@ template&lt;class Provisioner_  = DefaultProvisioner, class Input_ &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">Provisioner_</td><td>Class that provide methods for provisioning each JSON type, see <code><a class="el" href="structmillijson_1_1DefaultProvisioner.html" title="Default methods to provision representations of JSON types.">DefaultProvisioner</a></code> for an example. All types should be subclasses of the provisioner's base class (which may but is not required to be <code><a class="el" href="classmillijson_1_1Base.html" title="Virtual base class for all JSON types.">Base</a></code>). </td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
+    <tr><td class="paramname">Provisioner_</td><td>Class that provide methods for provisioning each JSON type, see <code><a class="el" href="structmillijson_1_1DefaultProvisioner.html" title="Default methods to provision representations of JSON types.">DefaultProvisioner</a></code> for an example. All types should be subclasses of the provisioner's base class (which may but is not required to be <code><a class="el" href="classmillijson_1_1Base.html" title="Virtual base class for all JSON types.">Base</a></code>). </td></tr>
     <tr><td class="paramname">Input_</td><td>Class of the source of input bytes. This should satisfy the <a href="https://ltla.github.io/byteme"><code>byteme::PerByteInterface</code></a> interface with the following methods:</td></tr>
   </table>
   </dd>
@@ -282,9 +277,14 @@ template&lt;class Provisioner_  = DefaultProvisioner&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Provisioner_</td><td>Class that provide methods for provisioning each JSON type, see <code><a class="el" href="structmillijson_1_1DefaultProvisioner.html" title="Default methods to provision representations of JSON types.">DefaultProvisioner</a></code> for an example. All types should be subclasses of the provisioner's base class (which may but is not required to be <code><a class="el" href="classmillijson_1_1Base.html" title="Virtual base class for all JSON types.">Base</a></code>). </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">Provisioner_</td><td>Class that provide methods for provisioning each JSON type, see <code><a class="el" href="structmillijson_1_1DefaultProvisioner.html" title="Default methods to provision representations of JSON types.">DefaultProvisioner</a></code> for an example. All types should be subclasses of the provisioner's base class (which may but is not required to be <code><a class="el" href="classmillijson_1_1Base.html" title="Virtual base class for all JSON types.">Base</a></code>). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to an array containing a JSON string. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">len</td><td>Length of the array. </td></tr>
   </table>
