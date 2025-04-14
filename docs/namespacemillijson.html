@@ -108,8 +108,11 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmillijson_1_1Boolean.html">Boolean</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">JSON boolean.  <a href="classmillijson_1_1Boolean.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmillijson_1_1DefaultProvisioner.html">DefaultProvisioner</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default methods to provision representations of JSON types.  <a href="structmillijson_1_1DefaultProvisioner.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmillijson_1_1FileReadOptions.html">FileReadOptions</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options for <code><a class="el" href="#a4dd4654de4a3abb1b786924ada07a686">parse_file()</a></code> and <code><a class="el" href="#a106d56a54d20dcec59f404929e9c7e19">validate_file()</a></code>.  <a href="structmillijson_1_1FileReadOptions.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options for <code><a class="el" href="#ad80d600490fe142b04e39b7788d8e5a1">parse_file()</a></code> and <code><a class="el" href="#a106d56a54d20dcec59f404929e9c7e19">validate_file()</a></code>.  <a href="structmillijson_1_1FileReadOptions.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmillijson_1_1Nothing.html">Nothing</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">JSON null.  <a href="classmillijson_1_1Nothing.html#details">More...</a><br /></td></tr>
@@ -140,18 +143,20 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aac596a9636c9f8862d447b033df8fd3e" id="r_aac596a9636c9f8862d447b033df8fd3e"><td class="memTemplParams" colspan="2">template&lt;class Input_ &gt; </td></tr>
-<tr class="memitem:aac596a9636c9f8862d447b033df8fd3e"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classmillijson_1_1Base.html">Base</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aac596a9636c9f8862d447b033df8fd3e">parse</a> (Input_ &amp;input)</td></tr>
-<tr class="separator:aac596a9636c9f8862d447b033df8fd3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaa8e358203c5d85f4be42750e35ee9f" id="r_aeaa8e358203c5d85f4be42750e35ee9f"><td class="memTemplParams" colspan="2">template&lt;class Provisioner_  = DefaultProvisioner, class Input_ &gt; </td></tr>
+<tr class="memitem:aeaa8e358203c5d85f4be42750e35ee9f"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; typename <a class="el" href="structmillijson_1_1DefaultProvisioner.html#ac75e8d09b380a537fceb1df812f7d1eb">DefaultProvisioner::Base</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aeaa8e358203c5d85f4be42750e35ee9f">parse</a> (Input_ &amp;input)</td></tr>
+<tr class="separator:aeaa8e358203c5d85f4be42750e35ee9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d202f16e1879c17199bbfbbc5059889" id="r_a5d202f16e1879c17199bbfbbc5059889"><td class="memTemplParams" colspan="2">template&lt;class Input_ &gt; </td></tr>
 <tr class="memitem:a5d202f16e1879c17199bbfbbc5059889"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="#aa16302fdbcf6f85a442a302b1745afb5">Type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a5d202f16e1879c17199bbfbbc5059889">validate</a> (Input_ &amp;input)</td></tr>
 <tr class="separator:a5d202f16e1879c17199bbfbbc5059889"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d9a99b81f8e008903cfcc8544e03f53" id="r_a5d9a99b81f8e008903cfcc8544e03f53"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classmillijson_1_1Base.html">Base</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d9a99b81f8e008903cfcc8544e03f53">parse_string</a> (const char *ptr, size_t len)</td></tr>
-<tr class="separator:a5d9a99b81f8e008903cfcc8544e03f53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1287ab317e74b864908c3dd41a7560da" id="r_a1287ab317e74b864908c3dd41a7560da"><td class="memTemplParams" colspan="2">template&lt;class Provisioner_  = DefaultProvisioner&gt; </td></tr>
+<tr class="memitem:a1287ab317e74b864908c3dd41a7560da"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; typename Provisioner_::Base &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a1287ab317e74b864908c3dd41a7560da">parse_string</a> (const char *ptr, size_t len)</td></tr>
+<tr class="separator:a1287ab317e74b864908c3dd41a7560da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ba75129059e2161877310cc4d947ff1" id="r_a9ba75129059e2161877310cc4d947ff1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#aa16302fdbcf6f85a442a302b1745afb5">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ba75129059e2161877310cc4d947ff1">validate_string</a> (const char *ptr, size_t len)</td></tr>
 <tr class="separator:a9ba75129059e2161877310cc4d947ff1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4dd4654de4a3abb1b786924ada07a686" id="r_a4dd4654de4a3abb1b786924ada07a686"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classmillijson_1_1Base.html">Base</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4dd4654de4a3abb1b786924ada07a686">parse_file</a> (const char *path, const <a class="el" href="structmillijson_1_1FileReadOptions.html">FileReadOptions</a> &amp;options)</td></tr>
-<tr class="separator:a4dd4654de4a3abb1b786924ada07a686"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad80d600490fe142b04e39b7788d8e5a1" id="r_ad80d600490fe142b04e39b7788d8e5a1"><td class="memTemplParams" colspan="2">template&lt;class Provisioner_  = DefaultProvisioner&gt; </td></tr>
+<tr class="memitem:ad80d600490fe142b04e39b7788d8e5a1"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classmillijson_1_1Base.html">Base</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad80d600490fe142b04e39b7788d8e5a1">parse_file</a> (const char *path, const <a class="el" href="structmillijson_1_1FileReadOptions.html">FileReadOptions</a> &amp;options)</td></tr>
+<tr class="separator:ad80d600490fe142b04e39b7788d8e5a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a106d56a54d20dcec59f404929e9c7e19" id="r_a106d56a54d20dcec59f404929e9c7e19"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#aa16302fdbcf6f85a442a302b1745afb5">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a106d56a54d20dcec59f404929e9c7e19">validate_file</a> (const char *path, const <a class="el" href="structmillijson_1_1FileReadOptions.html">FileReadOptions</a> &amp;options)</td></tr>
 <tr class="separator:a106d56a54d20dcec59f404929e9c7e19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -174,22 +179,28 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="aac596a9636c9f8862d447b033df8fd3e" name="aac596a9636c9f8862d447b033df8fd3e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aac596a9636c9f8862d447b033df8fd3e">&#9670;&#160;</a></span>parse()</h2>
+<a id="aeaa8e358203c5d85f4be42750e35ee9f" name="aeaa8e358203c5d85f4be42750e35ee9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeaa8e358203c5d85f4be42750e35ee9f">&#9670;&#160;</a></span>parse()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Input_ &gt; </div>
+template&lt;class Provisioner_  = DefaultProvisioner, class Input_ &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; <a class="el" href="classmillijson_1_1Base.html">Base</a> &gt; millijson::parse </td>
+          <td class="memname">std::shared_ptr&lt; typename <a class="el" href="structmillijson_1_1DefaultProvisioner.html#ac75e8d09b380a537fceb1df812f7d1eb">DefaultProvisioner::Base</a> &gt; millijson::parse </td>
           <td>(</td>
           <td class="paramtype">Input_ &amp;</td>          <td class="paramname"><span class="paramname"><em>input</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Provisioner_</td><td>Class that provide methods for provisioning each JSON type, see <code><a class="el" href="structmillijson_1_1DefaultProvisioner.html" title="Default methods to provision representations of JSON types.">DefaultProvisioner</a></code> for an example. All types should be subclasses of the provisioner's base class (which may but is not required to be <code><a class="el" href="classmillijson_1_1Base.html" title="Virtual base class for all JSON types.">Base</a></code>). </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Input_</td><td>Class of the source of input bytes. This should satisfy the <a href="https://ltla.github.io/byteme"><code>byteme::PerByteInterface</code></a> interface with the following methods:</td></tr>
@@ -212,14 +223,13 @@ template&lt;class Input_ &gt; </div>
 
 </div>
 </div>
-<a id="a4dd4654de4a3abb1b786924ada07a686" name="a4dd4654de4a3abb1b786924ada07a686"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4dd4654de4a3abb1b786924ada07a686">&#9670;&#160;</a></span>parse_file()</h2>
+<a id="ad80d600490fe142b04e39b7788d8e5a1" name="ad80d600490fe142b04e39b7788d8e5a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad80d600490fe142b04e39b7788d8e5a1">&#9670;&#160;</a></span>parse_file()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+<div class="memtemplate">
+template&lt;class Provisioner_  = DefaultProvisioner&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::shared_ptr&lt; <a class="el" href="classmillijson_1_1Base.html">Base</a> &gt; millijson::parse_file </td>
@@ -232,11 +242,6 @@ template&lt;class Input_ &gt; </div>
           <td class="paramtype">const <a class="el" href="structmillijson_1_1FileReadOptions.html">FileReadOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>options</em></span>&#160;)</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -249,17 +254,19 @@ template&lt;class Input_ &gt; </div>
 
 </div>
 </div>
-<a id="a5d9a99b81f8e008903cfcc8544e03f53" name="a5d9a99b81f8e008903cfcc8544e03f53"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d9a99b81f8e008903cfcc8544e03f53">&#9670;&#160;</a></span>parse_string()</h2>
+<a id="a1287ab317e74b864908c3dd41a7560da" name="a1287ab317e74b864908c3dd41a7560da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1287ab317e74b864908c3dd41a7560da">&#9670;&#160;</a></span>parse_string()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;class Provisioner_  = DefaultProvisioner&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; <a class="el" href="classmillijson_1_1Base.html">Base</a> &gt; millijson::parse_string </td>
+          <td class="memname">std::shared_ptr&lt; typename Provisioner_::Base &gt; millijson::parse_string </td>
           <td>(</td>
           <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>, </td>
         </tr>
@@ -277,6 +284,7 @@ template&lt;class Input_ &gt; </div>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">Provisioner_</td><td>Class that provide methods for provisioning each JSON type, see <code><a class="el" href="structmillijson_1_1DefaultProvisioner.html" title="Default methods to provision representations of JSON types.">DefaultProvisioner</a></code> for an example. All types should be subclasses of the provisioner's base class (which may but is not required to be <code><a class="el" href="classmillijson_1_1Base.html" title="Virtual base class for all JSON types.">Base</a></code>). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to an array containing a JSON string. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">len</td><td>Length of the array. </td></tr>
   </table>
@@ -304,7 +312,7 @@ template&lt;class Input_ &gt; </div>
 </div><div class="memdoc">
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Input_</td><td>Any class that supplies input characters, see <code><a class="el" href="#aac596a9636c9f8862d447b033df8fd3e">parse()</a></code> for details.</td></tr>
+    <tr><td class="paramname">Input_</td><td>Any class that supplies input characters, see <code><a class="el" href="#aeaa8e358203c5d85f4be42750e35ee9f">parse()</a></code> for details.</td></tr>
   </table>
   </dd>
 </dl>

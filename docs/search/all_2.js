@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['filereadoptions_0',['FileReadOptions',['../structmillijson_1_1FileReadOptions.html',1,'millijson']]]
+  ['defaultprovisioner_0',['DefaultProvisioner',['../structmillijson_1_1DefaultProvisioner.html',1,'millijson']]]
 ];

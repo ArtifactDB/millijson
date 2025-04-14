@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['type_0',['type',['../classmillijson_1_1Base.html#a590630b66e2b0d00bf7f3e0ccfba7a53',1,'millijson::Base::type()'],['../classmillijson_1_1Number.html#a258f53a36e8ec12be2ed0936415131f1',1,'millijson::Number::type()'],['../classmillijson_1_1String.html#a1d4eb4f12c092177662129161b543f51',1,'millijson::String::type()'],['../classmillijson_1_1Boolean.html#a5b31c83c3bc2690bf30df465ca8e49fd',1,'millijson::Boolean::type()'],['../classmillijson_1_1Nothing.html#a549d250b32c4cd6ed92d23524ce2392f',1,'millijson::Nothing::type()'],['../classmillijson_1_1Array.html#a2b7598fd4ed816ee711eab9a50e4a4ee',1,'millijson::Array::type()'],['../classmillijson_1_1Object.html#acfe106773ae2807a0a362b5146617c02',1,'millijson::Object::type()']]]
+  ['parse_0',['parse',['../namespacemillijson.html#aeaa8e358203c5d85f4be42750e35ee9f',1,'millijson']]],
+  ['parse_5ffile_1',['parse_file',['../namespacemillijson.html#ad80d600490fe142b04e39b7788d8e5a1',1,'millijson']]],
+  ['parse_5fstring_2',['parse_string',['../namespacemillijson.html#a1287ab317e74b864908c3dd41a7560da',1,'millijson']]]
 ];
