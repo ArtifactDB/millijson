@@ -406,32 +406,27 @@ double extract_number(Input_& input) {
     } else { // 'lead' must be a digit, as extract_number is only called when the current character is a digit.
         value += lead - '0';
 
-        bool finished = [&]{ // wrapping it in an IIFE to easily break out of the loop inside the switch.
-            while (input.advance()) {
-                char val = input.get();
-                switch (input.get()) {
-                    case '.':
-                        in_fraction = true;
-                        return false;
-                    case 'e': case 'E':
-                        in_exponent = true;
-                        return false;
-                    case ',': case ']': case '}': case ' ': case '\r': case '\n': case '\t':
-                        return true;
-                    case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
-                        value *= 10;
-                        value += val - '0';
-                        break;
-                    default:
-                        throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
-                }
+        while (input.advance()) {
+            char val = input.get();
+            switch (input.get()) {
+                case '.':
+                    in_fraction = true;
+                    goto integral_end;
+                case 'e': case 'E':
+                    in_exponent = true;
+                    goto integral_end;
+                case ',': case ']': case '}': case ' ': case '\r': case '\n': case '\t':
+                    goto total_end;
+                case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+                    value *= 10;
+                    value += val - '0';
+                    break;
+                default:
+                    throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
             }
-            return true; // this is reached only when we run out of digits.
-        }();
-
-        if (finished) {
-            return value;
         }
+
+integral_end:;
     }
 
     if (in_fraction) {
@@ -447,29 +442,24 @@ double extract_number(Input_& input) {
         double fractional = 10;
         value += (val - '0') / fractional;
 
-        bool finished = [&]{ // wrapping it in an IIFE to easily break out of the loop inside the switch.
-            while (input.advance()) {
-                char val = input.get();
-                switch (input.get()) {
-                    case 'e': case 'E':
-                        in_exponent = true;
-                        return false;
-                    case ',': case ']': case '}': case ' ': case '\r': case '\n': case '\t':
-                        return true;
-                    case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
-                        fractional *= 10;
-                        value += (val - '0') / fractional;
-                        break;
-                    default:
-                        throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
-                }
-            } 
-            return true; // should only be reached if we ran out of digits.
-        }();
+        while (input.advance()) {
+            char val = input.get();
+            switch (input.get()) {
+                case 'e': case 'E':
+                    in_exponent = true;
+                    goto fraction_end;
+                case ',': case ']': case '}': case ' ': case '\r': case '\n': case '\t':
+                    goto total_end;
+                case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+                    fractional *= 10;
+                    value += (val - '0') / fractional;
+                    break;
+                default:
+                    throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
+            }
+        } 
 
-        if (finished) {
-            return value;
-        }
+fraction_end:;
     }
 
     if (in_exponent) {
@@ -499,22 +489,21 @@ double extract_number(Input_& input) {
 
         exponent += (val - '0');
 
-        [&]{ // wrapping it in an IIFE to easily break out of the loop inside the switch.
-            while (input.advance()) {
-                char val = input.get();
-                switch (val) {
-                    case ',': case ']': case '}': case ' ': case '\r': case '\n': case '\t':
-                        return;
-                    case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
-                        exponent *= 10;
-                        exponent += (val - '0');
-                        break;
-                    default:
-                        throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
-                }
+        while (input.advance()) {
+            char val = input.get();
+            switch (val) {
+                case ',': case ']': case '}': case ' ': case '\r': case '\n': case '\t':
+                    goto exponent_end;
+                case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+                    exponent *= 10;
+                    exponent += (val - '0');
+                    break;
+                default:
+                    throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
             }
-        }();
+        }
 
+exponent_end:
         if (exponent) {
             if (negative_exponent) {
                 exponent *= -1;
@@ -523,6 +512,7 @@ double extract_number(Input_& input) {
         }
     }
 
+total_end:
     return value;
 }
 
