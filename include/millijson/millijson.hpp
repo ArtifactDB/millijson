@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include <cstddef>
 #include <cstdlib>
 #include <string>
 #include <stdexcept>
@@ -20,7 +21,6 @@
  * @namespace millijson
  * @brief A lightweight header-only JSON parser.
  */
-
 namespace millijson {
 
 /**
@@ -247,9 +247,9 @@ inline bool is_digit(char val) {
 }
 
 template<class Input_>
-bool is_expected_string(Input_& input, const char* ptr, size_t len) {
+bool is_expected_string(Input_& input, const char* ptr, std::size_t len) {
     // We use a hard-coded 'len' instead of scanning for '\0' to enable loop unrolling.
-    for (size_t i = 1; i < len; ++i) {
+    for (std::size_t i = 1; i < len; ++i) {
         // The current character was already used to determine what string to
         // expect, so we can skip past it in order to match the rest of the
         // string. This is also why we start from i = 1 instead of i = 0.
@@ -266,7 +266,7 @@ bool is_expected_string(Input_& input, const char* ptr, size_t len) {
 
 template<class Input_>
 std::string extract_string(Input_& input) {
-    size_t start = input.position() + 1;
+    std::size_t start = input.position() + 1;
     input.advance(); // get past the opening quote.
     std::string output;
 
@@ -310,7 +310,7 @@ std::string extract_string(Input_& input) {
                         case 'u':
                             {
                                 unsigned short mb = 0;
-                                for (size_t i = 0; i < 4; ++i) {
+                                for (std::size_t i = 0; i < 4; ++i) {
                                     if (!input.advance()){
                                         throw std::runtime_error("unterminated string at position " + std::to_string(start));
                                     }
@@ -378,7 +378,7 @@ std::string extract_string(Input_& input) {
 
 template<class Input_>
 double extract_number(Input_& input) {
-    size_t start = input.position() + 1;
+    std::size_t start = input.position() + 1;
     double value = 0;
     bool in_fraction = false;
     bool in_exponent = false;
@@ -587,7 +587,7 @@ template<class Provisioner_, class Input_>
 std::shared_ptr<typename Provisioner_::Base> parse_thing(Input_& input) {
     std::shared_ptr<typename Provisioner_::Base> output;
 
-    size_t start = input.position() + 1;
+    std::size_t start = input.position() + 1;
     const char current = input.get();
 
     switch(current) {
@@ -806,7 +806,7 @@ struct DefaultProvisioner {
  * - `char get() const `, which extracts a `char` from the input source without advancing the position on the byte stream.
  * - `bool valid() const`, to determine whether an input `char` can be `get()` from the input.
  * - `bool advance()`, to advance the input stream and return `valid()` at the new position.
- * - `size_t position() const`, for the current position relative to the start of the byte stream.
+ * - `std::size_t position() const`, for the current position relative to the start of the byte stream.
  *
  * @param input A source of input bytes, usually from a JSON-formatted file or string.
  * @return A pointer to a JSON value.
@@ -835,12 +835,12 @@ Type validate(Input_& input) {
  */
 class RawReader {
 public:
-    RawReader(const char* ptr, size_t len) : my_ptr(ptr), my_len(len) {}
+    RawReader(const char* ptr, std::size_t len) : my_ptr(ptr), my_len(len) {}
 
 private:
-    size_t my_pos = 0;
+    std::size_t my_pos = 0;
     const char * my_ptr;
-    size_t my_len;
+    std::size_t my_len;
 
 public:
     char get() const {
@@ -856,7 +856,7 @@ public:
         return valid();
     }
 
-    size_t position() const {
+    std::size_t position() const {
         return my_pos;
     }
 };
@@ -872,7 +872,7 @@ public:
  * @return A pointer to a JSON value.
  */
 template<class Provisioner_ = DefaultProvisioner>
-inline std::shared_ptr<typename Provisioner_::Base> parse_string(const char* ptr, size_t len) {
+inline std::shared_ptr<typename Provisioner_::Base> parse_string(const char* ptr, std::size_t len) {
     RawReader input(ptr, len);
     return parse<Provisioner_>(input);
 }
@@ -884,7 +884,7 @@ inline std::shared_ptr<typename Provisioner_::Base> parse_string(const char* ptr
  * @return The type of the JSON variable stored in the string.
  * If the JSON string is invalid, an error is raised.
  */
-inline Type validate_string(const char* ptr, size_t len) {
+inline Type validate_string(const char* ptr, std::size_t len) {
     RawReader input(ptr, len);
     return validate(input);
 }
@@ -894,7 +894,7 @@ inline Type validate_string(const char* ptr, size_t len) {
  */
 class FileReader {
 public:
-    FileReader(const char* path, size_t buffer_size) : my_handle(std::fopen(path, "rb")), my_buffer(buffer_size) {
+    FileReader(const char* path, std::size_t buffer_size) : my_handle(std::fopen(path, "rb")), my_buffer(buffer_size) {
         if (!my_handle) {
             throw std::runtime_error("failed to open file at '" + std::string(path) + "'");
         }
@@ -906,11 +906,11 @@ public:
     }
 
 private:
-    FILE* my_handle;
+    std::FILE* my_handle;
     std::vector<char> my_buffer;
-    size_t my_available = 0;
-    size_t my_index = 0;
-    size_t my_overall = 0;
+    std::size_t my_available = 0;
+    std::size_t my_index = 0;
+    std::size_t my_overall = 0;
     bool my_finished = false;
 
 public:
@@ -952,7 +952,7 @@ public:
         }
     }
 
-    size_t position() const {
+    std::size_t position() const {
         return my_overall + my_index;
     }
 };
@@ -967,7 +967,7 @@ struct FileReadOptions {
     /**
      * Size of the buffer to use for reading the file.
      */
-    size_t buffer_size = 65536;
+    std::size_t buffer_size = 65536;
 };
 
 /**
