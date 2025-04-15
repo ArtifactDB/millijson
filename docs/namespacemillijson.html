@@ -149,11 +149,11 @@ Functions</h2></td></tr>
 <tr class="memitem:a5d202f16e1879c17199bbfbbc5059889" id="r_a5d202f16e1879c17199bbfbbc5059889"><td class="memTemplParams" colspan="2">template&lt;class Input_ &gt; </td></tr>
 <tr class="memitem:a5d202f16e1879c17199bbfbbc5059889"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="#aa16302fdbcf6f85a442a302b1745afb5">Type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a5d202f16e1879c17199bbfbbc5059889">validate</a> (Input_ &amp;input)</td></tr>
 <tr class="separator:a5d202f16e1879c17199bbfbbc5059889"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1287ab317e74b864908c3dd41a7560da" id="r_a1287ab317e74b864908c3dd41a7560da"><td class="memTemplParams" colspan="2">template&lt;class Provisioner_  = DefaultProvisioner&gt; </td></tr>
-<tr class="memitem:a1287ab317e74b864908c3dd41a7560da"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; typename Provisioner_::Base &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a1287ab317e74b864908c3dd41a7560da">parse_string</a> (const char *ptr, size_t len)</td></tr>
-<tr class="separator:a1287ab317e74b864908c3dd41a7560da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ba75129059e2161877310cc4d947ff1" id="r_a9ba75129059e2161877310cc4d947ff1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#aa16302fdbcf6f85a442a302b1745afb5">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ba75129059e2161877310cc4d947ff1">validate_string</a> (const char *ptr, size_t len)</td></tr>
-<tr class="separator:a9ba75129059e2161877310cc4d947ff1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff0c175734eb6450ecb073f49e349425" id="r_aff0c175734eb6450ecb073f49e349425"><td class="memTemplParams" colspan="2">template&lt;class Provisioner_  = DefaultProvisioner&gt; </td></tr>
+<tr class="memitem:aff0c175734eb6450ecb073f49e349425"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; typename Provisioner_::Base &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aff0c175734eb6450ecb073f49e349425">parse_string</a> (const char *ptr, std::size_t len)</td></tr>
+<tr class="separator:aff0c175734eb6450ecb073f49e349425"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0709b68fbbff4c9a54032153d834c264" id="r_a0709b68fbbff4c9a54032153d834c264"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#aa16302fdbcf6f85a442a302b1745afb5">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0709b68fbbff4c9a54032153d834c264">validate_string</a> (const char *ptr, std::size_t len)</td></tr>
+<tr class="separator:a0709b68fbbff4c9a54032153d834c264"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad80d600490fe142b04e39b7788d8e5a1" id="r_ad80d600490fe142b04e39b7788d8e5a1"><td class="memTemplParams" colspan="2">template&lt;class Provisioner_  = DefaultProvisioner&gt; </td></tr>
 <tr class="memitem:ad80d600490fe142b04e39b7788d8e5a1"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classmillijson_1_1Base.html">Base</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad80d600490fe142b04e39b7788d8e5a1">parse_file</a> (const char *path, const <a class="el" href="structmillijson_1_1FileReadOptions.html">FileReadOptions</a> &amp;options)</td></tr>
 <tr class="separator:ad80d600490fe142b04e39b7788d8e5a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -206,7 +206,7 @@ template&lt;class Provisioner_  = DefaultProvisioner, class Input_ &gt; </div>
 <li><code>char get() const</code>, which extracts a <code>char</code> from the input source without advancing the position on the byte stream.</li>
 <li><code>bool valid() const</code>, to determine whether an input <code>char</code> can be <code>get()</code> from the input.</li>
 <li><code>bool advance()</code>, to advance the input stream and return <code>valid()</code> at the new position.</li>
-<li><code>size_t position() const</code>, for the current position relative to the start of the byte stream.</li>
+<li><code>unsigned long long position() const</code>, for the current position relative to the start of the byte stream.</li>
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -249,8 +249,8 @@ template&lt;class Provisioner_  = DefaultProvisioner&gt; </div>
 
 </div>
 </div>
-<a id="a1287ab317e74b864908c3dd41a7560da" name="a1287ab317e74b864908c3dd41a7560da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1287ab317e74b864908c3dd41a7560da">&#9670;&#160;</a></span>parse_string()</h2>
+<a id="aff0c175734eb6450ecb073f49e349425" name="aff0c175734eb6450ecb073f49e349425"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff0c175734eb6450ecb073f49e349425">&#9670;&#160;</a></span>parse_string()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -268,7 +268,7 @@ template&lt;class Provisioner_  = DefaultProvisioner&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>&#160;)</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -363,8 +363,8 @@ template&lt;class Input_ &gt; </div>
 
 </div>
 </div>
-<a id="a9ba75129059e2161877310cc4d947ff1" name="a9ba75129059e2161877310cc4d947ff1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ba75129059e2161877310cc4d947ff1">&#9670;&#160;</a></span>validate_string()</h2>
+<a id="a0709b68fbbff4c9a54032153d834c264" name="a0709b68fbbff4c9a54032153d834c264"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0709b68fbbff4c9a54032153d834c264">&#9670;&#160;</a></span>validate_string()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -380,7 +380,7 @@ template&lt;class Input_ &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>&#160;)</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
