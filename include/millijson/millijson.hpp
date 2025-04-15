@@ -266,7 +266,7 @@ bool is_expected_string(Input_& input, const char* ptr, std::size_t len) {
 
 template<class Input_>
 std::string extract_string(Input_& input) {
-    std::size_t start = input.position() + 1;
+    unsigned long long start = input.position() + 1;
     input.advance(); // get past the opening quote.
     std::string output;
 
@@ -378,7 +378,7 @@ std::string extract_string(Input_& input) {
 
 template<class Input_>
 double extract_number(Input_& input) {
-    std::size_t start = input.position() + 1;
+    unsigned long long start = input.position() + 1;
     double value = 0;
     bool in_fraction = false;
     bool in_exponent = false;
@@ -587,7 +587,7 @@ template<class Provisioner_, class Input_>
 std::shared_ptr<typename Provisioner_::Base> parse_thing(Input_& input) {
     std::shared_ptr<typename Provisioner_::Base> output;
 
-    std::size_t start = input.position() + 1;
+    unsigned long long start = input.position() + 1;
     const char current = input.get();
 
     switch(current) {
@@ -806,7 +806,7 @@ struct DefaultProvisioner {
  * - `char get() const `, which extracts a `char` from the input source without advancing the position on the byte stream.
  * - `bool valid() const`, to determine whether an input `char` can be `get()` from the input.
  * - `bool advance()`, to advance the input stream and return `valid()` at the new position.
- * - `std::size_t position() const`, for the current position relative to the start of the byte stream.
+ * - `unsigned long long position() const`, for the current position relative to the start of the byte stream.
  *
  * @param input A source of input bytes, usually from a JSON-formatted file or string.
  * @return A pointer to a JSON value.
@@ -838,7 +838,7 @@ public:
     RawReader(const char* ptr, std::size_t len) : my_ptr(ptr), my_len(len) {}
 
 private:
-    std::size_t my_pos = 0;
+    unsigned long long my_pos = 0;
     const char * my_ptr;
     std::size_t my_len;
 
@@ -856,7 +856,7 @@ public:
         return valid();
     }
 
-    std::size_t position() const {
+    unsigned long long position() const {
         return my_pos;
     }
 };
@@ -910,7 +910,7 @@ private:
     std::vector<char> my_buffer;
     std::size_t my_available = 0;
     std::size_t my_index = 0;
-    std::size_t my_overall = 0;
+    unsigned long long my_overall = 0;
     bool my_finished = false;
 
 public:
@@ -952,7 +952,7 @@ public:
         }
     }
 
-    std::size_t position() const {
+    unsigned long long position() const {
         return my_overall + my_index;
     }
 };
