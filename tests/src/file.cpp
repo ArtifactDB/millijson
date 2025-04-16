@@ -111,3 +111,9 @@ TEST(FileParsing, Errors) {
         }
     });
 }
+
+TEST(FileParsing, CheckBufferSize) {
+    EXPECT_EQ(millijson::FileReader::check_buffer_size(1), 1);
+    constexpr auto maxed = std::numeric_limits<std::size_t>::max();
+    EXPECT_LE(millijson::FileReader::check_buffer_size(maxed), maxed);
+}

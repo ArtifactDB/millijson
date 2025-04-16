@@ -310,7 +310,7 @@ std::string extract_string(Input_& input) {
                         case 'u':
                             {
                                 unsigned short mb = 0;
-                                for (std::size_t i = 0; i < 4; ++i) {
+                                for (int i = 0; i < 4; ++i) {
                                     if (!input.advance()){
                                         throw std::runtime_error("unterminated string at position " + std::to_string(start));
                                     }
@@ -884,7 +884,7 @@ inline Type validate_string(const char* ptr, std::size_t len) {
  */
 class FileReader {
 public:
-    FileReader(const char* path, std::size_t buffer_size) : my_handle(std::fopen(path, "rb")), my_buffer(buffer_size) {
+    FileReader(const char* path, std::size_t buffer_size) : my_handle(std::fopen(path, "rb")), my_buffer(check_buffer_size(buffer_size)) {
         if (!my_handle) {
             throw std::runtime_error("failed to open file at '" + std::string(path) + "'");
         }
@@ -895,11 +895,25 @@ public:
         std::fclose(my_handle);
     }
 
+public:
+    typedef typename std::vector<char>::size_type Size;
+
+    static Size check_buffer_size(std::size_t buffer_size) {
+        // Usually this is a no-op as the vector::size_type is a size_t.
+        // But it doesn't hurt to confirm that it will fit properly.
+        constexpr Size max_size = std::numeric_limits<Size>::max();
+        if (buffer_size >= max_size) { // size_type should be unsigned, so at least this comparison is safe.
+            return max_size;
+        } else {
+            return buffer_size;
+        }
+    }
+
 private:
     std::FILE* my_handle;
     std::vector<char> my_buffer;
-    std::size_t my_available = 0;
-    std::size_t my_index = 0;
+    Size my_available = 0;
+    Size my_index = 0;
     unsigned long long my_overall = 0;
     bool my_finished = false;
 
