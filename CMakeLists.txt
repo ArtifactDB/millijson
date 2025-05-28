@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 
 project(millijson
-    VERSION 1.0.1
+    VERSION 2.0.0
     DESCRIPTION "Lightweight JSON library for C++"
     LANGUAGES CXX)
 
