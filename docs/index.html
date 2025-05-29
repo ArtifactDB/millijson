@@ -99,7 +99,8 @@ $(function(){ initResizable(false); });
 <div class="line"><span class="preprocessor">#include &quot;<a class="code" href="millijson_8hpp.html">millijson/millijson.hpp</a>&quot;</span></div>
 <div class="line"> </div>
 <div class="line">std::string foo = <span class="stringliteral">&quot;[ { \&quot;foo\&quot;: \&quot;bar\&quot; }, 1e-2 ]&quot;</span>;</div>
-<div class="line"><span class="keyword">auto</span> ptr = <a class="code hl_function" href="namespacemillijson.html#aff0c175734eb6450ecb073f49e349425">millijson::parse_string</a>(foo.c_str(), foo.size());</div>
+<div class="line"><a class="code hl_struct" href="structmillijson_1_1ParseOptions.html">millijson::ParseOptions</a> opt;</div>
+<div class="line"><span class="keyword">auto</span> ptr = <a class="code hl_function" href="namespacemillijson.html#a41e7981d02afa5937e2db706f68444ec">millijson::parse_string</a>(foo.c_str(), foo.size(), opt);</div>
 <div class="line"> </div>
 <div class="line">ptr-&gt;type(); <span class="comment">// millijson::ARRAY</span></div>
 <div class="line"><span class="keyword">const</span> <span class="keyword">auto</span>&amp; array = ptr-&gt;get_array(); <span class="comment">// vector of pointers</span></div>
@@ -114,13 +115,16 @@ $(function(){ initResizable(false); });
 <div class="line">array[1]-&gt;type(); <span class="comment">// milljson::NUMBER</span></div>
 <div class="line"><span class="keyword">auto</span> number = array[1]-&gt;get_number(); <span class="comment">// double</span></div>
 <div class="ttc" id="amillijson_8hpp_html"><div class="ttname"><a href="millijson_8hpp.html">millijson.hpp</a></div><div class="ttdoc">Header-only library for JSON parsing.</div></div>
-<div class="ttc" id="anamespacemillijson_html_aff0c175734eb6450ecb073f49e349425"><div class="ttname"><a href="namespacemillijson.html#aff0c175734eb6450ecb073f49e349425">millijson::parse_string</a></div><div class="ttdeci">std::shared_ptr&lt; typename Provisioner_::Base &gt; parse_string(const char *ptr, std::size_t len)</div><div class="ttdef"><b>Definition</b> millijson.hpp:865</div></div>
+<div class="ttc" id="anamespacemillijson_html_a41e7981d02afa5937e2db706f68444ec"><div class="ttname"><a href="namespacemillijson.html#a41e7981d02afa5937e2db706f68444ec">millijson::parse_string</a></div><div class="ttdeci">std::shared_ptr&lt; typename Provisioner_::Base &gt; parse_string(const char *ptr, std::size_t len, const ParseOptions &amp;options)</div><div class="ttdef"><b>Definition</b> millijson.hpp:989</div></div>
+<div class="ttc" id="astructmillijson_1_1ParseOptions_html"><div class="ttname"><a href="structmillijson_1_1ParseOptions.html">millijson::ParseOptions</a></div><div class="ttdoc">Options for parse().</div><div class="ttdef"><b>Definition</b> millijson.hpp:245</div></div>
 </div><!-- fragment --><p>The same works with a file:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> ptr = <a class="code hl_function" href="namespacemillijson.html#ad80d600490fe142b04e39b7788d8e5a1">millijson::parse_file</a>(<span class="stringliteral">&quot;some_json_file.json&quot;</span>);</div>
-<div class="ttc" id="anamespacemillijson_html_ad80d600490fe142b04e39b7788d8e5a1"><div class="ttname"><a href="namespacemillijson.html#ad80d600490fe142b04e39b7788d8e5a1">millijson::parse_file</a></div><div class="ttdeci">std::shared_ptr&lt; Base &gt; parse_file(const char *path, const FileReadOptions &amp;options)</div><div class="ttdef"><b>Definition</b> millijson.hpp:983</div></div>
+<div class="fragment"><div class="line"><a class="code hl_struct" href="structmillijson_1_1FileReadOptions.html">millijson::FileReadOptions</a> fopt;</div>
+<div class="line"><span class="keyword">auto</span> fptr = <a class="code hl_function" href="namespacemillijson.html#ad80d600490fe142b04e39b7788d8e5a1">millijson::parse_file</a>(<span class="stringliteral">&quot;some_json_file.json&quot;</span>, fopt);</div>
+<div class="ttc" id="anamespacemillijson_html_ad80d600490fe142b04e39b7788d8e5a1"><div class="ttname"><a href="namespacemillijson.html#ad80d600490fe142b04e39b7788d8e5a1">millijson::parse_file</a></div><div class="ttdeci">std::shared_ptr&lt; Base &gt; parse_file(const char *path, const FileReadOptions &amp;options)</div><div class="ttdef"><b>Definition</b> millijson.hpp:1118</div></div>
+<div class="ttc" id="astructmillijson_1_1FileReadOptions_html"><div class="ttname"><a href="structmillijson_1_1FileReadOptions.html">millijson::FileReadOptions</a></div><div class="ttdoc">Options for parse_file() and validate_file().</div><div class="ttdef"><b>Definition</b> millijson.hpp:1097</div></div>
 </div><!-- fragment --><p>If you just want to validate a file, without using memory to load it:</p>
-<div class="fragment"><div class="line"><a class="code hl_function" href="namespacemillijson.html#a106d56a54d20dcec59f404929e9c7e19">millijson::validate_file</a>(<span class="stringliteral">&quot;some_json_file.json&quot;</span>);</div>
-<div class="ttc" id="anamespacemillijson_html_a106d56a54d20dcec59f404929e9c7e19"><div class="ttname"><a href="namespacemillijson.html#a106d56a54d20dcec59f404929e9c7e19">millijson::validate_file</a></div><div class="ttdeci">Type validate_file(const char *path, const FileReadOptions &amp;options)</div><div class="ttdef"><b>Definition</b> millijson.hpp:995</div></div>
+<div class="fragment"><div class="line"><a class="code hl_function" href="namespacemillijson.html#a106d56a54d20dcec59f404929e9c7e19">millijson::validate_file</a>(<span class="stringliteral">&quot;some_json_file.json&quot;</span>, fopt);</div>
+<div class="ttc" id="anamespacemillijson_html_a106d56a54d20dcec59f404929e9c7e19"><div class="ttname"><a href="namespacemillijson.html#a106d56a54d20dcec59f404929e9c7e19">millijson::validate_file</a></div><div class="ttdeci">Type validate_file(const char *path, const FileReadOptions &amp;options)</div><div class="ttdef"><b>Definition</b> millijson.hpp:1132</div></div>
 </div><!-- fragment --><p>See the <a href="https://artifactdb.github.io/millijson">reference documentation</a> for more details.</p>
 <h1>Building projects</h1>
 <h2>CMake with <code>FetchContent</code></h2>

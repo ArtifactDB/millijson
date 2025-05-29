@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['string_0',['String',['../classmillijson_1_1String.html',1,'millijson']]]
+  ['parseoptions_0',['ParseOptions',['../structmillijson_1_1ParseOptions.html',1,'millijson']]]
 ];

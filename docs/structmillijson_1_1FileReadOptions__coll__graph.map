@@ -1,0 +1,5 @@
+<map id="millijson::FileReadOptions" name="millijson::FileReadOptions">
+<area shape="rect" id="Node000001" title="Options for parse_file() and validate_file()." alt="" coords="5,94,176,120"/>
+<area shape="rect" id="Node000002" href="$structmillijson_1_1ParseOptions.html" title="Options for parse()." alt="" coords="14,5,167,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,47,93,94,88,94,88,47"/>
+</map>

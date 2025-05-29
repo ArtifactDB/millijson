@@ -150,6 +150,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmillijson_1_1Number.html">millijson::Number</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">JSON number.  <a href="classmillijson_1_1Number.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmillijson_1_1NumberAsString.html">millijson::NumberAsString</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">JSON number as a string.  <a href="classmillijson_1_1NumberAsString.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmillijson_1_1String.html">millijson::String</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">JSON string.  <a href="classmillijson_1_1String.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -164,6 +167,9 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmillijson_1_1Object.html">millijson::Object</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">JSON object.  <a href="classmillijson_1_1Object.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmillijson_1_1ParseOptions.html">millijson::ParseOptions</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options for <code><a class="el" href="namespacemillijson.html#a222e73844fb11f9d000e18e25a2cd940">parse()</a></code>.  <a href="structmillijson_1_1ParseOptions.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmillijson_1_1DefaultProvisioner.html">millijson::DefaultProvisioner</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default methods to provision representations of JSON types.  <a href="structmillijson_1_1DefaultProvisioner.html#details">More...</a><br /></td></tr>
@@ -182,11 +188,12 @@ Namespaces</h2></td></tr>
 Enumerations</h2></td></tr>
 <tr class="memitem:aa16302fdbcf6f85a442a302b1745afb5" id="r_aa16302fdbcf6f85a442a302b1745afb5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemillijson.html#aa16302fdbcf6f85a442a302b1745afb5">millijson::Type</a> { <br />
 &#160;&#160;<b>NUMBER</b>
+, <b>NUMBER_AS_STRING</b>
 , <b>STRING</b>
 , <b>BOOLEAN</b>
-, <b>NOTHING</b>
 , <br />
-&#160;&#160;<b>ARRAY</b>
+&#160;&#160;<b>NOTHING</b>
+, <b>ARRAY</b>
 , <b>OBJECT</b>
 <br />
  }</td></tr>
@@ -194,17 +201,17 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aeaa8e358203c5d85f4be42750e35ee9f" id="r_aeaa8e358203c5d85f4be42750e35ee9f"><td class="memTemplParams" colspan="2">template&lt;class Provisioner_  = DefaultProvisioner, class Input_ &gt; </td></tr>
-<tr class="memitem:aeaa8e358203c5d85f4be42750e35ee9f"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; typename <a class="el" href="structmillijson_1_1DefaultProvisioner.html#ac75e8d09b380a537fceb1df812f7d1eb">DefaultProvisioner::Base</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemillijson.html#aeaa8e358203c5d85f4be42750e35ee9f">millijson::parse</a> (Input_ &amp;input)</td></tr>
-<tr class="separator:aeaa8e358203c5d85f4be42750e35ee9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d202f16e1879c17199bbfbbc5059889" id="r_a5d202f16e1879c17199bbfbbc5059889"><td class="memTemplParams" colspan="2">template&lt;class Input_ &gt; </td></tr>
-<tr class="memitem:a5d202f16e1879c17199bbfbbc5059889"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespacemillijson.html#aa16302fdbcf6f85a442a302b1745afb5">Type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemillijson.html#a5d202f16e1879c17199bbfbbc5059889">millijson::validate</a> (Input_ &amp;input)</td></tr>
-<tr class="separator:a5d202f16e1879c17199bbfbbc5059889"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff0c175734eb6450ecb073f49e349425" id="r_aff0c175734eb6450ecb073f49e349425"><td class="memTemplParams" colspan="2">template&lt;class Provisioner_  = DefaultProvisioner&gt; </td></tr>
-<tr class="memitem:aff0c175734eb6450ecb073f49e349425"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; typename Provisioner_::Base &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemillijson.html#aff0c175734eb6450ecb073f49e349425">millijson::parse_string</a> (const char *ptr, std::size_t len)</td></tr>
-<tr class="separator:aff0c175734eb6450ecb073f49e349425"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0709b68fbbff4c9a54032153d834c264" id="r_a0709b68fbbff4c9a54032153d834c264"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacemillijson.html#aa16302fdbcf6f85a442a302b1745afb5">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemillijson.html#a0709b68fbbff4c9a54032153d834c264">millijson::validate_string</a> (const char *ptr, std::size_t len)</td></tr>
-<tr class="separator:a0709b68fbbff4c9a54032153d834c264"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a222e73844fb11f9d000e18e25a2cd940" id="r_a222e73844fb11f9d000e18e25a2cd940"><td class="memTemplParams" colspan="2">template&lt;class Provisioner_  = DefaultProvisioner, class Input_ &gt; </td></tr>
+<tr class="memitem:a222e73844fb11f9d000e18e25a2cd940"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; typename <a class="el" href="structmillijson_1_1DefaultProvisioner.html#ac75e8d09b380a537fceb1df812f7d1eb">DefaultProvisioner::Base</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemillijson.html#a222e73844fb11f9d000e18e25a2cd940">millijson::parse</a> (Input_ &amp;input, const <a class="el" href="structmillijson_1_1ParseOptions.html">ParseOptions</a> &amp;options)</td></tr>
+<tr class="separator:a222e73844fb11f9d000e18e25a2cd940"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a3e891c2181292c17ec4196b6059b5a" id="r_a3a3e891c2181292c17ec4196b6059b5a"><td class="memTemplParams" colspan="2">template&lt;class Input_ &gt; </td></tr>
+<tr class="memitem:a3a3e891c2181292c17ec4196b6059b5a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespacemillijson.html#aa16302fdbcf6f85a442a302b1745afb5">Type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemillijson.html#a3a3e891c2181292c17ec4196b6059b5a">millijson::validate</a> (Input_ &amp;input, const <a class="el" href="structmillijson_1_1ParseOptions.html">ParseOptions</a> &amp;options)</td></tr>
+<tr class="separator:a3a3e891c2181292c17ec4196b6059b5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41e7981d02afa5937e2db706f68444ec" id="r_a41e7981d02afa5937e2db706f68444ec"><td class="memTemplParams" colspan="2">template&lt;class Provisioner_  = DefaultProvisioner&gt; </td></tr>
+<tr class="memitem:a41e7981d02afa5937e2db706f68444ec"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; typename Provisioner_::Base &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemillijson.html#a41e7981d02afa5937e2db706f68444ec">millijson::parse_string</a> (const char *ptr, std::size_t len, const <a class="el" href="structmillijson_1_1ParseOptions.html">ParseOptions</a> &amp;options)</td></tr>
+<tr class="separator:a41e7981d02afa5937e2db706f68444ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13b89e03e4e6b5f12cde0e3c028224f3" id="r_a13b89e03e4e6b5f12cde0e3c028224f3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacemillijson.html#aa16302fdbcf6f85a442a302b1745afb5">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemillijson.html#a13b89e03e4e6b5f12cde0e3c028224f3">millijson::validate_string</a> (const char *ptr, std::size_t len, const <a class="el" href="structmillijson_1_1ParseOptions.html">ParseOptions</a> &amp;options)</td></tr>
+<tr class="separator:a13b89e03e4e6b5f12cde0e3c028224f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad80d600490fe142b04e39b7788d8e5a1" id="r_ad80d600490fe142b04e39b7788d8e5a1"><td class="memTemplParams" colspan="2">template&lt;class Provisioner_  = DefaultProvisioner&gt; </td></tr>
 <tr class="memitem:ad80d600490fe142b04e39b7788d8e5a1"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classmillijson_1_1Base.html">Base</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemillijson.html#ad80d600490fe142b04e39b7788d8e5a1">millijson::parse_file</a> (const char *path, const <a class="el" href="structmillijson_1_1FileReadOptions.html">FileReadOptions</a> &amp;options)</td></tr>
 <tr class="separator:ad80d600490fe142b04e39b7788d8e5a1"><td class="memSeparator" colspan="2">&#160;</td></tr>

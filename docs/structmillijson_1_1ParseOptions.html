@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>millijson: Namespace Members</title>
+<title>millijson: millijson::ParseOptions Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -57,8 +57,6 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
-</div><!-- top -->
-<div id="doc-content">
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(function(){ initResizable(false); });
@@ -85,14 +83,50 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacemillijson.html">millijson</a></li><li class="navelem"><a class="el" href="structmillijson_1_1ParseOptions.html">ParseOptions</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div id="doc-content">
+<div class="header">
+  <div class="summary">
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="structmillijson_1_1ParseOptions-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">millijson::ParseOptions Struct Reference</div></div>
+</div><!--header-->
 <div class="contents">
-<div class="textblock">Here is a list of all documented namespace functions with links to the namespaces they belong to:</div><ul>
-<li>parse()&#160;:&#160;<a class="el" href="namespacemillijson.html#a222e73844fb11f9d000e18e25a2cd940">millijson</a></li>
-<li>parse_file()&#160;:&#160;<a class="el" href="namespacemillijson.html#ad80d600490fe142b04e39b7788d8e5a1">millijson</a></li>
-<li>parse_string()&#160;:&#160;<a class="el" href="namespacemillijson.html#a41e7981d02afa5937e2db706f68444ec">millijson</a></li>
-<li>validate()&#160;:&#160;<a class="el" href="namespacemillijson.html#a3a3e891c2181292c17ec4196b6059b5a">millijson</a></li>
-<li>validate_file()&#160;:&#160;<a class="el" href="namespacemillijson.html#a106d56a54d20dcec59f404929e9c7e19">millijson</a></li>
-<li>validate_string()&#160;:&#160;<a class="el" href="namespacemillijson.html#a13b89e03e4e6b5f12cde0e3c028224f3">millijson</a></li>
+
+<p>Options for <code><a class="el" href="namespacemillijson.html#a222e73844fb11f9d000e18e25a2cd940">parse()</a></code>.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="millijson_8hpp_source.html">millijson.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a071217fba269c8088c8095a364261e73" id="r_a071217fba269c8088c8095a364261e73"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a071217fba269c8088c8095a364261e73">number_as_string</a> = false</td></tr>
+<tr class="separator:a071217fba269c8088c8095a364261e73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Options for <code><a class="el" href="namespacemillijson.html#a222e73844fb11f9d000e18e25a2cd940">parse()</a></code>. </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="a071217fba269c8088c8095a364261e73" name="a071217fba269c8088c8095a364261e73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a071217fba269c8088c8095a364261e73">&#9670;&#160;</a></span>number_as_string</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool millijson::ParseOptions::number_as_string = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Whether to preserve the string representation for numbers. If true, all JSON numbers will be loaded as <code><a class="el" href="classmillijson_1_1NumberAsString.html" title="JSON number as a string.">NumberAsString</a></code>. Otherwise, they will be loaded as <code><a class="el" href="classmillijson_1_1Number.html" title="JSON number.">Number</a></code>. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>millijson/<a class="el" href="millijson_8hpp_source.html">millijson.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
