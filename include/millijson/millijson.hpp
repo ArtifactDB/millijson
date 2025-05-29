@@ -897,6 +897,12 @@ struct DefaultProvisioner {
 };
 
 /**
+ * Parse a stream of input bytes for a JSON value, based on the specification at https://json.org.
+ *
+ * No consideration is given to floating-point overflow for arbitrarily large numbers. 
+ * On systems that support IEEE754 arithmetic, overflow will manifest as infinities in `Number`, otherwise it is undefined behavior.
+ * If overflow is undesirable, consider setting `ParseOptions::number_as_string` to manually control conversion after parsing.
+ *
  * @tparam Provisioner_ Class that provide methods for provisioning each JSON type, see `DefaultProvisioner` for an example.
  * All types should be subclasses of the provisioner's base class (which may but is not required to be `Base`).
  * @tparam Input_ Class of the source of input bytes.
@@ -918,6 +924,9 @@ std::shared_ptr<typename DefaultProvisioner::Base> parse(Input_& input, const Pa
 }
 
 /**
+ * Check that a string contains a valid JSON value.
+ * This follows the same logic as `parse()` but is more memory-efficient.
+ *
  * @tparam Input_ Any class that supplies input characters, see `parse()` for details. 
  *
  * @param input A source of input bytes, usually from a JSON-formatted file or string.
@@ -967,6 +976,8 @@ public:
  */
 
 /**
+ * Parse a string containing a JSON value using `parse()`. 
+ *
  * @tparam Provisioner_ Class that provide methods for provisioning each JSON type, see `DefaultProvisioner` for an example.
  * All types should be subclasses of the provisioner's base class (which may but is not required to be `Base`).
  * @param[in] ptr Pointer to an array containing a JSON string.
@@ -981,6 +992,8 @@ inline std::shared_ptr<typename Provisioner_::Base> parse_string(const char* ptr
 }
 
 /**
+ * Check that a string contains a valid JSON value using `validate()`. 
+ *
  * @param[in] ptr Pointer to an array containing a JSON string.
  * @param len Length of the array.
  * @param options Further options for parsing.
@@ -1094,8 +1107,11 @@ struct FileReadOptions {
 };
 
 /**
+ * Parse a file containing a JSON value using `parse()`. 
+ *
  * @param[in] path Pointer to an array containing a path to a JSON file.
  * @param options Further options.
+ *
  * @return A pointer to a JSON value.
  */
 template<class Provisioner_ = DefaultProvisioner>
@@ -1105,6 +1121,8 @@ std::shared_ptr<Base> parse_file(const char* path, const FileReadOptions& option
 }
 
 /**
+ * Check that a file contains a valid JSON value using `validate()`. 
+ *
  * @param[in] path Pointer to an array containing a path to a JSON file.
  * @param options Further options.
  *
