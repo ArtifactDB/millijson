@@ -22,7 +22,8 @@ Given a JSON-formatted string:
 #include "millijson/millijson.hpp"
 
 std::string foo = "[ { \"foo\": \"bar\" }, 1e-2 ]";
-auto ptr = millijson::parse_string(foo.c_str(), foo.size());
+millijson::ParseOptions opt;
+auto ptr = millijson::parse_string(foo.c_str(), foo.size(), opt);
 
 ptr->type(); // millijson::ARRAY
 const auto& array = ptr->get_array(); // vector of pointers
@@ -41,13 +42,14 @@ auto number = array[1]->get_number(); // double
 The same works with a file:
 
 ```cpp
-auto ptr = millijson::parse_file("some_json_file.json");
+millijson::FileReadOptions fopt;
+auto fptr = millijson::parse_file("some_json_file.json", fopt);
 ```
 
 If you just want to validate a file, without using memory to load it:
 
 ```cpp
-millijson::validate_file("some_json_file.json");
+millijson::validate_file("some_json_file.json", fopt);
 ```
 
 See the [reference documentation](https://artifactdb.github.io/millijson) for more details.

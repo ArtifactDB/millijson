@@ -483,6 +483,27 @@ TEST(JsonParsingTest, ZeroLoading) {
     parse_raw_json_error(" 00.12345 ", "starting with 0");
 }
 
+std::string parse_json_number_as_string(std::string x) {
+    millijson::ParseOptions opt;
+    opt.number_as_string = true;
+    auto out = millijson::parse_string(x.c_str(), x.size(), opt);
+    if (out->type() != millijson::NUMBER_AS_STRING) {
+        throw std::runtime_error("expected a number as a string here");
+    }
+    return static_cast<millijson::NumberAsString*>(out.get())->value();
+}
+
+TEST(JsonParsingTest, NumberAsString) {
+    EXPECT_EQ(parse_json_number_as_string("123456790"), "123456790");
+    EXPECT_EQ(parse_json_number_as_string("-123456790"), "-123456790");
+    EXPECT_EQ(parse_json_number_as_string("12345.6790"), "12345.6790");
+    EXPECT_EQ(parse_json_number_as_string("0.12345"), "0.12345");
+    EXPECT_EQ(parse_json_number_as_string("0e12345"), "0e12345");
+    EXPECT_EQ(parse_json_number_as_string("123e456790"), "123e456790");
+    EXPECT_EQ(parse_json_number_as_string("123E456790"), "123E456790");
+    EXPECT_EQ(parse_json_number_as_string("123e-456790"), "123e-456790");
+}
+
 TEST(JsonParsingTest, ArrayLoading) {
     {
         // Check that numbers are correctly terminated by array delimiters.

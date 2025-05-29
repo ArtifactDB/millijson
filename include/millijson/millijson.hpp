@@ -25,9 +25,11 @@ namespace millijson {
 
 /**
  * All known JSON types.
+ * `NUMBER_AS_STRING` indicates a JSON number that is represented as its input string.
  */
 enum Type {
     NUMBER,
+    NUMBER_AS_STRING,
     STRING,
     BOOLEAN,
     NOTHING,
@@ -84,6 +86,33 @@ public:
 
 private:
     double my_value;
+};
+
+/**
+ * @brief JSON number as a string.
+ */
+class NumberAsString final : public Base {
+public:
+    /**
+     * @param x Value of the number as a string.
+     */
+    NumberAsString(std::string x) : my_value(x) {}
+
+    Type type() const { return NUMBER_AS_STRING; }
+
+public:
+    /**
+     * @return Value of the number.
+     */
+    const std::string& value() const { return my_value; }
+
+    /**
+     * @return Value of the number.
+     */
+    std::string& value() { return my_value; }
+
+private:
+    std::string my_value;
 };
 
 /**
@@ -208,6 +237,18 @@ public:
 
 private:
     std::unordered_map<std::string, std::shared_ptr<Base> > my_value;
+};
+
+/**
+ * @brief Options for `parse()`.
+ */
+struct ParseOptions {
+    /**
+     * Whether to preserve the string representation for numbers.
+     * If true, all JSON numbers will be loaded as `NumberAsString`.
+     * Otherwise, they will be loaded as `Number`.
+     */
+    bool number_as_string = false;
 };
 
 /**
@@ -376,25 +417,41 @@ std::string extract_string(Input_& input) {
     return output; // Technically unreachable, but whatever.
 }
 
-template<class Input_>
-double extract_number(Input_& input) {
+template<bool as_string_, class Input_>
+typename std::conditional<as_string_, std::string, double>::type extract_number(Input_& input) {
     unsigned long long start = input.position() + 1;
-    double value = 0;
+    auto value = []{
+        if constexpr(as_string_) {
+            return std::string("");
+        } else {
+            return static_cast<double>(0);
+        }
+    }();
     bool in_fraction = false;
     bool in_exponent = false;
 
+    auto add_string_value = [&](char x) -> void {
+        if constexpr(as_string_) {
+            value += x;
+        }
+    };
+
     // We assume we're starting from the absolute value, after removing any preceding negative sign.
     char lead = input.get();
+    add_string_value(lead);
     if (lead == '0') {
         if (!input.advance()) {
-            return 0;
+            return value;
         }
 
-        switch (input.get()) {
+        auto after_zero = input.get();
+        switch (after_zero) {
             case '.':
+                add_string_value(after_zero);
                 in_fraction = true;
                 break;
             case 'e': case 'E':
+                add_string_value(after_zero);
                 in_exponent = true;
                 break;
             case ',': case ']': case '}': case ' ': case '\r': case '\n': case '\t':
@@ -404,22 +461,30 @@ double extract_number(Input_& input) {
         }
 
     } else { // 'lead' must be a digit, as extract_number is only called when the current character is a digit.
-        value += lead - '0';
+        if constexpr(!as_string_) {
+            value += lead - '0';
+        }
 
         while (input.advance()) {
             char val = input.get();
-            switch (input.get()) {
+            switch (val) {
                 case '.':
+                    add_string_value(val);
                     in_fraction = true;
                     goto integral_end;
                 case 'e': case 'E':
+                    add_string_value(val);
                     in_exponent = true;
                     goto integral_end;
                 case ',': case ']': case '}': case ' ': case '\r': case '\n': case '\t':
                     goto total_end;
                 case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
-                    value *= 10;
-                    value += val - '0';
+                    if constexpr(as_string_) {
+                        value += val;
+                    } else {
+                        value *= 10;
+                        value += val - '0';
+                    }
                     break;
                 default:
                     throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
@@ -440,19 +505,28 @@ integral_end:;
         }
 
         double fractional = 10;
-        value += (val - '0') / fractional;
+        if constexpr(as_string_) {
+            value += val;
+        } else {
+            value += (val - '0') / fractional;
+        }
 
         while (input.advance()) {
             char val = input.get();
-            switch (input.get()) {
+            switch (val) {
                 case 'e': case 'E':
                     in_exponent = true;
+                    add_string_value(val);
                     goto fraction_end;
                 case ',': case ']': case '}': case ' ': case '\r': case '\n': case '\t':
                     goto total_end;
                 case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
-                    fractional *= 10;
-                    value += (val - '0') / fractional;
+                    if constexpr(as_string_) {
+                        value += val;
+                    } else {
+                        fractional *= 10;
+                        value += (val - '0') / fractional;
+                    }
                     break;
                 default:
                     throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
@@ -474,6 +548,7 @@ fraction_end:;
         if (!is_digit(val)) {
             if (val == '-') {
                 negative_exponent = true;
+                add_string_value(val);
             } else if (val != '+') {
                 throw std::runtime_error("'e/E' should be followed by a sign or digit in number at position " + std::to_string(start));
             }
@@ -487,7 +562,11 @@ fraction_end:;
             }
         }
 
-        exponent += (val - '0');
+        if constexpr(as_string_) {
+            value += val;
+        } else {
+            exponent += (val - '0');
+        }
 
         while (input.advance()) {
             char val = input.get();
@@ -495,8 +574,12 @@ fraction_end:;
                 case ',': case ']': case '}': case ' ': case '\r': case '\n': case '\t':
                     goto exponent_end;
                 case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
-                    exponent *= 10;
-                    exponent += (val - '0');
+                    if constexpr(as_string_) {
+                        value += val;
+                    } else {
+                        exponent *= 10;
+                        exponent += (val - '0');
+                    }
                     break;
                 default:
                     throw std::runtime_error("invalid number containing '" + std::string(1, val) + "' at position " + std::to_string(start));
@@ -504,11 +587,13 @@ fraction_end:;
         }
 
 exponent_end:
-        if (exponent) {
-            if (negative_exponent) {
-                exponent *= -1;
+        if constexpr(!as_string_) {
+            if (exponent) {
+                if (negative_exponent) {
+                    exponent *= -1;
+                }
+                value *= std::pow(10.0, exponent);
             }
-            value *= std::pow(10.0, exponent);
         }
     }
 
@@ -538,6 +623,14 @@ struct FakeProvisioner {
     };
     static FakeNumber* new_number(double) {
         return new FakeNumber;
+    }
+
+    class FakeNumberAsString final : public FakeBase {
+    public:
+        Type type() const { return NUMBER_AS_STRING; }
+    };
+    static FakeNumberAsString* new_number_as_string(std::string) {
+        return new FakeNumberAsString;
     }
 
     class FakeString final : public FakeBase {
@@ -574,7 +667,7 @@ struct FakeProvisioner {
 };
 
 template<class Provisioner_, class Input_>
-std::shared_ptr<typename Provisioner_::Base> parse_thing(Input_& input) {
+std::shared_ptr<typename Provisioner_::Base> parse_thing(Input_& input, const ParseOptions& options) {
     std::shared_ptr<typename Provisioner_::Base> output;
 
     unsigned long long start = input.position() + 1;
@@ -616,7 +709,7 @@ std::shared_ptr<typename Provisioner_::Base> parse_thing(Input_& input) {
 
                 if (input.get() != ']') {
                     while (1) {
-                        contents.push_back(parse_thing<Provisioner_>(input));
+                        contents.push_back(parse_thing<Provisioner_>(input, options));
 
                         if (!check_and_chomp(input)) {
                             throw std::runtime_error("unterminated array starting at position " + std::to_string(start));
@@ -669,7 +762,7 @@ std::shared_ptr<typename Provisioner_::Base> parse_thing(Input_& input) {
                         if (!advance_and_chomp(input)) {
                             throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
                         }
-                        contents[std::move(key)] = parse_thing<Provisioner_>(input); // consuming the key here.
+                        contents[std::move(key)] = parse_thing<Provisioner_>(input, options); // consuming the key here.
 
                         if (!check_and_chomp(input)) {
                             throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
@@ -700,11 +793,19 @@ std::shared_ptr<typename Provisioner_::Base> parse_thing(Input_& input) {
             if (!is_digit(input.get())) {
                 throw std::runtime_error("invalid number starting at position " + std::to_string(start));
             }
-            output.reset(Provisioner_::new_number(-extract_number(input)));
+            if (options.number_as_string) {
+                output.reset(Provisioner_::new_number_as_string("-" + extract_number<true>(input)));
+            } else {
+                output.reset(Provisioner_::new_number(-extract_number<false>(input)));
+            }
             break;
 
         case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
-            output.reset(Provisioner_::new_number(extract_number(input)));
+            if (options.number_as_string) {
+                output.reset(Provisioner_::new_number_as_string(extract_number<true>(input)));
+            } else {
+                output.reset(Provisioner_::new_number(extract_number<false>(input)));
+            }
             break;
 
         default:
@@ -715,11 +816,11 @@ std::shared_ptr<typename Provisioner_::Base> parse_thing(Input_& input) {
 }
 
 template<class Provisioner_, class Input_>
-std::shared_ptr<typename Provisioner_::Base> parse_thing_with_chomp(Input_& input) {
+std::shared_ptr<typename Provisioner_::Base> parse_thing_with_chomp(Input_& input, const ParseOptions& options) {
     if (!check_and_chomp(input)) {
         throw std::runtime_error("invalid JSON with no contents");
     }
-    auto output = parse_thing<Provisioner_>(input);
+    auto output = parse_thing<Provisioner_>(input, options);
     if (check_and_chomp(input)) {
         throw std::runtime_error("invalid JSON with trailing non-space characters at position " + std::to_string(input.position() + 1));
     }
@@ -753,6 +854,14 @@ struct DefaultProvisioner {
      */
     static Number* new_number(double x) {
         return new Number(x);
+    }
+
+    /**
+     * @param x Value of the number as a string.
+     * @return Pointer to a new JSON number instance.
+     */
+    static NumberAsString* new_number_as_string(std::string x) {
+        return new NumberAsString(std::move(x));
     }
 
     /**
@@ -799,24 +908,27 @@ struct DefaultProvisioner {
  * - `unsigned long long position() const`, for the current position relative to the start of the byte stream.
  *
  * @param input A source of input bytes, usually from a JSON-formatted file or string.
+ * @param options Further options for parsing.
+ *
  * @return A pointer to a JSON value.
  */
 template<class Provisioner_ = DefaultProvisioner, class Input_>
-std::shared_ptr<typename DefaultProvisioner::Base> parse(Input_& input) {
-    return parse_thing_with_chomp<Provisioner_>(input);
+std::shared_ptr<typename DefaultProvisioner::Base> parse(Input_& input, const ParseOptions& options) {
+    return parse_thing_with_chomp<Provisioner_>(input, options);
 }
 
 /**
  * @tparam Input_ Any class that supplies input characters, see `parse()` for details. 
  *
  * @param input A source of input bytes, usually from a JSON-formatted file or string.
+ * @param options Further options for parsing.
  *
  * @return The type of the JSON variable stored in `input`.
  * If the JSON string is invalid, an error is raised.
  */
 template<class Input_>
-Type validate(Input_& input) {
-    auto ptr = parse_thing_with_chomp<FakeProvisioner>(input);
+Type validate(Input_& input, [[maybe_unused]] const ParseOptions& options) {
+    auto ptr = parse_thing_with_chomp<FakeProvisioner>(input, options);
     return ptr->type();
 }
 
@@ -859,24 +971,26 @@ public:
  * All types should be subclasses of the provisioner's base class (which may but is not required to be `Base`).
  * @param[in] ptr Pointer to an array containing a JSON string.
  * @param len Length of the array.
+ * @param options Further options for parsing.
  * @return A pointer to a JSON value.
  */
 template<class Provisioner_ = DefaultProvisioner>
-inline std::shared_ptr<typename Provisioner_::Base> parse_string(const char* ptr, std::size_t len) {
+inline std::shared_ptr<typename Provisioner_::Base> parse_string(const char* ptr, std::size_t len, const ParseOptions& options) {
     RawReader input(ptr, len);
-    return parse<Provisioner_>(input);
+    return parse<Provisioner_>(input, options);
 }
 
 /**
  * @param[in] ptr Pointer to an array containing a JSON string.
  * @param len Length of the array.
+ * @param options Further options for parsing.
  *
  * @return The type of the JSON variable stored in the string.
  * If the JSON string is invalid, an error is raised.
  */
-inline Type validate_string(const char* ptr, std::size_t len) {
+inline Type validate_string(const char* ptr, std::size_t len, const ParseOptions& options) {
     RawReader input(ptr, len);
-    return validate(input);
+    return validate(input, options);
 }
 
 /**
@@ -972,6 +1086,11 @@ struct FileReadOptions {
      * Size of the buffer to use for reading the file.
      */
     std::size_t buffer_size = 65536;
+
+    /**
+     * Further options for parsing.
+     */
+    ParseOptions parse_options;
 };
 
 /**
@@ -982,7 +1101,7 @@ struct FileReadOptions {
 template<class Provisioner_ = DefaultProvisioner>
 std::shared_ptr<Base> parse_file(const char* path, const FileReadOptions& options) {
     FileReader input(path, options.buffer_size);
-    return parse(input);
+    return parse(input, options.parse_options);
 }
 
 /**
@@ -994,8 +1113,35 @@ std::shared_ptr<Base> parse_file(const char* path, const FileReadOptions& option
  */
 inline Type validate_file(const char* path, const FileReadOptions& options) {
     FileReader input(path, options.buffer_size);
-    return validate(input);
+    return validate(input, options.parse_options);
 }
+
+/**
+ * @cond
+ */
+// Back-compatibility only.
+template<class Provisioner_ = DefaultProvisioner, class Input_>
+std::shared_ptr<typename DefaultProvisioner::Base> parse(Input_& input) {
+    return parse<Provisioner_>(input, {});
+}
+
+template<class Input_>
+Type validate(Input_& input) {
+    return validate(input, {});
+}
+
+template<class Provisioner_ = DefaultProvisioner>
+inline std::shared_ptr<typename Provisioner_::Base> parse_string(const char* ptr, std::size_t len) {
+    return parse_string<Provisioner_>(ptr, len, {});
+}
+
+inline Type validate_string(const char* ptr, std::size_t len) {
+    RawReader input(ptr, len);
+    return validate(input, {});
+}
+/**
+ * @endcond
+ */
 
 }
 
