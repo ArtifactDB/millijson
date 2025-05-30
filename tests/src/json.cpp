@@ -570,6 +570,27 @@ TEST(JsonParsingTest, ArrayLoading) {
         EXPECT_EQ(aptr->value().size(), 0);
     }
 
+    {
+        // Nested arrays.
+        auto output = parse_raw_json_string("[[1.2,null,\"asdasd\"],[false,[]]]");
+        EXPECT_EQ(output->type(), millijson::ARRAY);
+        auto aptr = static_cast<millijson::Array*>(output.get());
+        EXPECT_EQ(aptr->value().size(), 2);
+
+        EXPECT_EQ(aptr->value()[0]->type(), millijson::ARRAY);
+        auto aptr2 = static_cast<millijson::Array*>(aptr->value()[0].get());
+        EXPECT_EQ(aptr2->value().size(), 3);
+        EXPECT_EQ(aptr2->value()[0]->type(), millijson::NUMBER);
+        EXPECT_EQ(aptr2->value()[1]->type(), millijson::NOTHING);
+        EXPECT_EQ(aptr2->value()[2]->type(), millijson::STRING);
+
+        EXPECT_EQ(aptr->value()[1]->type(), millijson::ARRAY);
+        auto aptr3 = static_cast<millijson::Array*>(aptr->value()[1].get());
+        EXPECT_EQ(aptr3->value().size(), 2);
+        EXPECT_EQ(aptr3->value()[0]->type(), millijson::BOOLEAN);
+        EXPECT_EQ(aptr3->value()[1]->type(), millijson::ARRAY);
+    }
+
     parse_raw_json_error(" [", "unterminated array");
     parse_raw_json_error(" [ 1,", "unterminated array");
     parse_raw_json_error(" [ 1 ", "unterminated array");
@@ -636,6 +657,24 @@ TEST(JsonParsingTest, ObjectLoading) {
     }
 
     {
+        // Nested object.
+        auto output = parse_raw_json_string("{\"aaron\":{\"lun\":[], \"kwok\":false},\"jayaram\":{}}"); 
+        EXPECT_EQ(output->type(), millijson::OBJECT);
+        auto aptr = static_cast<millijson::Object*>(output.get());
+        EXPECT_EQ(aptr->value().size(), 2);
+
+        EXPECT_EQ(aptr->value()["aaron"]->type(), millijson::OBJECT);
+        auto aptr2 = static_cast<millijson::Object*>(aptr->value()["aaron"].get());
+        EXPECT_EQ(aptr2->value().size(), 2);
+        EXPECT_EQ(aptr2->value()["lun"]->type(), millijson::ARRAY);
+        EXPECT_EQ(aptr2->value()["kwok"]->type(), millijson::BOOLEAN);
+
+        EXPECT_EQ(aptr->value()["jayaram"]->type(), millijson::OBJECT);
+        auto aptr3 = static_cast<millijson::Object*>(aptr->value()["jayaram"].get());
+        EXPECT_EQ(aptr3->value().size(), 0);
+    }
+
+    {
         // Empty object.
         auto output = parse_raw_json_string("{ }");
         EXPECT_EQ(output->type(), millijson::OBJECT);
@@ -649,13 +688,19 @@ TEST(JsonParsingTest, ObjectLoading) {
     }
 
     parse_raw_json_error(" {", "unterminated object");
+    parse_raw_json_error(" { true", "expected a string");
     parse_raw_json_error(" { \"foo\"", "unterminated object");
     parse_raw_json_error(" { \"foo\" :", "unterminated object");
+    parse_raw_json_error(" { \"foo\" , \"bar\" }", "expected ':'");
     parse_raw_json_error(" { \"foo\" : \"bar\"", "unterminated object");
     parse_raw_json_error(" { \"foo\" : \"bar\", ", "unterminated object");
-    parse_raw_json_error(" { true", "expected a string");
-    parse_raw_json_error(" { \"foo\" , \"bar\" }", "expected ':'");
+
+    // Repeating some of these checks to make sure that they apply in subsequent key/value pairs.
     parse_raw_json_error(" { \"foo\": \"bar\", }", "expected a string");
+    parse_raw_json_error(" { \"foo\": \"bar\", \"thing\" ", "unterminated object");
+    parse_raw_json_error(" { \"foo\": \"bar\", \"thing\" }", "expected ':'");
+    parse_raw_json_error(" { \"foo\": \"bar\", \"thing\": ", "unterminated object");
+
     parse_raw_json_error(" { \"foo\": \"bar\": \"stuff\" }", "unknown character ':'");
     parse_raw_json_error(" { \"foo\": \"bar\", \"foo\": \"stuff\" }", "duplicate");
 }
