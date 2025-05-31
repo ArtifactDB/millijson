@@ -672,11 +672,11 @@ std::shared_ptr<typename Provisioner_::Base> parse_internal(Input_& input, const
         throw std::runtime_error("invalid JSON with no contents");
     }
 
-    // The most natural algorithm would be to recursively parse the nested data structures,
-    // but we want to avoid recursion and the associated risk of stack overflows. 
-    // So we use an iterative algorithm with a manual stack, which is not too complicated.
-    // We only have to worry about OBJECT and ARRAY types, so there's only two states to manage.
-    std::vector<millijson::Type> stack; 
+    // The most natural algorithm for parsing nested JSON arrays/objects would involve recursion,
+    // but we avoid this to eliminate the associated risk of stack overflows (and maybe improve perf?).
+    // Instead, we use an iterative algorithm with a manual stack for the two nestable JSON types.
+    // We only have to worry about OBJECTs and ARRAYs so there's only two sets of states to manage.
+    std::vector<Type> stack;
     typedef std::vector<std::shared_ptr<typename Provisioner_::Base> > ArrayContents;
     std::vector<ArrayContents> array_stack;
     struct ObjectContents {
@@ -742,7 +742,7 @@ std::shared_ptr<typename Provisioner_::Base> parse_internal(Input_& input, const
                 if (input.get() != ']') {
                     stack.push_back(ARRAY);
                     array_stack.emplace_back();
-                    continue;
+                    continue; // prepare to parse the first element of the array.
                 } 
                 input.advance(); // move past the closing bracket.
                 output.reset(Provisioner_::new_array(std::vector<std::shared_ptr<typename Provisioner_::Base> >{}));
@@ -755,7 +755,7 @@ std::shared_ptr<typename Provisioner_::Base> parse_internal(Input_& input, const
                 if (input.get() != '}') {
                     stack.push_back(OBJECT);
                     object_stack.emplace_back(extract_object_key());
-                    continue;
+                    continue; // prepare to parse the first value of the object.
                 }
                 input.advance(); // move past the closing brace.
                 output.reset(Provisioner_::new_object(std::unordered_map<std::string, std::shared_ptr<typename Provisioner_::Base> >{}));
@@ -787,7 +787,11 @@ std::shared_ptr<typename Provisioner_::Base> parse_internal(Input_& input, const
                 throw std::runtime_error(std::string("unknown type starting with '") + std::string(1, current) + "' at position " + std::to_string(start));
         }
 
-        while (!stack.empty()) {
+        while (1) {
+            if (stack.empty()) {
+                goto parse_finish; // double-break to save ourselves a conditional.
+            }
+
             if (stack.back() == ARRAY) {
                 auto& contents = array_stack.back();
                 contents.emplace_back(std::move(output));
@@ -801,13 +805,13 @@ std::shared_ptr<typename Provisioner_::Base> parse_internal(Input_& input, const
                     if (!advance_and_chomp(input)) {
                         throw std::runtime_error("unterminated array starting at position " + std::to_string(start));
                     }
-                    break;
+                    break; // prepare to parse the next entry of the array.
                 }
                 if (next != ']') {
                     throw std::runtime_error("unknown character '" + std::string(1, next) + "' in array at position " + std::to_string(input.position() + 1));
                 }
-
                 input.advance(); // skip the closing bracket.
+
                 output.reset(Provisioner_::new_array(std::move(contents)));
                 stack.pop_back();
                 array_stack.pop_back();
@@ -830,24 +834,21 @@ std::shared_ptr<typename Provisioner_::Base> parse_internal(Input_& input, const
                         throw std::runtime_error("unterminated object starting at position " + std::to_string(start));
                     }
                     key = extract_object_key();
-                    break;
+                    break; // prepare to parse the next value of the object.
                 }
                 if (next != '}') {
                     throw std::runtime_error("unknown character '" + std::string(1, next) + "' in array at position " + std::to_string(input.position() + 1));
                 }
-
                 input.advance(); // skip the closing brace.
+
                 output.reset(Provisioner_::new_object(std::move(mapping)));
                 stack.pop_back();
                 object_stack.pop_back();
             }
         }
-
-        if (stack.empty()) {
-            break;
-        }
     }
 
+parse_finish:;
     if (check_and_chomp(input)) {
         throw std::runtime_error("invalid JSON with trailing non-space characters at position " + std::to_string(input.position() + 1));
     }
