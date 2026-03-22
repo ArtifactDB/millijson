@@ -106,10 +106,29 @@ $(function(){ initResizable(false); });
 Public Attributes</h2></td></tr>
 <tr class="memitem:a071217fba269c8088c8095a364261e73" id="r_a071217fba269c8088c8095a364261e73"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a071217fba269c8088c8095a364261e73">number_as_string</a> = false</td></tr>
 <tr class="separator:a071217fba269c8088c8095a364261e73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9d16685b58f11e86aecaaf094021522" id="r_ae9d16685b58f11e86aecaaf094021522"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae9d16685b58f11e86aecaaf094021522">buffer_size</a> = sanisizer::cap&lt;std::size_t&gt;(65536)</td></tr>
+<tr class="separator:ae9d16685b58f11e86aecaaf094021522"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48e77696804d3227690e484b89a30662" id="r_a48e77696804d3227690e484b89a30662"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48e77696804d3227690e484b89a30662">parallel</a> = false</td></tr>
+<tr class="separator:a48e77696804d3227690e484b89a30662"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Options for <code><a class="el" href="namespacemillijson.html#a222e73844fb11f9d000e18e25a2cd940">parse()</a></code>. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="ae9d16685b58f11e86aecaaf094021522" name="ae9d16685b58f11e86aecaaf094021522"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9d16685b58f11e86aecaaf094021522">&#9670;&#160;</a></span>buffer_size</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t millijson::ParseOptions::buffer_size = sanisizer::cap&lt;std::size_t&gt;(65536)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Size of the buffer for storing bytes before parsing. Larger values typically improve speed at the cost of memory efficiency. </p>
+
+</div>
+</div>
 <a id="a071217fba269c8088c8095a364261e73" name="a071217fba269c8088c8095a364261e73"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a071217fba269c8088c8095a364261e73">&#9670;&#160;</a></span>number_as_string</h2>
 
@@ -122,6 +141,21 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Whether to preserve the string representation for numbers. If true, all JSON numbers will be loaded as <code><a class="el" href="classmillijson_1_1NumberAsString.html" title="JSON number as a string.">NumberAsString</a></code>. Otherwise, they will be loaded as <code><a class="el" href="classmillijson_1_1Number.html" title="JSON number.">Number</a></code>. </p>
+
+</div>
+</div>
+<a id="a48e77696804d3227690e484b89a30662" name="a48e77696804d3227690e484b89a30662"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48e77696804d3227690e484b89a30662">&#9670;&#160;</a></span>parallel</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool millijson::ParseOptions::parallel = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Whether to parse and read bytes in parallel. This can reduce runtime on multi-core machines. </p>
 
 </div>
 </div>

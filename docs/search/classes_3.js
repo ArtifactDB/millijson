@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['filereadoptions_0',['FileReadOptions',['../structmillijson_1_1FileReadOptions.html',1,'millijson']]]
+  ['nothing_0',['Nothing',['../classmillijson_1_1Nothing.html',1,'millijson']]],
+  ['number_1',['Number',['../classmillijson_1_1Number.html',1,'millijson']]],
+  ['numberasstring_2',['NumberAsString',['../classmillijson_1_1NumberAsString.html',1,'millijson']]]
 ];

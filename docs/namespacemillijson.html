@@ -111,9 +111,6 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmillijson_1_1DefaultProvisioner.html">DefaultProvisioner</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default methods to provision representations of JSON types.  <a href="structmillijson_1_1DefaultProvisioner.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmillijson_1_1FileReadOptions.html">FileReadOptions</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options for <code><a class="el" href="#ad80d600490fe142b04e39b7788d8e5a1">parse_file()</a></code> and <code><a class="el" href="#a106d56a54d20dcec59f404929e9c7e19">validate_file()</a></code>.  <a href="structmillijson_1_1FileReadOptions.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmillijson_1_1Nothing.html">Nothing</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">JSON null.  <a href="classmillijson_1_1Nothing.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,10 +147,10 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a222e73844fb11f9d000e18e25a2cd940" id="r_a222e73844fb11f9d000e18e25a2cd940"><td class="memTemplParams" colspan="2">template&lt;class Provisioner_  = DefaultProvisioner, class Input_ &gt; </td></tr>
+<tr class="memitem:a222e73844fb11f9d000e18e25a2cd940" id="r_a222e73844fb11f9d000e18e25a2cd940"><td class="memTemplParams" colspan="2">template&lt;class Provisioner_  = DefaultProvisioner, class Input_  = byteme::Reader&gt; </td></tr>
 <tr class="memitem:a222e73844fb11f9d000e18e25a2cd940"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; typename <a class="el" href="structmillijson_1_1DefaultProvisioner.html#ac75e8d09b380a537fceb1df812f7d1eb">DefaultProvisioner::Base</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a222e73844fb11f9d000e18e25a2cd940">parse</a> (Input_ &amp;input, const <a class="el" href="structmillijson_1_1ParseOptions.html">ParseOptions</a> &amp;options)</td></tr>
 <tr class="separator:a222e73844fb11f9d000e18e25a2cd940"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a3e891c2181292c17ec4196b6059b5a" id="r_a3a3e891c2181292c17ec4196b6059b5a"><td class="memTemplParams" colspan="2">template&lt;class Input_ &gt; </td></tr>
+<tr class="memitem:a3a3e891c2181292c17ec4196b6059b5a" id="r_a3a3e891c2181292c17ec4196b6059b5a"><td class="memTemplParams" colspan="2">template&lt;class Input_  = byteme::Reader&gt; </td></tr>
 <tr class="memitem:a3a3e891c2181292c17ec4196b6059b5a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="#aa16302fdbcf6f85a442a302b1745afb5">Type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3a3e891c2181292c17ec4196b6059b5a">validate</a> (Input_ &amp;input, const <a class="el" href="structmillijson_1_1ParseOptions.html">ParseOptions</a> &amp;options)</td></tr>
 <tr class="separator:a3a3e891c2181292c17ec4196b6059b5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41e7981d02afa5937e2db706f68444ec" id="r_a41e7981d02afa5937e2db706f68444ec"><td class="memTemplParams" colspan="2">template&lt;class Provisioner_  = DefaultProvisioner&gt; </td></tr>
@@ -161,11 +158,11 @@ Functions</h2></td></tr>
 <tr class="separator:a41e7981d02afa5937e2db706f68444ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13b89e03e4e6b5f12cde0e3c028224f3" id="r_a13b89e03e4e6b5f12cde0e3c028224f3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#aa16302fdbcf6f85a442a302b1745afb5">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13b89e03e4e6b5f12cde0e3c028224f3">validate_string</a> (const char *ptr, std::size_t len, const <a class="el" href="structmillijson_1_1ParseOptions.html">ParseOptions</a> &amp;options)</td></tr>
 <tr class="separator:a13b89e03e4e6b5f12cde0e3c028224f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad80d600490fe142b04e39b7788d8e5a1" id="r_ad80d600490fe142b04e39b7788d8e5a1"><td class="memTemplParams" colspan="2">template&lt;class Provisioner_  = DefaultProvisioner&gt; </td></tr>
-<tr class="memitem:ad80d600490fe142b04e39b7788d8e5a1"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classmillijson_1_1Base.html">Base</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad80d600490fe142b04e39b7788d8e5a1">parse_file</a> (const char *path, const <a class="el" href="structmillijson_1_1FileReadOptions.html">FileReadOptions</a> &amp;options)</td></tr>
-<tr class="separator:ad80d600490fe142b04e39b7788d8e5a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a106d56a54d20dcec59f404929e9c7e19" id="r_a106d56a54d20dcec59f404929e9c7e19"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#aa16302fdbcf6f85a442a302b1745afb5">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a106d56a54d20dcec59f404929e9c7e19">validate_file</a> (const char *path, const <a class="el" href="structmillijson_1_1FileReadOptions.html">FileReadOptions</a> &amp;options)</td></tr>
-<tr class="separator:a106d56a54d20dcec59f404929e9c7e19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d76d34b76c69908ba60999c35d1dcca" id="r_a2d76d34b76c69908ba60999c35d1dcca"><td class="memTemplParams" colspan="2">template&lt;class Provisioner_  = DefaultProvisioner&gt; </td></tr>
+<tr class="memitem:a2d76d34b76c69908ba60999c35d1dcca"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classmillijson_1_1Base.html">Base</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a2d76d34b76c69908ba60999c35d1dcca">parse_file</a> (const char *path, const <a class="el" href="structmillijson_1_1ParseOptions.html">ParseOptions</a> &amp;options)</td></tr>
+<tr class="separator:a2d76d34b76c69908ba60999c35d1dcca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e1ffeffc81b1d96d770451c18afc6d7" id="r_a8e1ffeffc81b1d96d770451c18afc6d7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#aa16302fdbcf6f85a442a302b1745afb5">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e1ffeffc81b1d96d770451c18afc6d7">validate_file</a> (const char *path, const <a class="el" href="structmillijson_1_1ParseOptions.html">ParseOptions</a> &amp;options)</td></tr>
+<tr class="separator:a8e1ffeffc81b1d96d770451c18afc6d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A lightweight header-only JSON parser. </p>
@@ -192,7 +189,7 @@ Functions</h2></td></tr>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Provisioner_  = DefaultProvisioner, class Input_ &gt; </div>
+template&lt;class Provisioner_  = DefaultProvisioner, class Input_  = byteme::Reader&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::shared_ptr&lt; typename <a class="el" href="structmillijson_1_1DefaultProvisioner.html#ac75e8d09b380a537fceb1df812f7d1eb">DefaultProvisioner::Base</a> &gt; millijson::parse </td>
@@ -211,16 +208,10 @@ template&lt;class Provisioner_  = DefaultProvisioner, class Input_ &gt; </div>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Provisioner_</td><td>Class that provide methods for provisioning each JSON type, see <code><a class="el" href="structmillijson_1_1DefaultProvisioner.html" title="Default methods to provision representations of JSON types.">DefaultProvisioner</a></code> for an example. All types should be subclasses of the provisioner's base class (which may but is not required to be <code><a class="el" href="classmillijson_1_1Base.html" title="Virtual base class for all JSON types.">Base</a></code>). </td></tr>
-    <tr><td class="paramname">Input_</td><td>Class of the source of input bytes. This should satisfy the <a href="https://ltla.github.io/byteme"><code>byteme::PerByteInterface</code></a> interface with the following methods:</td></tr>
+    <tr><td class="paramname">Input_</td><td>Class of the source of input bytes. This should satisfy the <a href="https://ltla.github.io/byteme"><code>byteme::Reader</code></a> interface with a <code>std::size_t read(unsigned char*, std::size_t)</code> method.</td></tr>
   </table>
   </dd>
 </dl>
-<ul>
-<li><code>char get() const</code>, which extracts a <code>char</code> from the input source without advancing the position on the byte stream.</li>
-<li><code>bool valid() const</code>, to determine whether an input <code>char</code> can be <code>get()</code> from the input.</li>
-<li><code>bool advance()</code>, to advance the input stream and return <code>valid()</code> at the new position.</li>
-<li><code>unsigned long long position() const</code>, for the current position relative to the start of the byte stream.</li>
-</ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">input</td><td>A source of input bytes, usually from a JSON-formatted file or string. </td></tr>
@@ -232,8 +223,8 @@ template&lt;class Provisioner_  = DefaultProvisioner, class Input_ &gt; </div>
 
 </div>
 </div>
-<a id="ad80d600490fe142b04e39b7788d8e5a1" name="ad80d600490fe142b04e39b7788d8e5a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad80d600490fe142b04e39b7788d8e5a1">&#9670;&#160;</a></span>parse_file()</h2>
+<a id="a2d76d34b76c69908ba60999c35d1dcca" name="a2d76d34b76c69908ba60999c35d1dcca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d76d34b76c69908ba60999c35d1dcca">&#9670;&#160;</a></span>parse_file()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -248,7 +239,7 @@ template&lt;class Provisioner_  = DefaultProvisioner&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structmillijson_1_1FileReadOptions.html">FileReadOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>options</em></span>&#160;)</td>
+          <td class="paramtype">const <a class="el" href="structmillijson_1_1ParseOptions.html">ParseOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>options</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -322,7 +313,7 @@ template&lt;class Provisioner_  = DefaultProvisioner&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Input_ &gt; </div>
+template&lt;class Input_  = byteme::Reader&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="#aa16302fdbcf6f85a442a302b1745afb5">Type</a> millijson::validate </td>
@@ -354,8 +345,8 @@ template&lt;class Input_ &gt; </div>
 
 </div>
 </div>
-<a id="a106d56a54d20dcec59f404929e9c7e19" name="a106d56a54d20dcec59f404929e9c7e19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a106d56a54d20dcec59f404929e9c7e19">&#9670;&#160;</a></span>validate_file()</h2>
+<a id="a8e1ffeffc81b1d96d770451c18afc6d7" name="a8e1ffeffc81b1d96d770451c18afc6d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e1ffeffc81b1d96d770451c18afc6d7">&#9670;&#160;</a></span>validate_file()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -371,7 +362,7 @@ template&lt;class Input_ &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structmillijson_1_1FileReadOptions.html">FileReadOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>options</em></span>&#160;)</td>
+          <td class="paramtype">const <a class="el" href="structmillijson_1_1ParseOptions.html">ParseOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>options</em></span>&#160;)</td>
         </tr>
       </table>
   </td>

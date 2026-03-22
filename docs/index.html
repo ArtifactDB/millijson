@@ -115,16 +115,15 @@ $(function(){ initResizable(false); });
 <div class="line">array[1]-&gt;type(); <span class="comment">// milljson::NUMBER</span></div>
 <div class="line"><span class="keyword">auto</span> number = array[1]-&gt;get_number(); <span class="comment">// double</span></div>
 <div class="ttc" id="amillijson_8hpp_html"><div class="ttname"><a href="millijson_8hpp.html">millijson.hpp</a></div><div class="ttdoc">Header-only library for JSON parsing.</div></div>
-<div class="ttc" id="anamespacemillijson_html_a41e7981d02afa5937e2db706f68444ec"><div class="ttname"><a href="namespacemillijson.html#a41e7981d02afa5937e2db706f68444ec">millijson::parse_string</a></div><div class="ttdeci">std::shared_ptr&lt; typename Provisioner_::Base &gt; parse_string(const char *ptr, std::size_t len, const ParseOptions &amp;options)</div><div class="ttdef"><b>Definition</b> millijson.hpp:1017</div></div>
-<div class="ttc" id="astructmillijson_1_1ParseOptions_html"><div class="ttname"><a href="structmillijson_1_1ParseOptions.html">millijson::ParseOptions</a></div><div class="ttdoc">Options for parse().</div><div class="ttdef"><b>Definition</b> millijson.hpp:245</div></div>
+<div class="ttc" id="anamespacemillijson_html_a41e7981d02afa5937e2db706f68444ec"><div class="ttname"><a href="namespacemillijson.html#a41e7981d02afa5937e2db706f68444ec">millijson::parse_string</a></div><div class="ttdeci">std::shared_ptr&lt; typename Provisioner_::Base &gt; parse_string(const char *ptr, std::size_t len, const ParseOptions &amp;options)</div><div class="ttdef"><b>Definition</b> millijson.hpp:1012</div></div>
+<div class="ttc" id="astructmillijson_1_1ParseOptions_html"><div class="ttname"><a href="structmillijson_1_1ParseOptions.html">millijson::ParseOptions</a></div><div class="ttdoc">Options for parse().</div><div class="ttdef"><b>Definition</b> millijson.hpp:248</div></div>
 </div><!-- fragment --><p>The same works with a file:</p>
-<div class="fragment"><div class="line"><a class="code hl_struct" href="structmillijson_1_1FileReadOptions.html">millijson::FileReadOptions</a> fopt;</div>
-<div class="line"><span class="keyword">auto</span> fptr = <a class="code hl_function" href="namespacemillijson.html#ad80d600490fe142b04e39b7788d8e5a1">millijson::parse_file</a>(<span class="stringliteral">&quot;some_json_file.json&quot;</span>, fopt);</div>
-<div class="ttc" id="anamespacemillijson_html_ad80d600490fe142b04e39b7788d8e5a1"><div class="ttname"><a href="namespacemillijson.html#ad80d600490fe142b04e39b7788d8e5a1">millijson::parse_file</a></div><div class="ttdeci">std::shared_ptr&lt; Base &gt; parse_file(const char *path, const FileReadOptions &amp;options)</div><div class="ttdef"><b>Definition</b> millijson.hpp:1146</div></div>
-<div class="ttc" id="astructmillijson_1_1FileReadOptions_html"><div class="ttname"><a href="structmillijson_1_1FileReadOptions.html">millijson::FileReadOptions</a></div><div class="ttdoc">Options for parse_file() and validate_file().</div><div class="ttdef"><b>Definition</b> millijson.hpp:1125</div></div>
+<div class="fragment"><div class="line">millijson::FileReadOptions fopt;</div>
+<div class="line"><span class="keyword">auto</span> fptr = <a class="code hl_function" href="namespacemillijson.html#a2d76d34b76c69908ba60999c35d1dcca">millijson::parse_file</a>(<span class="stringliteral">&quot;some_json_file.json&quot;</span>, fopt);</div>
+<div class="ttc" id="anamespacemillijson_html_a2d76d34b76c69908ba60999c35d1dcca"><div class="ttname"><a href="namespacemillijson.html#a2d76d34b76c69908ba60999c35d1dcca">millijson::parse_file</a></div><div class="ttdeci">std::shared_ptr&lt; Base &gt; parse_file(const char *path, const ParseOptions &amp;options)</div><div class="ttdef"><b>Definition</b> millijson.hpp:1041</div></div>
 </div><!-- fragment --><p>If you just want to validate a file, without using memory to load it:</p>
-<div class="fragment"><div class="line"><a class="code hl_function" href="namespacemillijson.html#a106d56a54d20dcec59f404929e9c7e19">millijson::validate_file</a>(<span class="stringliteral">&quot;some_json_file.json&quot;</span>, fopt);</div>
-<div class="ttc" id="anamespacemillijson_html_a106d56a54d20dcec59f404929e9c7e19"><div class="ttname"><a href="namespacemillijson.html#a106d56a54d20dcec59f404929e9c7e19">millijson::validate_file</a></div><div class="ttdeci">Type validate_file(const char *path, const FileReadOptions &amp;options)</div><div class="ttdef"><b>Definition</b> millijson.hpp:1160</div></div>
+<div class="fragment"><div class="line"><a class="code hl_function" href="namespacemillijson.html#a8e1ffeffc81b1d96d770451c18afc6d7">millijson::validate_file</a>(<span class="stringliteral">&quot;some_json_file.json&quot;</span>, fopt);</div>
+<div class="ttc" id="anamespacemillijson_html_a8e1ffeffc81b1d96d770451c18afc6d7"><div class="ttname"><a href="namespacemillijson.html#a8e1ffeffc81b1d96d770451c18afc6d7">millijson::validate_file</a></div><div class="ttdeci">Type validate_file(const char *path, const ParseOptions &amp;options)</div><div class="ttdef"><b>Definition</b> millijson.hpp:1055</div></div>
 </div><!-- fragment --><p>See the <a href="https://artifactdb.github.io/millijson">reference documentation</a> for more details.</p>
 <h1>Building projects</h1>
 <h2>CMake with <code>FetchContent</code></h2>
@@ -144,7 +143,8 @@ $(function(){ initResizable(false); });
 <div class="line"> </div>
 <div class="line"># For libaries</div>
 <div class="line">target_link_libraries(mylib INTERFACE millijson)</div>
-</div><!-- fragment --><h2>CMake with <code>find_package()</code></h2>
+</div><!-- fragment --><p>By default, this will use <code>FetchContent</code> to fetch all external dependencies. Applications are advised to pin the versions of all dependencies themselves - see <a href="extern/CMakeLists.txt"><code>extern/CMakeLists.txt</code></a> for suggested versions. If you want to install them manually, use <code>-DMILLIJSON_FETCH_EXTERN=OFF</code>.</p>
+<h2>CMake with <code>find_package()</code></h2>
 <p>You can install the library by cloning a suitable version of this repository and running the following commands:</p>
 <div class="fragment"><div class="line">mkdir build &amp;&amp; cd build</div>
 <div class="line">cmake .. -DMILLIJSON_TESTS=OFF</div>
@@ -152,8 +152,9 @@ $(function(){ initResizable(false); });
 </div><!-- fragment --><p>Then you can use <code>find_package()</code> as usual:</p>
 <div class="fragment"><div class="line">find_package(ltla_millijson CONFIG REQUIRED)</div>
 <div class="line">target_link_libraries(mylib INTERFACE ltla::millijson)</div>
-</div><!-- fragment --><h2>Manual</h2>
-<p>If you're not using CMake, the simple approach is to just copy the files in the <code>include/</code> subdirectory - either directly or with Git submodules - and include their path during compilation with, e.g., GCC's <code>-I</code>.</p>
+</div><!-- fragment --><p>Again, this will use <code>FetchContent</code> to fetch dependencies, see comments above.</p>
+<h2>Manual</h2>
+<p>If you're not using CMake, the simple approach is to just copy the files in the <code>include/</code> subdirectory - either directly or with Git submodules - and include their path during compilation with, e.g., GCC's <code>-I</code>. This also requires the external dependencies listed in <a href="extern/CMakeLists.txt"><code>extern/CMakeLists.txt</code></a> as well as Zlib.</p>
 <h1>Links</h1>
 <p>Parsing is based on the JSON standard described <a href="https://www.json.org/json-en.html">here</a>.</p>
 <p>This interface was inspired by the implementation in <a href="https://github.com/nlohmann/json"><code>nlohmann/json</code></a>. </p>

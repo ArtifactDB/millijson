@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['filereadoptions_0',['FileReadOptions',['../structmillijson_1_1FileReadOptions.html',1,'millijson']]]
+  ['json_20parser_0',['Yet another JSON parser',['../index.html',1,'']]]
 ];
