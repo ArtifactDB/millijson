@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['object_0',['Object',['../classmillijson_1_1Object.html#ac5a7db89c4016a56933af21938968675',1,'millijson::Object']]]
+  ['exact_0',['Exact',['https://ltla.github.io/sanisizer/classsanisizer_1_1Exact.html#a9289600110be8d00325b8d4e35618951',1,'sanisizer::Exact']]],
+  ['extract_1',['extract',['https://ltla.github.io/byteme/classbyteme_1_1BufferedReader.html#a1c15c13a980c5f5a99d6a780317c413e',1,'byteme::BufferedReader']]]
 ];

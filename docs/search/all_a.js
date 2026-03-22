@@ -1,7 +1,17 @@
 var searchData=
 [
-  ['validate_0',['validate',['../namespacemillijson.html#a3a3e891c2181292c17ec4196b6059b5a',1,'millijson']]],
-  ['validate_5ffile_1',['validate_file',['../namespacemillijson.html#a8e1ffeffc81b1d96d770451c18afc6d7',1,'millijson']]],
-  ['validate_5fstring_2',['validate_string',['../namespacemillijson.html#a13b89e03e4e6b5f12cde0e3c028224f3',1,'millijson']]],
-  ['value_3',['value',['../classmillijson_1_1Number.html#a2a507dcf890f13e2974508bf792d1ee6',1,'millijson::Number::value() const'],['../classmillijson_1_1Number.html#a0c2e4394d1fbbfb723a69d76e5981619',1,'millijson::Number::value()'],['../classmillijson_1_1NumberAsString.html#a217b1a3e73db1de8c3427be65c7a037c',1,'millijson::NumberAsString::value() const'],['../classmillijson_1_1NumberAsString.html#a6fb54c068e7eaab0b24b2f8cba637aa6',1,'millijson::NumberAsString::value()'],['../classmillijson_1_1String.html#a0f526b71156470fe6e245d36faab2b62',1,'millijson::String::value() const'],['../classmillijson_1_1String.html#a1aaacf2106a16c70fca09eb21dacd11d',1,'millijson::String::value()'],['../classmillijson_1_1Boolean.html#addf5ae365d8555e40cee67e253ab29f7',1,'millijson::Boolean::value() const'],['../classmillijson_1_1Boolean.html#af3d5ff979e2e7a3239f1ddf486fc80e0',1,'millijson::Boolean::value()'],['../classmillijson_1_1Array.html#ac69079a94ad56ea767fe836add058933',1,'millijson::Array::value() const'],['../classmillijson_1_1Array.html#ab647f3a4340d33e2bbc4eb835425b65c',1,'millijson::Array::value()'],['../classmillijson_1_1Object.html#a0e1c3767e475313bafed81fe87699ab3',1,'millijson::Object::value() const'],['../classmillijson_1_1Object.html#a104beefb4be2b5024e4d07f0e8029f0f',1,'millijson::Object::value()']]]
+  ['nd_5foffset_0',['nd_offset',['https://ltla.github.io/sanisizer/namespacesanisizer.html#a8d460a84022487d3460671e5ff96f163',1,'sanisizer']]],
+  ['nd_5foffset_2ehpp_1',['nd_offset.hpp',['https://ltla.github.io/sanisizer/nd__offset_8hpp.html',1,'']]],
+  ['new_5farray_2',['new_array',['../structmillijson_1_1DefaultProvisioner.html#a022b02abcda66a7dbe0351082c5fa2ad',1,'millijson::DefaultProvisioner']]],
+  ['new_5fboolean_3',['new_boolean',['../structmillijson_1_1DefaultProvisioner.html#ab6d05a2bc22d435567b053b44fae472f',1,'millijson::DefaultProvisioner']]],
+  ['new_5fnothing_4',['new_nothing',['../structmillijson_1_1DefaultProvisioner.html#aa79a92f8adbf190fa54b01aa92338d4b',1,'millijson::DefaultProvisioner']]],
+  ['new_5fnumber_5',['new_number',['../structmillijson_1_1DefaultProvisioner.html#a49b1c538b56c2a86eea0bb9c50df6732',1,'millijson::DefaultProvisioner']]],
+  ['new_5fnumber_5fas_5fstring_6',['new_number_as_string',['../structmillijson_1_1DefaultProvisioner.html#a0332031f7b82e8b11e52530c03598008',1,'millijson::DefaultProvisioner']]],
+  ['new_5fobject_7',['new_object',['../structmillijson_1_1DefaultProvisioner.html#a5d360fd81f7feb8ba67ea681c0a2c1e7',1,'millijson::DefaultProvisioner']]],
+  ['new_5fstring_8',['new_string',['../structmillijson_1_1DefaultProvisioner.html#ad809bd41aaa4584ad5f0dd4215ac7154',1,'millijson::DefaultProvisioner']]],
+  ['nothing_9',['Nothing',['../classmillijson_1_1Nothing.html',1,'millijson']]],
+  ['number_10',['Number',['../classmillijson_1_1Number.html',1,'millijson::Number'],['../classmillijson_1_1Number.html#a70c2370c0d8ae254d4357d0c9bbf6f06',1,'millijson::Number::Number()']]],
+  ['number_11',['number',['https://ltla.github.io/byteme/classbyteme_1_1BufferedWriter.html#affe873267293a3ef93e86280cf70bea0',1,'byteme::BufferedWriter']]],
+  ['number_5fas_5fstring_12',['number_as_string',['../structmillijson_1_1ParseOptions.html#a071217fba269c8088c8095a364261e73',1,'millijson::ParseOptions']]],
+  ['numberasstring_13',['NumberAsString',['../classmillijson_1_1NumberAsString.html',1,'millijson::NumberAsString'],['../classmillijson_1_1NumberAsString.html#a6572b283f7adc05f8f34ad7b7c0faca6',1,'millijson::NumberAsString::NumberAsString()']]]
 ];

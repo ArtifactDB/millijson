@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['defaultprovisioner_0',['DefaultProvisioner',['../structmillijson_1_1DefaultProvisioner.html',1,'millijson']]]
+  ['cast_0',['Cast',['https://ltla.github.io/sanisizer/classsanisizer_1_1Cast.html',1,'sanisizer']]]
 ];

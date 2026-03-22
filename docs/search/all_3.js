@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['json_20parser_0',['Yet another JSON parser',['../index.html',1,'']]]
+  ['defaultprovisioner_0',['DefaultProvisioner',['../structmillijson_1_1DefaultProvisioner.html',1,'millijson']]]
 ];

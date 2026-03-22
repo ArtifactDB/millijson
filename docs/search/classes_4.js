@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['object_0',['Object',['../classmillijson_1_1Object.html',1,'millijson']]]
+  ['exact_0',['Exact',['https://ltla.github.io/sanisizer/classsanisizer_1_1Exact.html',1,'sanisizer']]]
 ];

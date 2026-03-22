@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['type_0',['Type',['../namespacemillijson.html#aa16302fdbcf6f85a442a302b1745afb5',1,'millijson']]],
-  ['type_1',['type',['../classmillijson_1_1Base.html#a590630b66e2b0d00bf7f3e0ccfba7a53',1,'millijson::Base::type()'],['../classmillijson_1_1Number.html#a258f53a36e8ec12be2ed0936415131f1',1,'millijson::Number::type()'],['../classmillijson_1_1NumberAsString.html#a46c43bddb0fee5e2c5f7f235e2043534',1,'millijson::NumberAsString::type()'],['../classmillijson_1_1String.html#a1d4eb4f12c092177662129161b543f51',1,'millijson::String::type()'],['../classmillijson_1_1Boolean.html#a5b31c83c3bc2690bf30df465ca8e49fd',1,'millijson::Boolean::type()'],['../classmillijson_1_1Nothing.html#a549d250b32c4cd6ed92d23524ce2392f',1,'millijson::Nothing::type()'],['../classmillijson_1_1Array.html#a2b7598fd4ed816ee711eab9a50e4a4ee',1,'millijson::Array::type()'],['../classmillijson_1_1Object.html#acfe106773ae2807a0a362b5146617c02',1,'millijson::Object::type()']]]
+  ['magic_5fnumbers_2ehpp_0',['magic_numbers.hpp',['https://ltla.github.io/byteme/magic__numbers_8hpp.html',1,'']]],
+  ['max_1',['max',['https://ltla.github.io/sanisizer/structsanisizer_1_1Attestation.html#a19587380bbe3e2da9fe21e6a368ae058',1,'sanisizer::Attestation::max'],['https://ltla.github.io/sanisizer/namespacesanisizer.html#a692dab8520331e20e6d2361439a53450',1,'sanisizer::max()']]],
+  ['millijson_2',['millijson',['../namespacemillijson.html',1,'']]],
+  ['millijson_2ehpp_3',['millijson.hpp',['../millijson_8hpp.html',1,'']]],
+  ['min_4',['min',['https://ltla.github.io/sanisizer/namespacesanisizer.html#aa483a5cd81fb958f0cd7198752030076',1,'sanisizer']]],
+  ['mode_5',['mode',['https://ltla.github.io/byteme/structbyteme_1_1ZlibBufferReaderOptions.html#a80c0baf0a1085d9810f0aae0f993d125',1,'byteme::ZlibBufferReaderOptions::mode'],['https://ltla.github.io/byteme/structbyteme_1_1ZlibBufferWriterOptions.html#acc4d28aae986d64257b017231ecc6478',1,'byteme::ZlibBufferWriterOptions::mode']]]
 ];

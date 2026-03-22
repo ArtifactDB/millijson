@@ -1,4 +1,11 @@
 var searchData=
 [
-  ['type_0',['type',['../classmillijson_1_1Base.html#a590630b66e2b0d00bf7f3e0ccfba7a53',1,'millijson::Base::type()'],['../classmillijson_1_1Number.html#a258f53a36e8ec12be2ed0936415131f1',1,'millijson::Number::type()'],['../classmillijson_1_1NumberAsString.html#a46c43bddb0fee5e2c5f7f235e2043534',1,'millijson::NumberAsString::type()'],['../classmillijson_1_1String.html#a1d4eb4f12c092177662129161b543f51',1,'millijson::String::type()'],['../classmillijson_1_1Boolean.html#a5b31c83c3bc2690bf30df465ca8e49fd',1,'millijson::Boolean::type()'],['../classmillijson_1_1Nothing.html#a549d250b32c4cd6ed92d23524ce2392f',1,'millijson::Nothing::type()'],['../classmillijson_1_1Array.html#a2b7598fd4ed816ee711eab9a50e4a4ee',1,'millijson::Array::type()'],['../classmillijson_1_1Object.html#acfe106773ae2807a0a362b5146617c02',1,'millijson::Object::type()']]]
+  ['is_5fequal_0',['is_equal',['https://ltla.github.io/sanisizer/namespacesanisizer.html#a48da56272ee357d828828ffd58eda482',1,'sanisizer']]],
+  ['is_5fgreater_5fthan_1',['is_greater_than',['https://ltla.github.io/sanisizer/namespacesanisizer.html#a130cca1b1feb23a41a4a6c44dabc01e7',1,'sanisizer']]],
+  ['is_5fgreater_5fthan_5for_5fequal_2',['is_greater_than_or_equal',['https://ltla.github.io/sanisizer/namespacesanisizer.html#a6e29b2bd239d09d23bf296ffa9c9c8a5',1,'sanisizer']]],
+  ['is_5fgzip_3',['is_gzip',['https://ltla.github.io/byteme/namespacebyteme.html#acb08f1cce34b8b237e3174b307a34178',1,'byteme::is_gzip(const unsigned char *buffer, std::size_t n)'],['https://ltla.github.io/byteme/namespacebyteme.html#a079575e91360061a7495713a7e872258',1,'byteme::is_gzip(const char *path)']]],
+  ['is_5fless_5fthan_4',['is_less_than',['https://ltla.github.io/sanisizer/namespacesanisizer.html#ae9c6a966b9ff5f778c8a604f215461b5',1,'sanisizer']]],
+  ['is_5fless_5fthan_5for_5fequal_5',['is_less_than_or_equal',['https://ltla.github.io/sanisizer/namespacesanisizer.html#aa13ce5afa9f069e2aa89c6495e6c0d50',1,'sanisizer']]],
+  ['is_5fzlib_6',['is_zlib',['https://ltla.github.io/byteme/namespacebyteme.html#ad3b16db0612e6afdf861519e51d71653',1,'byteme']]],
+  ['istreamreader_7',['IstreamReader',['https://ltla.github.io/byteme/classbyteme_1_1IstreamReader.html#a9ec92866979a86aa6a654068b734224c',1,'byteme::IstreamReader']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['parallel_0',['parallel',['../structmillijson_1_1ParseOptions.html#a48e77696804d3227690e484b89a30662',1,'millijson::ParseOptions']]]
+  ['gzbuffer_5fsize_0',['gzbuffer_size',['https://ltla.github.io/byteme/structbyteme_1_1GzipFileWriterOptions.html#ad3ae50598f977a1063e4cd9b438d2dcc',1,'byteme::GzipFileWriterOptions']]]
 ];

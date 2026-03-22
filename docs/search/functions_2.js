@@ -1,12 +1,9 @@
 var searchData=
 [
-  ['new_5farray_0',['new_array',['../structmillijson_1_1DefaultProvisioner.html#a022b02abcda66a7dbe0351082c5fa2ad',1,'millijson::DefaultProvisioner']]],
-  ['new_5fboolean_1',['new_boolean',['../structmillijson_1_1DefaultProvisioner.html#ab6d05a2bc22d435567b053b44fae472f',1,'millijson::DefaultProvisioner']]],
-  ['new_5fnothing_2',['new_nothing',['../structmillijson_1_1DefaultProvisioner.html#aa79a92f8adbf190fa54b01aa92338d4b',1,'millijson::DefaultProvisioner']]],
-  ['new_5fnumber_3',['new_number',['../structmillijson_1_1DefaultProvisioner.html#a49b1c538b56c2a86eea0bb9c50df6732',1,'millijson::DefaultProvisioner']]],
-  ['new_5fnumber_5fas_5fstring_4',['new_number_as_string',['../structmillijson_1_1DefaultProvisioner.html#a0332031f7b82e8b11e52530c03598008',1,'millijson::DefaultProvisioner']]],
-  ['new_5fobject_5',['new_object',['../structmillijson_1_1DefaultProvisioner.html#a5d360fd81f7feb8ba67ea681c0a2c1e7',1,'millijson::DefaultProvisioner']]],
-  ['new_5fstring_6',['new_string',['../structmillijson_1_1DefaultProvisioner.html#ad809bd41aaa4584ad5f0dd4215ac7154',1,'millijson::DefaultProvisioner']]],
-  ['number_7',['Number',['../classmillijson_1_1Number.html#a70c2370c0d8ae254d4357d0c9bbf6f06',1,'millijson::Number']]],
-  ['numberasstring_8',['NumberAsString',['../classmillijson_1_1NumberAsString.html#a6572b283f7adc05f8f34ad7b7c0faca6',1,'millijson::NumberAsString']]]
+  ['can_5fcast_0',['can_cast',['https://ltla.github.io/sanisizer/namespacesanisizer.html#a58381525eca91a088489cdabfbc4f74c',1,'sanisizer']]],
+  ['cap_1',['cap',['https://ltla.github.io/sanisizer/namespacesanisizer.html#abd46ba64586c8de228897cc013def813',1,'sanisizer']]],
+  ['cast_2',['Cast',['https://ltla.github.io/sanisizer/classsanisizer_1_1Cast.html#a327da91858adaf6b4fb636e67bacd536',1,'sanisizer::Cast']]],
+  ['cast_3',['cast',['https://ltla.github.io/sanisizer/namespacesanisizer.html#acde4a5b2077777f0c0d0b0761183b29b',1,'sanisizer']]],
+  ['check_5foverflow_4',['check_overflow',['https://ltla.github.io/sanisizer/namespacesanisizer.html#a6911bfdd00b6bd59dd72b935ca5d9d3a',1,'sanisizer']]],
+  ['create_5',['create',['https://ltla.github.io/sanisizer/namespacesanisizer.html#a0c7c43499ff60d5185708c50b32a40d7',1,'sanisizer']]]
 ];
