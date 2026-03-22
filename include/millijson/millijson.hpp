@@ -966,7 +966,7 @@ auto setup_buffered_reader(Input_& input, const ParseOptions& options) {
  * @tparam Provisioner_ Class that provide methods for provisioning each JSON type, see `DefaultProvisioner` for an example.
  * All types should be subclasses of the provisioner's base class (which may but is not required to be `Base`).
  * @tparam Input_ Class of the source of input bytes.
- * This should satisfy the [`byteme::Reader`](https://ltla.github.io/byteme) interface with a `std::size_t read(unsigned char*, std::size_t)` method.
+ * This should satisfy the `byteme::Reader` interface.
  
  * @param input A source of input bytes, usually from a JSON-formatted file or string.
  * @param options Further options for parsing.
