@@ -82,6 +82,10 @@ target_link_libraries(myexe millijson)
 target_link_libraries(mylib INTERFACE millijson)
 ```
 
+By default, this will use `FetchContent` to fetch all external dependencies.
+Applications are advised to pin the versions of all dependencies themselves - see [`extern/CMakeLists.txt`](extern/CMakeLists.txt) for suggested versions.
+If you want to install them manually, use `-DMILLIJSON_FETCH_EXTERN=OFF`.
+
 ### CMake with `find_package()`
 
 You can install the library by cloning a suitable version of this repository and running the following commands:
@@ -99,10 +103,13 @@ find_package(ltla_millijson CONFIG REQUIRED)
 target_link_libraries(mylib INTERFACE ltla::millijson)
 ```
 
+Again, this will use `FetchContent` to fetch dependencies, see comments above.
+
 ### Manual
 
 If you're not using CMake, the simple approach is to just copy the files in the `include/` subdirectory - 
 either directly or with Git submodules - and include their path during compilation with, e.g., GCC's `-I`.
+This also requires the external dependencies listed in [`extern/CMakeLists.txt`](extern/CMakeLists.txt) as well as Zlib.
 
 ## Links
 

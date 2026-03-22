@@ -10,6 +10,14 @@ set(CMAKE_CXX_STANDARD 17)
 add_library(millijson INTERFACE)
 add_library(ltla::millijson ALIAS millijson)
 
+option(EMINEM_FETCH_EXTERN "Automatically fetch millijson's external dependencies." ON)
+if(EMINEM_FETCH_EXTERN)
+    add_subdirectory(extern)
+else()
+    find_package(ltla_byteme 2.1.1 CONFIG REQUIRED)
+    find_package(ltla_sanisizer 0.2.0 CONFIG REQUIRED)
+endif()
+
 include(GNUInstallDirs)
 target_include_directories(millijson INTERFACE 
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"

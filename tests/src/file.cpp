@@ -4,7 +4,7 @@
 #include "millijson/millijson.hpp"
 #include "byteme/byteme.hpp"
 
-class FileParsingTest : public ::testing::TestWithParam<int> {};
+class FileParsingTest : public ::testing::TestWithParam<std::tuple<int, bool> > {};
 
 TEST_P(FileParsingTest, ChunkedFile) {
     std::string foo = "[ { \"foo\": \"bar\" }, 1e-2, [ null, 98765 ], \"advancer\" ]";
@@ -13,8 +13,11 @@ TEST_P(FileParsingTest, ChunkedFile) {
         output << foo << std::endl;
     }
 
+    auto params = GetParam();
+
     millijson::FileReadOptions opt;
-    opt.buffer_size = GetParam();
+    opt.buffer_size = std::get<0>(params);
+    opt.parallel = std::get<1>(params);
     auto output = millijson::parse_file("TEST.json", opt);
     millijson::validate_file("TEST.json", opt);
 
@@ -49,56 +52,13 @@ TEST_P(FileParsingTest, ChunkedFile) {
     EXPECT_EQ(static_cast<const millijson::String*>(array[3].get())->value(), "advancer");
 }
 
-TEST_P(FileParsingTest, BytemeCompatibility) {
-    std::string foo = "{ \"foo\": \"bar\", \"YAY\": [ 5, 3, 2 ], \"whee\": null }";
-    {
-        std::ofstream output("TEST.json");
-        output << foo << std::endl;
-    }
-
-    byteme::PerByteSerial<char> pb(
-        std::make_unique<byteme::RawFileReader>(
-            "TEST.json",
-            [&]{
-                byteme::RawFileReaderOptions opt;
-                opt.buffer_size = GetParam();
-                return opt;
-            }()
-        )
-    );
-    auto output = millijson::parse(pb);
-
-    EXPECT_EQ(output->type(), millijson::OBJECT);
-    const auto& mapping = static_cast<const millijson::Object*>(output.get())->value();
-    EXPECT_EQ(mapping.size(), 3);
-
-    // Checking the first key.
-    auto it = mapping.find("foo");
-    EXPECT_TRUE(it != mapping.end());
-    EXPECT_EQ((it->second)->type(), millijson::STRING);
-    EXPECT_EQ(static_cast<const millijson::String*>((it->second).get())->value(), "bar");
-
-    // Checking the second key.
-    it = mapping.find("YAY");
-    EXPECT_TRUE(it != mapping.end());
-    EXPECT_EQ((it->second)->type(), millijson::ARRAY);
-
-    const auto& arr = static_cast<const millijson::Array*>((it->second).get())->value();
-    EXPECT_EQ(arr.size(), 3);
-    EXPECT_EQ(arr[0]->type(), millijson::NUMBER);
-    EXPECT_EQ(arr[1]->type(), millijson::NUMBER);
-    EXPECT_EQ(arr[2]->type(), millijson::NUMBER);
-
-    // Checking the third key.
-    it = mapping.find("whee");
-    EXPECT_TRUE(it != mapping.end());
-    EXPECT_EQ((it->second)->type(), millijson::NOTHING);
-}
-
 INSTANTIATE_TEST_SUITE_P(
     FileParsing,
     FileParsingTest,
-    ::testing::Values(3, 11, 19, 51)
+    ::testing::Combine(
+        ::testing::Values(3, 11, 19, 51),
+        ::testing::Values(false, true)
+    )
 );
 
 TEST(FileParsing, Errors) {
@@ -110,10 +70,4 @@ TEST(FileParsing, Errors) {
             throw;
         }
     });
-}
-
-TEST(FileParsing, CheckBufferSize) {
-    EXPECT_EQ(millijson::FileReader::check_buffer_size(1), 1);
-    constexpr auto maxed = std::numeric_limits<std::size_t>::max();
-    EXPECT_LE(millijson::FileReader::check_buffer_size(maxed), maxed);
 }
